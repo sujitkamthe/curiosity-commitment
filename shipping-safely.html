@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipping Safely &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="shipping-safely.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Shipping Safely</h1>
+    <p class="subtitle">Every deploy is a risk &mdash; unless you deploy in a way that makes rollback cheap, exposure gradual, and mistakes recoverable. Feature flags, backwards-compatible migrations, and progressive rollout aren&rsquo;t senior-engineer tricks. They&rsquo;re how anyone who owns their service ships without fear.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#why">1. Why This Matters</a></li>
+      <li><a href="#small-deploys">2. Small, Frequent Deploys</a></li>
+      <li><a href="#flags">3. Feature Flags</a></li>
+      <li><a href="#migrations">4. Backwards-Compatible Migrations</a></li>
+      <li><a href="#rollout">5. Progressive Rollout</a></li>
+      <li><a href="#rollback">6. Rollback as a First-Class Plan</a></li>
+      <li><a href="#api-compat">7. API Backwards Compatibility</a></li>
+      <li><a href="#pre-flight">8. The Pre-Flight Checklist</a></li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="fade-in" id="why">
+    <span class="section-num">01 &middot; Premise</span>
+    <h2>Why This Matters</h2>
+    <p class="section-intro">Confident deploys aren&rsquo;t a personality trait. They&rsquo;re the outcome of a deploy process that makes bad outcomes cheap. The engineer who ships at 4pm on a Friday without anxiety is usually not braver &mdash; they&rsquo;ve just built the safety nets.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Every line of code is a bet that you got it right. Shipping safely is about making sure the bet is reversible. If reverting is cheap and fast, you can take more bets. If reverting is expensive, every deploy becomes a ceremony and velocity collapses.</p>
+    </div>
+
+    <h3>The question that drives this whole chapter</h3>
+    <p>For every change you&rsquo;re about to ship: <strong>&ldquo;If this turns out to be wrong, how do I undo it in five minutes?&rdquo;</strong> If the answer is &ldquo;I can&rsquo;t,&rdquo; you need to change the shape of the change &mdash; not the confidence level.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2 -->
+  <section class="fade-in" id="small-deploys">
+    <span class="section-num">02 &middot; Small</span>
+    <h2>Small, Frequent Deploys</h2>
+    <p class="section-intro">The most underrated safety technique is deploying more often with less in each deploy. Research (see <em>Accelerate</em>) is unambiguous: teams that deploy often have fewer failures and recover faster. Small batches make every other technique on this page easier.</p>
+
+    <div class="framework">
+      <h4>The Small-Deploy Moves</h4>
+      <ol>
+        <li><strong>One logical change per deploy.</strong> Not &ldquo;the Friday release with seven features.&rdquo; That&rsquo;s how you lose an hour of incident debugging trying to figure out which one broke it.</li>
+        <li><strong>Merge small, deploy small.</strong> Your MR shape directly shapes your deploy shape. See <a href="git-reviews.html">Git, MRs &amp; Review</a>.</li>
+        <li><strong>Automate the path.</strong> If a deploy is &ldquo;scary&rdquo; because it takes 45 minutes and six manual steps, the answer is automation, not ceremony.</li>
+        <li><strong>No &ldquo;save it for the release.&rdquo;</strong> If it&rsquo;s ready and the risk is understood, ship it. Batching just increases blast radius.</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>The counter-intuitive part:</strong> more frequent deploys feel riskier but are usually safer. Each deploy has less in it, so each failure has a narrower cause. The team builds the muscle of shipping. Rollback happens so rarely that when it&rsquo;s needed, nobody remembers how &mdash; but if you deploy five times a day, rollback is routine.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3 -->
+  <section class="fade-in" id="flags">
+    <span class="section-num">03 &middot; Flags</span>
+    <h2>Feature Flags</h2>
+    <p class="section-intro">A feature flag lets you deploy code without enabling it. It decouples <em>release</em> (the code is live) from <em>activation</em> (the users see it). This is the single most powerful safety tool in modern engineering, and it&rsquo;s underused by teams who think of flags as &ldquo;for A/B tests.&rdquo;</p>
+
+    <h3>What flags unlock</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Deploy early, activate later</h4>
+        <p>Ship the code in a deploy that&rsquo;s small and reversible. Turn it on separately when you&rsquo;re ready.</p>
+      </div>
+      <div class="card">
+        <h4>Kill switch</h4>
+        <p>New behaviour gated on a flag can be turned off in seconds without a deploy. A release that took hours to build can be reverted in one click.</p>
+      </div>
+      <div class="card">
+        <h4>Progressive rollout</h4>
+        <p>Enable for 1% of users, then 10%, then 50%, then 100%. Monitor at each step. Catch issues at 1% rather than at 100%.</p>
+      </div>
+      <div class="card">
+        <h4>Targeted release</h4>
+        <p>Internal users first, then a specific tenant, then broader. Dogfood before exposing.</p>
+      </div>
+      <div class="card">
+        <h4>Merge without releasing</h4>
+        <p>Long-lived branches are painful. Merge the half-built feature to main behind a flag; keep iterating without branch drift.</p>
+      </div>
+      <div class="card">
+        <h4>Reversible migrations</h4>
+        <p>Old and new behaviour coexist behind a flag during migration; flip back instantly if the new one misbehaves.</p>
+      </div>
+    </div>
+
+    <h3>The flag lifecycle</h3>
+    <div class="framework">
+      <h4>The Full Flag Lifecycle</h4>
+      <ol>
+        <li><strong>Create</strong> &mdash; default off. Code reads the flag from a config or service.</li>
+        <li><strong>Deploy code</strong> &mdash; disabled; safe because inactive.</li>
+        <li><strong>Enable for internal users</strong> &mdash; dogfood. Collect feedback, fix obvious issues.</li>
+        <li><strong>Roll out progressively</strong> &mdash; 1%, 10%, 50%, 100%. Monitor metrics at each step.</li>
+        <li><strong>Monitor at 100%</strong> for a stable window. If stable, proceed to cleanup.</li>
+        <li><strong>Remove the flag.</strong> Delete the old code path, delete the flag config. A flag that stays forever is debt.</li>
+      </ol>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>The &ldquo;flag graveyard&rdquo; problem:</strong> teams that add flags faster than they clean them up end up with hundreds of stale flags, none of which anyone dares touch. Own the cleanup. When you add a flag, put a follow-up ticket in the backlog to remove it once the feature is stable. Six months later the code is cleaner, not messier.</p>
+      </div>
+    </div>
+
+    <h3>Patterns &amp; anti-patterns</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Flag only in the happy path</h5>
+        <p>The new code path is gated; the new error handler isn&rsquo;t. When something goes wrong, the system hits the new error code anyway.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Flag the entire code path</h5>
+        <p>Entry to exit, including error paths, logs, metrics, and side effects. The flag should cleanly switch between two complete worlds.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Flags as permanent config</h5>
+        <p>A &ldquo;feature flag&rdquo; never gets removed. Five years later it&rsquo;s load-bearing config that nobody remembers creating.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Separate flags from config</h5>
+        <p>Feature flags are short-lived. Config is long-lived. Use different tools, different naming, different lifecycles. Don&rsquo;t let one become the other.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4 -->
+  <section class="fade-in" id="migrations">
+    <span class="section-num">04 &middot; Migrations</span>
+    <h2>Backwards-Compatible Migrations</h2>
+    <p class="section-intro">Database changes are the scariest kind of deploy because they&rsquo;re often hardest to reverse. The good news: almost every change can be decomposed into steps that are each safe, reversible, and deployable independently. Do that decomposition, and migrations stop being scary.</p>
+
+    <h3>The expand / migrate / contract pattern</h3>
+    <div class="framework">
+      <h4>Three-Step Schema Change</h4>
+      <ol>
+        <li><strong>Expand.</strong> Add the new column / table / index <em>alongside</em> the old one. No destructive change. Old code still works; new code can start writing to both.</li>
+        <li><strong>Migrate.</strong> Backfill data, dual-write, and shift reads gradually to the new shape. Verify. Take your time here &mdash; this is where bugs surface.</li>
+        <li><strong>Contract.</strong> Once reads and writes are fully on the new shape, drop the old column / table / code. Only then.</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127793;</span>
+      <div>
+        <p><strong>Why this works:</strong> at every step, you can roll back to the previous state. The old world and the new world coexist during the transition. If you discover a problem at step 2, you turn off dual-writing and go back to the old world &mdash; no data lost. Compare to a single-step &ldquo;rename column and update all code at once&rdquo; deploy &mdash; which is safe when it works and catastrophic when it doesn&rsquo;t.</p>
+      </div>
+    </div>
+
+    <h3>Specific migration hazards</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Adding a NOT NULL column</h4>
+        <p>Add the column nullable first, backfill, then add the constraint. &ldquo;Nullable + default&rdquo; is usually fine on small tables but not on huge ones where the rewrite is long.</p>
+      </div>
+      <div class="card">
+        <h4>Renaming a column</h4>
+        <p>Don&rsquo;t. Add a new column, dual-write, migrate readers, drop the old one. Renames look atomic and aren&rsquo;t.</p>
+      </div>
+      <div class="card">
+        <h4>Changing a type</h4>
+        <p>Add a new column with the new type. Backfill. Move readers. Drop the old.</p>
+      </div>
+      <div class="card">
+        <h4>Adding an index on a large table</h4>
+        <p>Use the concurrent or online variant. Plain <code>CREATE INDEX</code> can lock the table for minutes.</p>
+      </div>
+      <div class="card">
+        <h4>Removing a column</h4>
+        <p>Remove readers first, deploy. Confirm no writers reference it. Then drop in a second deploy. Never in the same deploy as the code change.</p>
+      </div>
+      <div class="card">
+        <h4>Large data backfills</h4>
+        <p>Batch. Monitor. Respect the database&rsquo;s load. A single <code>UPDATE</code> of 100 million rows will lock the table. Do it in chunks.</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Every scary migration can be decomposed into a sequence of safe ones. If your change &ldquo;can&rsquo;t be done safely,&rdquo; it usually means you haven&rsquo;t finished decomposing it. Take another half-hour to break it down; the deploy will be boring instead of terrifying.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5 -->
+  <section class="fade-in" id="rollout">
+    <span class="section-num">05 &middot; Rollout</span>
+    <h2>Progressive Rollout</h2>
+    <p class="section-intro">Even when a change is behind a flag, flipping it to 100% at once is more exposure than you need. Roll out gradually, watch the metrics, and give problems a chance to surface while the blast radius is still small.</p>
+
+    <div class="framework">
+      <h4>A Reasonable Rollout Schedule</h4>
+      <ol>
+        <li><strong>Internal users / your own account</strong> &mdash; minutes. Immediate sanity check.</li>
+        <li><strong>1% of real traffic</strong> &mdash; hours. Enough volume to see error rates and tail latency.</li>
+        <li><strong>10%</strong> &mdash; a day. Load and scale effects start to appear.</li>
+        <li><strong>50%</strong> &mdash; a day or two. Now you&rsquo;re running in proper production conditions.</li>
+        <li><strong>100%</strong> &mdash; monitor for at least a day before declaring it stable.</li>
+      </ol>
+    </div>
+
+    <p>Adjust to the risk profile. A UI copy change doesn&rsquo;t need a week of rollout. A change to the payment processor does &mdash; and maybe at even finer granularity.</p>
+
+    <h3>What to watch at each step</h3>
+    <ul>
+      <li><strong>Error rate</strong> for the specific code path, not just overall service error rate.</li>
+      <li><strong>Latency</strong>, p50 / p95 / p99, broken out by the affected endpoint.</li>
+      <li><strong>Business metric</strong> tied to the feature &mdash; conversion, successful transactions, whatever this change is supposed to affect.</li>
+      <li><strong>Error composition</strong> &mdash; new error types showing up in your logs?</li>
+      <li><strong>Downstream calls</strong> &mdash; is the new path hitting dependencies differently? Quota issues?</li>
+    </ul>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Before you advance to the next percentage,</strong> name the thing you&rsquo;re looking for and then check it. &ldquo;No alerts&rdquo; is the weakest possible check &mdash; alerts are for problems you <em>already</em> knew about. Look at the specific new metrics for the feature you&rsquo;re shipping.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6 -->
+  <section class="fade-in" id="rollback">
+    <span class="section-num">06 &middot; Rollback</span>
+    <h2>Rollback as a First-Class Plan</h2>
+    <p class="section-intro">Every deploy plan includes a rollback plan &mdash; written before the deploy, not improvised during it. If you can&rsquo;t describe exactly how to undo the change, you&rsquo;re not ready to do it.</p>
+
+    <div class="framework">
+      <h4>The Rollback Plan</h4>
+      <ol>
+        <li><strong>What&rsquo;s the trigger?</strong> What metric or signal says &ldquo;roll back&rdquo;? Decide in advance; don&rsquo;t negotiate during the incident.</li>
+        <li><strong>What&rsquo;s the mechanism?</strong> Flag flip? Revert deploy? Previous image tag? Database restore? Different mechanisms for different changes.</li>
+        <li><strong>Who has the authority?</strong> Anyone on-call? A specific person? Don&rsquo;t wait for approvals during an outage.</li>
+        <li><strong>What&rsquo;s the time budget?</strong> &ldquo;If error rate is &gt; X for 5 minutes, we roll back.&rdquo; Named, not guessed.</li>
+        <li><strong>What&rsquo;s the data impact?</strong> If users wrote data through the new path, will it still make sense after rollback? If not &mdash; that&rsquo;s a design problem, fix before shipping.</li>
+      </ol>
+    </div>
+
+    <h3>Reversible vs irreversible changes</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Changes that can&rsquo;t roll back</h5>
+        <p>Dropped a column, sent outgoing notifications, flipped a one-way migration. Now &ldquo;roll back&rdquo; isn&rsquo;t an option. The deploy becomes a point of no return and your risk-tolerance must be much lower.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Design reversibility in</h5>
+        <p>Most changes can be made reversible with a bit of care: feature flags, expand/contract migrations, notifications that are idempotent. The cost of designing for reversibility is much lower than the cost of needing to roll back and not being able to.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>Don&rsquo;t romanticise &ldquo;fixing forward.&rdquo;</strong> In incidents, engineers often feel that rolling back is giving up &mdash; that the mature move is to fix the problem now. It&rsquo;s usually the opposite. Rolling back restores known-good state; fixing forward under pressure introduces new bugs. Default to rollback; investigate the root cause after the bleeding stops.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7 -->
+  <section class="fade-in" id="api-compat">
+    <span class="section-num">07 &middot; API</span>
+    <h2>API Backwards Compatibility</h2>
+    <p class="section-intro">If anyone else calls your service &mdash; another team, a mobile client, an external partner &mdash; you&rsquo;re shipping an API. API changes have consequences the same day you deploy them. Make them non-breaking by default.</p>
+
+    <h3>What counts as a breaking change</h3>
+    <table class="comparison">
+      <tr><th>Breaking</th><th>Non-breaking</th></tr>
+      <tr><td>Removing a field from the response</td><td>Adding a new field to the response</td></tr>
+      <tr><td>Renaming a field</td><td>Adding a new endpoint</td></tr>
+      <tr><td>Changing a field&rsquo;s type</td><td>Accepting an additional value for an enum (carefully)</td></tr>
+      <tr><td>Making an optional request field required</td><td>Making a required response field optional (usually breaking for clients that expect it)</td></tr>
+      <tr><td>Tightening validation</td><td>Loosening validation</td></tr>
+      <tr><td>Changing error codes or formats</td><td>Adding new error codes (with care)</td></tr>
+    </table>
+
+    <div class="framework">
+      <h4>The API Change Rules</h4>
+      <ol>
+        <li><strong>Add, don&rsquo;t change.</strong> Add new fields, new endpoints, new versions. Leave old ones working.</li>
+        <li><strong>Version when you must change.</strong> <code>/v2/</code> exists when <code>/v1/</code> still works, for some deprecation window.</li>
+        <li><strong>Announce deprecations</strong> with concrete dates, not &ldquo;soon.&rdquo; Give clients time to migrate.</li>
+        <li><strong>Instrument old-version usage</strong> so you know when it&rsquo;s safe to remove. Don&rsquo;t guess; measure.</li>
+        <li><strong>Communicate changes in writing</strong> to every known consumer. Silence breeds Slack disasters.</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8 -->
+  <section class="fade-in" id="pre-flight">
+    <span class="section-num">08 &middot; Pre-Flight</span>
+    <h2>The Pre-Flight Checklist</h2>
+    <p class="section-intro">Every deploy has the same five questions, whether it&rsquo;s a one-line fix or a major feature. Run them on yourself before you merge and before you deploy &mdash; they&rsquo;re your parachute check.</p>
+
+    <div class="framework">
+      <h4>The Pre-Flight Five</h4>
+      <ol>
+        <li><strong>Can I roll this back in five minutes?</strong> If no, reshape the change (flag it, split it, decompose the migration) until yes.</li>
+        <li><strong>What metric will tell me if it&rsquo;s wrong?</strong> Name it before you ship. If nothing will tell you, you can&rsquo;t know if it worked.</li>
+        <li><strong>Who else is affected?</strong> Downstream consumers, people on-call, scheduled jobs, backups. Think beyond your service.</li>
+        <li><strong>What&rsquo;s the worst case?</strong> Data loss? User-visible outage? Revenue impact? If it&rsquo;s severe, the deploy needs more guardrails or more eyes.</li>
+        <li><strong>Am I the right person to be deploying this?</strong> Experience matters. For scary changes, pair with someone who&rsquo;s done this before &mdash; at least the first time.</li>
+      </ol>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Deploy small changes often</td><td>Batch two weeks of work into a Friday release</td></tr>
+      <tr><td>Gate new behaviour behind a flag</td><td>Deploy a big change with no kill switch</td></tr>
+      <tr><td>Split schema changes into expand / migrate / contract</td><td>Rename a column in a single deploy</td></tr>
+      <tr><td>Write the rollback plan before the deploy</td><td>Figure out rollback during the incident</td></tr>
+      <tr><td>Roll out progressively, with named metrics at each step</td><td>Flip to 100% and hope</td></tr>
+      <tr><td>Add API fields instead of changing them</td><td>Rename a field and expect clients to adapt</td></tr>
+      <tr><td>Track and remove flags once they&rsquo;re done</td><td>Leave the flag graveyard for the next engineer</td></tr>
+      <tr><td>Default to revert when an incident starts</td><td>Romanticise fix-forward under pressure</td></tr>
+    </table>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128302;</span>
+      <div>
+        <p><strong>The compounding payoff:</strong> a team that ships 10 times a day with flags, progressive rollout, and reversible migrations moves faster and has fewer incidents than a team that ships weekly with ceremony. Velocity and safety aren&rsquo;t opposites &mdash; they&rsquo;re both outputs of good deploy hygiene.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Accelerate</em> (Forsgren, Humble, Kim) &mdash; the empirical case for small, frequent deploys. Short book, strong data.</li>
+      <li><em>Continuous Delivery</em> (Humble &amp; Farley) &mdash; the foundational text. Older but still relevant on the principles.</li>
+      <li>Martin Fowler, &ldquo;Feature Toggles (aka Feature Flags)&rdquo; (martinfowler.com) &mdash; the reference essay on flag lifecycles and types.</li>
+      <li>GitLab&rsquo;s database migration guidelines (docs.gitlab.com) &mdash; a rare public, concrete guide on expand/migrate/contract.</li>
+      <li>Gergely Orosz&rsquo;s writing on deploy practices in <em>The Pragmatic Engineer</em> &mdash; modern, honest, pragmatic.</li>
+      <li><em>Database Reliability Engineering</em> (Campbell &amp; Majors) &mdash; deep on safe database operations.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>For your next change, answer the question &ldquo;if this is wrong, how do I undo it in five minutes?&rdquo; in writing, before you merge.</li>
+      <li>Take your next scary change and reshape it to be behind a feature flag. Notice how much less worried you are shipping it.</li>
+      <li>Find the oldest stale flag in your codebase. Clean it up.</li>
+      <li>On your next DB change, split it into expand / migrate / contract &mdash; three small deploys instead of one scary one.</li>
+      <li>Write a rollback plan (5 lines) for your next deploy. Share it with whoever&rsquo;s on-call so they know what to do if the deploy misbehaves.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

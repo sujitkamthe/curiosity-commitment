@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foundations &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="foundations.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Foundations</h1>
+    <p class="subtitle">The mindset shift from &ldquo;I write code&rdquo; to &ldquo;I grow my craft.&rdquo; Two muscles, one habit, and the ground every other chapter stands on. If only one chapter sticks, make it this one.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#apprentice-mindset">1. The Apprentice Mindset</a></li>
+      <li><a href="#curiosity">2. Curiosity as a Practice</a></li>
+      <li><a href="#commitment">3. Commitment as a Practice</a></li>
+      <li><a href="#propose-dont-complain">4. Propose, Don&rsquo;t Just Complain</a></li>
+      <li><a href="#focus">5. Time &amp; Focus</a></li>
+      <li><a href="#exploration">6. The Exploration Habit</a></li>
+      <li><a href="#career-ownership">7. Owning Your Own Growth</a></li>
+    </ul>
+  </section>
+
+  <!-- ─── Quick Read ─── -->
+  <section class="fade-in">
+    <div class="key-insight">
+      <h4>The whole chapter, in a paragraph</h4>
+      <p>Grow two muscles: <strong>curiosity</strong> (you dig, you ask, you refuse to let what you don&rsquo;t understand slide) and <strong>commitment</strong> (your yes means yes, you finish, you flag slips early). On top of those two sits one habit &mdash; <strong>propose, don&rsquo;t just complain</strong> &mdash; the single most compounding behaviour at the apprentice stage. Around all of that, protect your focus so you can do maker work, keep a small exploration habit so your toolbox grows, and own your own growth so you don&rsquo;t wait to be told what to practise next. Every other chapter on this site is a consequence of these.</p>
+    </div>
+
+    <h3>If you only have five minutes, jump to</h3>
+    <div class="pattern-grid">
+      <div class="better">
+        <h5><a href="#apprentice-mindset">1. The Apprentice Mindset</a></h5>
+        <p>The stance shift: you are here to learn, not to perform. One table shows what changes day-to-day.</p>
+      </div>
+      <div class="better">
+        <h5><a href="#curiosity">2. Curiosity</a></h5>
+        <p>Five concrete moves that turn curiosity from a personality trait into a practice.</p>
+      </div>
+      <div class="better">
+        <h5><a href="#commitment">3. Commitment</a></h5>
+        <p>Your yes means yes. Flag slips at 30%, not 100%. The boring compound that builds your reputation.</p>
+      </div>
+      <div class="better">
+        <h5><a href="#propose-dont-complain">4. Propose, Don&rsquo;t Just Complain</a></h5>
+        <p>The PDC framework: name, cost, cause, propose, offer. The habit the team will notice first.</p>
+      </div>
+      <div class="better">
+        <h5><a href="#focus">5. Time &amp; Focus</a></h5>
+        <p>Maker work needs maker hours. How to protect them from your calendar, your chat, and yourself.</p>
+      </div>
+      <div class="better">
+        <h5><a href="#exploration">6. Exploration</a></h5>
+        <p>The 1&ndash;2 hour weekly habit that compounds into real depth. Not optional.</p>
+      </div>
+      <div class="better">
+        <h5><a href="#career-ownership">7. Owning Your Growth</a></h5>
+        <p>Your manager is not responsible for your career. How to ask for feedback and receive it without defence.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 1. Apprentice Mindset ─── -->
+  <section class="fade-in" id="apprentice-mindset">
+    <span class="section-num">01 &middot; Mindset</span>
+    <h2>The Apprentice Mindset</h2>
+    <p class="section-intro">You&rsquo;ve shipped real code, fixed real bugs, survived a few production incidents. That matters. What&rsquo;s next is a different move &mdash; not &ldquo;learn more syntax&rdquo;, but grow the two muscles that turn a coder into a reliable teammate: <strong>curiosity</strong> and <strong>commitment</strong>.</p>
+
+    <h3>Why &ldquo;apprentice&rdquo; is the right stance</h3>
+    <p>Some people frame themselves by title or by how long they&rsquo;ve been on the team. The apprentice stance is different: you are here to learn, to ask, to try, to miss, and to learn again. Someone who waits to be told, stays told-sized. An apprentice <em>watches</em>, <em>asks</em>, and <em>practises</em>. The title doesn&rsquo;t change &mdash; the stance does. That&rsquo;s what this guide is about.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Time at the keyboard and time practising are not the same thing. Ten engineers can have the same amount of experience on paper and half of them will have one year repeated many times. The difference is whether you grew the habits, or just the timeline.</p>
+    </div>
+
+    <h3>The two muscles</h3>
+    <div class="pattern-grid">
+      <div class="better">
+        <h5>Curiosity</h5>
+        <p>You question. You dig into why things work. You notice anti-patterns. You ask, &ldquo;is there a better way?&rdquo; You read the source. You explore. You poke at the framework you use every day until you actually understand it.</p>
+      </div>
+      <div class="better">
+        <h5>Commitment</h5>
+        <p>You finish what you start. Your yes means yes. You deliver what you said by when you said. You don&rsquo;t take on five things and finish one. You keep small promises reliably so people trust you with bigger ones.</p>
+      </div>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Why these two, specifically?</strong> Because they are the preconditions for everything else. You cannot write clean code without the curiosity to ask, &ldquo;is this the right name?&rdquo; You cannot deliver reliably without the commitment to see work through. Every other chapter in this guide is a consequence of these two.</p>
+      </div>
+    </div>
+
+    <h3>What the shift looks like day-to-day</h3>
+    <table class="comparison">
+      <tr><th>Situation</th><th>Time served</th><th>Time practised</th></tr>
+      <tr><td>Given a story</td><td>Start coding</td><td>Read it twice; ask &ldquo;what&rsquo;s the business reason?&rdquo; if it&rsquo;s not obvious</td></tr>
+      <tr><td>Stuck on a bug</td><td>Ask a teammate after 2 minutes</td><td>Try for 15&ndash;30 minutes, write down what you tried, then ask</td></tr>
+      <tr><td>Seeing an anti-pattern</td><td>Copy it; &ldquo;that&rsquo;s how it&rsquo;s done here&rdquo;</td><td>Ask &ldquo;why?&rdquo;; if the answer is weak, propose an alternative</td></tr>
+      <tr><td>In a huddle</td><td>Listen quietly</td><td>Ask at least one question or offer one observation</td></tr>
+      <tr><td>Given feedback</td><td>Explain why you did it that way</td><td>Say thanks, try it, come back with what you learned</td></tr>
+      <tr><td>Finished a story</td><td>Move on</td><td>Run it yourself, check the edge cases, read your own MR top to bottom</td></tr>
+      <tr><td>Saw a slow test / flaky build</td><td>Ignore &mdash; &ldquo;not my story&rdquo;</td><td>Mention it; if you can fix it in 30 minutes, fix it</td></tr>
+    </table>
+
+    <h3>Questions to sit with</h3>
+    <div class="framework">
+      <h4>A weekly mirror</h4>
+      <ul>
+        <li>What did I <strong>ask</strong> this week that I wouldn&rsquo;t have asked six months ago?</li>
+        <li>What did I <strong>finish</strong> this week that I said I would?</li>
+        <li>What did I <strong>not finish</strong>, and what&rsquo;s the honest reason?</li>
+        <li>Where did I <strong>copy a pattern</strong> without understanding it?</li>
+        <li>What was <strong>too hard</strong> this week that I should have asked for help on earlier?</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 2. Curiosity ─── -->
+  <section class="fade-in" id="curiosity">
+    <span class="section-num">02 &middot; Muscle One</span>
+    <h2>Curiosity as a Practice</h2>
+    <p class="section-intro">Curiosity is not a personality trait; it&rsquo;s a practice. You can build it the same way you build unit-test writing or git hygiene &mdash; by doing a small version of it every day until it&rsquo;s automatic.</p>
+
+    <h3>What curiosity actually looks like at work</h3>
+    <p>It looks boring from the outside. Most of curiosity is the quiet, stubborn refusal to let something you don&rsquo;t understand slide past.</p>
+
+    <div class="framework">
+      <h4>The Curiosity Moves</h4>
+      <ol>
+        <li><strong>Pause on magic.</strong> When code &ldquo;just works&rdquo; and you don&rsquo;t know why, that&rsquo;s the signal. Stop. Read. Trace. Ask.</li>
+        <li><strong>Follow the call.</strong> When you use a library function, open the source at least once. You don&rsquo;t have to read it all &mdash; ten minutes is enough.</li>
+        <li><strong>Ask a &lsquo;why&rsquo; in every huddle.</strong> One real why. &ldquo;Why this approach and not X?&rdquo; &ldquo;Why are we solving this now?&rdquo;</li>
+        <li><strong>Write down what you don&rsquo;t know.</strong> A running list. The list is your curriculum.</li>
+        <li><strong>Poke the framework.</strong> Read one chapter of the docs for something you use every day. You&rsquo;ll find something that surprises you within a week.</li>
+      </ol>
+    </div>
+
+    <h3>A scenario: the magic annotation</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128270;</span>
+      <div>
+        <p>You&rsquo;re adding a new Spring controller. You copy the one next to yours. It has <code>@Transactional</code> at the top. Your new one needs it too &mdash; you copy it. Things work. Two months later a teammate asks, &ldquo;why is this whole controller transactional, including the read-only endpoints?&rdquo; You don&rsquo;t know.</p>
+        <p><strong>The curious move:</strong> the first time you see <code>@Transactional</code>, spend ten minutes. What does it actually do? Why is it on the class instead of the method? What happens if you call a non-annotated method from an annotated one? You don&rsquo;t need to become a Spring expert &mdash; you need to not be surprised by your own code.</p>
+      </div>
+    </div>
+
+    <h3>Patterns &amp; anti-patterns</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Copy-paste without understanding</h5>
+        <p>You find code that &ldquo;looks like what I need.&rdquo; You copy it, change the names, hope. It works. You never find out why.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Copy-paste with a question</h5>
+        <p>Copy it, change the names, then spend ten minutes understanding what each piece does. Delete what you don&rsquo;t need. If you can&rsquo;t delete it confidently, you don&rsquo;t yet understand it.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;That&rsquo;s just how it&rsquo;s done here&rdquo;</h5>
+        <p>You notice a pattern that looks odd. You assume someone smarter had a reason. You adopt it. The odd pattern spreads.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; &ldquo;I noticed X. What&rsquo;s the reason?&rdquo;</h5>
+        <p>Ask a peer or a senior. Half the time there&rsquo;s a good reason (now you know it). Half the time the answer is &ldquo;honestly, we should clean that up&rdquo; &mdash; and now you&rsquo;ve surfaced a real thing.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Pretending to understand</h5>
+        <p>Someone explains something in standup. You nod. You didn&rsquo;t follow. You walk away still not knowing, and now you can&rsquo;t ask without admitting you nodded.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; &ldquo;Sorry, can you say that again?&rdquo;</h5>
+        <p>Asked in the first 30 seconds, it&rsquo;s just a clarifying question. Asked a week later, it&rsquo;s an admission. The cost of the first is zero; the cost of the second is your credibility.</p>
+      </div>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Keep a &ldquo;things I don&rsquo;t understand&rdquo; list</td><td>Keep faking it and hoping it goes away</td></tr>
+      <tr><td>Ask the &ldquo;stupid&rdquo; question in the first week, not the tenth</td><td>Save clarification for later &mdash; it won&rsquo;t come</td></tr>
+      <tr><td>Open the library&rsquo;s source at least once a week</td><td>Treat dependencies as sealed black boxes</td></tr>
+      <tr><td>Poke at the thing that just worked mysteriously</td><td>Say &ldquo;it works, don&rsquo;t touch it&rdquo; and move on</td></tr>
+      <tr><td>Ask &ldquo;why this, not that?&rdquo; in design discussions</td><td>Accept the first approach offered because a senior proposed it</td></tr>
+    </table>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Why this matters:</strong> Every senior engineer you admire got there by being the person who wouldn&rsquo;t let an unknown slide. The gap between them and a &ldquo;solid contributor&rdquo; is not raw talent. It&rsquo;s the number of times they went one level deeper when they could have moved on.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>The Pragmatic Programmer</em> &mdash; Hunt &amp; Thomas. The foundational book on the curious stance.</li>
+      <li><em>A Philosophy of Software Design</em> &mdash; John Ousterhout. Why understanding beats pattern-matching.</li>
+      <li>Julia Evans&rsquo; blog (jvns.ca) &mdash; a masterclass in publicly practising curiosity.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 3. Commitment ─── -->
+  <section class="fade-in" id="commitment">
+    <span class="section-num">03 &middot; Muscle Two</span>
+    <h2>Commitment as a Practice</h2>
+    <p class="section-intro">Commitment is the quiet half of reliability. It&rsquo;s not heroics. It&rsquo;s the slow, boring, compound fact that your yes means yes. When people trust your yes, they give you more interesting work. When they don&rsquo;t, they stop asking.</p>
+
+    <h3>What commitment actually means</h3>
+    <p>Commitment is not the same as availability, enthusiasm, or &ldquo;wanting to help.&rdquo; Those are cheap. Commitment is:</p>
+    <ol>
+      <li>You said you would do X by Y.</li>
+      <li>You did X by Y.</li>
+      <li>Or: you knew by Y-2-days that you wouldn&rsquo;t, and you said so in time for people to adjust.</li>
+    </ol>
+    <p>That&rsquo;s it. The whole thing. Almost nobody does all three consistently at the apprentice stage &mdash; not because they&rsquo;re lazy, but because they never made the three a habit.</p>
+
+    <div class="framework">
+      <h4>The Commitment Moves</h4>
+      <ol>
+        <li><strong>Say fewer yeses.</strong> One real yes beats three hopeful maybes.</li>
+        <li><strong>Write the promise down.</strong> If it&rsquo;s not in Jira, a ticket, or a message, it doesn&rsquo;t exist.</li>
+        <li><strong>Check your timeline daily.</strong> Not weekly. The slip is always detectable earlier than you admit.</li>
+        <li><strong>Raise the flag at 30% slip, not 100%.</strong> If you&rsquo;re one-third over and you know it, say it. The later you flag, the worse it lands.</li>
+        <li><strong>Close the loop when done.</strong> &ldquo;I finished X.&rdquo; One line. It&rsquo;s surprising how often this step is skipped.</li>
+      </ol>
+    </div>
+
+    <h3>A scenario: the quiet slip</h3>
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p>On Monday you estimated two days. It&rsquo;s Wednesday evening. You&rsquo;re about half done. You don&rsquo;t say anything &mdash; you&rsquo;ll just push through Thursday. Thursday night you&rsquo;re still at 70%. Friday standup: &ldquo;almost done, should be by end of day.&rdquo; Friday 6pm you push it to Monday. Monday morning: &ldquo;there&rsquo;s a bit more than I thought.&rdquo; Tuesday it ships.</p>
+        <p>What actually happened: the slip was visible <em>Wednesday</em>. The cost of saying &ldquo;I&rsquo;m behind, looks like three days not two&rdquo; on Wednesday is nothing. The cost of the silence is that nobody could re-plan around you, and by Friday you had burned the team&rsquo;s trust as well as the timeline.</p>
+        <p><strong>The commitment move:</strong> when you know, say. Before you know, estimate. After you finish, close the loop.</p>
+      </div>
+    </div>
+
+    <h3>The overcommitment trap</h3>
+    <p>The easiest way to break commitments is to accept too many. It feels like helpfulness. It lands as unreliability.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Saying yes to everything</h5>
+        <p>Someone asks you to pick up a thing. You say yes. Someone else asks. You say yes. Three days later you have six things on your plate and can&rsquo;t meaningfully progress any of them.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The honest capacity answer</h5>
+        <p>&ldquo;I&rsquo;m on X and Y this week. I can pick this up after those land, or we can drop Y if this is more important.&rdquo; You&rsquo;re still helpful. You&rsquo;re also still reliable.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The hopeful yes</h5>
+        <p>&ldquo;Yeah, I can probably get that done by Friday.&rdquo; Probably is not a commitment. Friday arrives and the probably didn&rsquo;t.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The specific yes or the specific no</h5>
+        <p>&ldquo;Yes, by Friday EOD.&rdquo; Or: &ldquo;Not by Friday &mdash; how about Tuesday?&rdquo; A specific no now is worth a vague yes then.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Abandoning what you started</h5>
+        <p>You picked up a tech-debt task last sprint. You got 60% through. New story drops. You leave the old one half-done. Two sprints later nobody remembers the state, including you.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Finish or hand off cleanly</h5>
+        <p>If you&rsquo;re truly moving on, write down what&rsquo;s done, what&rsquo;s not, and what the next person needs to know &mdash; and say out loud that you&rsquo;re handing it off. A visible handover beats a silent abandonment every time.</p>
+      </div>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Commit to one thing fully before adding another</td><td>Collect three concurrent &ldquo;I&rsquo;ll get to it&rdquo;s</td></tr>
+      <tr><td>Re-estimate out loud when reality shifts</td><td>Silently hope it&rsquo;ll still fit</td></tr>
+      <tr><td>Say &ldquo;done&rdquo; when it&rsquo;s actually done, not when the last commit landed</td><td>Call it done before you&rsquo;ve run it yourself</td></tr>
+      <tr><td>Flag slips at 30%, not 100%</td><td>Wait until the deadline to share bad news</td></tr>
+      <tr><td>Say &ldquo;no&rdquo; or &ldquo;not this week&rdquo; when it&rsquo;s true</td><td>Say yes to be agreeable</td></tr>
+    </table>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Your reputation is built from the pile of small promises you did or didn&rsquo;t keep. Not the one big heroic shipment. The boring, mid-sized, &ldquo;by Wednesday&rdquo; kind. Get those right for a year and people will trust you with the interesting work.</p>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>The Missing README</em> &mdash; Chris Riccomini &amp; Dmitriy Ryaboy. Explicitly written for engineers at this career stage.</li>
+      <li><em>The Software Engineer&rsquo;s Guidebook</em> &mdash; Gergely Orosz. The chapter on estimation alone is worth it.</li>
+      <li><em>Deep Work</em> &mdash; Cal Newport. On why shallow commitments crowd out deep work.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 4. Propose, Don't Just Complain ─── -->
+  <section class="fade-in" id="propose-dont-complain">
+    <span class="section-num">04 &middot; The Foundational Habit</span>
+    <h2>Propose, Don&rsquo;t Just Complain</h2>
+    <p class="section-intro">This is the single habit that, once built, compounds faster than any other. It&rsquo;s also the single habit most missing at this career stage &mdash; and the one your team will notice first when you build it.</p>
+
+    <h3>The pattern</h3>
+    <p>Something is wrong. The build is slow. The onboarding is confusing. The logs are useless. Standups drift. A test is flaky. You notice it. That noticing is good &mdash; most people don&rsquo;t even notice.</p>
+    <p>The trap is stopping there. Complaining about the problem &mdash; even accurately, even correctly &mdash; is the half-move. The full move is <strong>propose</strong>.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>&ldquo;Our builds are slow&rdquo; is a complaint. &ldquo;Our builds are slow; I looked and it&rsquo;s the integration test stage &mdash; what if we ran those only on main?&rdquo; is a proposal. The first gets a shrug. The second starts a conversation.</p>
+    </div>
+
+    <h3>Why it matters more than it looks</h3>
+    <p>Complaining without proposing trains the team to hear you as a complainer, not a problem-solver. Even when you&rsquo;re right, people tune out. And more importantly, complaining keeps you passive &mdash; the problem becomes someone else&rsquo;s to fix, which means it probably won&rsquo;t get fixed.</p>
+    <p>Proposing flips the ownership. You&rsquo;re no longer the person pointing; you&rsquo;re the person solving. Even when the proposal is wrong, it moves the conversation forward &mdash; someone will correct it, and the problem inches toward resolution.</p>
+
+    <div class="framework">
+      <h4>The PDC Move (Propose, Don&rsquo;t Complain)</h4>
+      <ol>
+        <li><strong>Name the problem</strong> &mdash; specific, factual, one sentence. &ldquo;Local startup takes 90 seconds.&rdquo;</li>
+        <li><strong>Name the cost</strong> &mdash; why it matters. &ldquo;Every context switch costs us a minute and a half.&rdquo;</li>
+        <li><strong>Name a possible cause</strong> &mdash; your best current guess. &ldquo;I think it&rsquo;s the schema-migration step running every boot.&rdquo;</li>
+        <li><strong>Propose one action</strong> &mdash; small, concrete, testable. &ldquo;What if we cache the migration hash and skip when unchanged?&rdquo;</li>
+        <li><strong>Offer to try</strong> &mdash; put your own hand up. &ldquo;I can spike it tomorrow morning if useful.&rdquo;</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: the flaky test</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p>Every few pipelines, <code>OrderCheckoutIntegrationTest</code> fails. People rerun it. Sometimes it fails twice. Nobody mentions it because everyone knows to rerun.</p>
+        <p><strong>Complaint-only:</strong> in standup, &ldquo;that flaky test is annoying again.&rdquo; Murmurs of agreement. Nothing happens.</p>
+        <p><strong>Proposal version:</strong> &ldquo;Quick thing &mdash; <code>OrderCheckoutIntegrationTest</code> has flaked 4 of the last 15 runs. I looked at the fails &mdash; they all hit the same race around order-number generation. I think the test is assuming sequential IDs. I can try adding a synchronized block in the setup &mdash; 30-minute spike, happy to own it.&rdquo;</p>
+        <p>The second version takes the same 30 seconds of standup time. It lands completely differently. You just became the person who fixes the flaky test.</p>
+      </div>
+    </div>
+
+    <h3>When the proposal is wrong</h3>
+    <p>It often will be. That&rsquo;s fine. Your proposal is a starting point, not a finished answer. Someone more experienced will say &ldquo;actually the race isn&rsquo;t in ID generation, it&rsquo;s in the inventory-lock timeout &mdash; but the right fix is similar.&rdquo; You got educated, the team got a fix, and you stayed the person who owned the problem. That&rsquo;s a good trade.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Waiting for permission to propose</h5>
+        <p>&ldquo;I&rsquo;m not senior enough &mdash; someone else should decide.&rdquo; Nobody is coming. If you&rsquo;re closest to the problem, you&rsquo;re the right person to propose.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Propose tentatively but propose</h5>
+        <p>&ldquo;This might be naive, but what about X?&rdquo; leaves room for correction while still moving things forward. You don&rsquo;t need certainty to propose &mdash; you just need to be thinking.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The post-standup grumble</h5>
+        <p>You bring up the frustration over lunch, in DMs, to one teammate. It goes nowhere because the people who can act don&rsquo;t hear it.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Raise it where decisions happen</h5>
+        <p>Standup, retro, huddle, the pull request itself. The room where decisions happen is the room where your proposal has to go &mdash; even if it&rsquo;s less comfortable there.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Proposing without offering to help</h5>
+        <p>&ldquo;We should really fix X.&rdquo; Okay. Who&rsquo;s &ldquo;we&rdquo;? If you&rsquo;re not volunteering, you&rsquo;re delegating &mdash; and you&rsquo;re not yet in a position to delegate.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; &ldquo;I can try it&rdquo;</h5>
+        <p>Raise your own hand. It&rsquo;s the move that separates a contributor from an onlooker. Even a small offer (&ldquo;I can spike this&rdquo;) changes the conversation.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127793;</span>
+      <div>
+        <p><strong>Why this compounds:</strong> every proposal you make, even a bad one, is a reputation deposit. You become the person who <em>does things</em>. Six months of consistent proposing changes how the team sees you more than any single feature you shipped.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 5. Time & Focus ─── -->
+  <section class="fade-in" id="focus">
+    <span class="section-num">05 &middot; Focus</span>
+    <h2>Time &amp; Focus</h2>
+    <p class="section-intro">Writing code is a maker activity. It needs long, uninterrupted stretches. Your calendar, your chat apps, and your own habits all conspire against that. Defending your focus is a skill, and you have to learn it on purpose.</p>
+
+    <h3>Why context switching is expensive</h3>
+    <p>Every time you leave the problem &mdash; to check Slack, answer an email, hop into an unrelated huddle &mdash; you pay two costs: the time of the interruption, and the 10&ndash;20 minutes it takes to reload the problem into your head. Do that eight times a day and you&rsquo;ve lost two hours before lunch. Not to meetings &mdash; to re-loading.</p>
+
+    <div class="framework">
+      <h4>The Focus Moves</h4>
+      <ol>
+        <li><strong>Pick one deep slot per day.</strong> 90 minutes minimum. Same time, same rules &mdash; chat off, calendar blocked.</li>
+        <li><strong>Batch the shallow work.</strong> Check Slack, email, and PR reviews in two or three slots a day &mdash; not continuously.</li>
+        <li><strong>Leave yourself a breadcrumb.</strong> When you stop mid-task, write one sentence about where you were and what&rsquo;s next. Reload time drops to seconds.</li>
+        <li><strong>Say no to optional meetings.</strong> If the agenda could be a doc and you wouldn&rsquo;t present, ask if you need to be there.</li>
+        <li><strong>Respect other people&rsquo;s focus.</strong> Before you ping someone, ask: is this urgent, or is it just on my mind? If not urgent, let it wait for their check-in slot.</li>
+      </ol>
+    </div>
+
+    <h3>Patterns &amp; anti-patterns</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Slack as a second tab</h5>
+        <p>Slack is open all day. Every notification pulls you out. You respond fast &mdash; people love it &mdash; but your own work is a patchwork of 15-minute fragments.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Scheduled check-ins</h5>
+        <p>Close Slack during your deep slot. Check it at 10:30, 1:30, and 4:30. Most &ldquo;urgent&rdquo; messages aren&rsquo;t. The ones that are will find you.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The midnight hero</h5>
+        <p>You make up for a bad focus day by coding until midnight. You ship, but fragmented. Next day you&rsquo;re slower, and the code you wrote half-asleep is the one that bugs will find.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Protect tomorrow, not tonight</h5>
+        <p>End on time. Plan tomorrow&rsquo;s deep slot first thing tomorrow. Rested quality beats heroic hours almost every time.</p>
+      </div>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128336;</span>
+      <div>
+        <p><strong>Why this matters:</strong> engineers confuse being busy with being productive. Three focused hours of maker time will beat eight fragmented ones on almost any task. The fragmentation isn&rsquo;t a fact of life &mdash; it&rsquo;s the default you unlearn.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Deep Work</em> &mdash; Cal Newport. On why maker hours matter and how to defend them.</li>
+      <li>Paul Graham, &ldquo;Maker&rsquo;s Schedule, Manager&rsquo;s Schedule.&rdquo; Four pages. Read it once a year.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 6. Exploration Habit ─── -->
+  <section class="fade-in" id="exploration">
+    <span class="section-num">06 &middot; Learning</span>
+    <h2>The Exploration Habit</h2>
+    <p class="section-intro">If every hour of your week goes into shipping tickets, you&rsquo;re not growing &mdash; you&rsquo;re maintaining. You need a small, consistent slice of time spent on learning, tinkering, and exploring outside the day&rsquo;s work. One or two hours a week. Non-negotiable. Treat it like a meeting.</p>
+
+    <h3>Why this isn&rsquo;t optional</h3>
+    <p>The tools, languages, and patterns you use three years from now don&rsquo;t exist yet in your current codebase. If the only things you learn are the ones your current feature demands, your knowledge narrows over time. Exploration is how you keep your toolbox from shrinking.</p>
+
+    <div class="framework">
+      <h4>The 1&ndash;2 Hour Rule</h4>
+      <ol>
+        <li><strong>Block 90 minutes on the calendar</strong> once a week. Recurring. Treat it as a team meeting &mdash; not optional.</li>
+        <li><strong>Pick one thing</strong> before the slot begins. &ldquo;Read the tokio source that powers our async runtime.&rdquo; &ldquo;Try a small thing in a framework we don&rsquo;t use.&rdquo; &ldquo;Rebuild our caching logic three different ways and see which I prefer.&rdquo;</li>
+        <li><strong>Write one paragraph at the end.</strong> What did you learn? What surprised you? What would you propose next time you see a relevant problem?</li>
+        <li><strong>Share it once a month.</strong> Slack message, lunch-and-learn, an internal blog post. A learning you keep to yourself is half of a learning.</li>
+      </ol>
+    </div>
+
+    <h3>What &ldquo;exploration&rdquo; looks like</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Read the source</h4>
+        <p>The framework, library, or language runtime you use every day. Pick one file. Understand it. Repeat weekly.</p>
+      </div>
+      <div class="card">
+        <h4>Try an alternative</h4>
+        <p>Your team uses X. The industry also has Y. Build a toy version of what you&rsquo;re working on in Y. You&rsquo;ll understand X better by contrast.</p>
+      </div>
+      <div class="card">
+        <h4>Do the post-mortem</h4>
+        <p>A bug took you three days last month. Go back. Understand exactly why. Write it up. Look for the class of bug &mdash; you&rsquo;ll recognise it next time.</p>
+      </div>
+      <div class="card">
+        <h4>Read one chapter</h4>
+        <p>A book from the <a href="resources.html">Resources</a> page. Not the whole book. One chapter. Apply one thing from it this week.</p>
+      </div>
+      <div class="card">
+        <h4>Watch one talk</h4>
+        <p>30&ndash;50 minutes of a conference talk from someone you respect. Take two notes. Try one idea.</p>
+      </div>
+      <div class="card">
+        <h4>Prototype a proposal</h4>
+        <p>A proposal you made but never got picked up &mdash; build a small working version of it. Show it. &ldquo;Here&rsquo;s what I meant.&rdquo;</p>
+      </div>
+    </div>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128302;</span>
+      <div>
+        <p><strong>Why this matters:</strong> senior engineers didn&rsquo;t become senior because they read more books at night. They became senior because they kept a small, consistent exploration habit for years. A 90-minute weekly slot, applied for five years, is 390 hours of learning. That&rsquo;s a graduate degree.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── 7. Career Ownership ─── -->
+  <section class="fade-in" id="career-ownership">
+    <span class="section-num">07 &middot; Growth</span>
+    <h2>Owning Your Own Growth</h2>
+    <p class="section-intro">Your manager is not responsible for your career. They&rsquo;re responsible for supporting it when you bring it to them. The initiative is yours &mdash; and so is the accountability. Waiting for the next performance cycle to find out how you&rsquo;re doing is too slow.</p>
+
+    <h3>The three levers you control</h3>
+    <div class="framework">
+      <h4>The Growth Triangle</h4>
+      <ol>
+        <li><strong>Goals.</strong> Know what you&rsquo;re trying to build this quarter. Two specific things &mdash; not &ldquo;get better at coding.&rdquo; &ldquo;Be able to design a small REST service end-to-end without asking for help on structure.&rdquo; That&rsquo;s a goal.</li>
+        <li><strong>Feedback.</strong> Ask for it. Specifically, frequently, from more than one person. Don&rsquo;t wait for reviews.</li>
+        <li><strong>Reflection.</strong> Weekly or monthly. What worked. What didn&rsquo;t. What pattern do you keep falling into?</li>
+      </ol>
+    </div>
+
+    <h3>Asking for feedback &mdash; the questions that actually work</h3>
+    <p>&ldquo;How am I doing?&rdquo; is a useless question. It invites &ldquo;you&rsquo;re doing great.&rdquo; Instead:</p>
+    <ul>
+      <li>&ldquo;What&rsquo;s one thing you&rsquo;ve seen me do well in the last month?&rdquo; (specific, anchored in evidence)</li>
+      <li>&ldquo;What&rsquo;s one thing you&rsquo;d want me to work on next?&rdquo; (specific, forward-looking, asks for one thing not a list)</li>
+      <li>&ldquo;If you were reviewing my MRs, what pattern would you notice me repeating?&rdquo; (invites the small, compound feedback)</li>
+      <li>&ldquo;Is there a habit I&rsquo;m missing that would unlock something for me?&rdquo; (opens up gaps you can&rsquo;t see)</li>
+    </ul>
+
+    <div class="tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p>Ask once a month. From peers, not just your lead. Write down what you hear. Look for patterns across voices &mdash; if three people tell you the same thing, it&rsquo;s not opinion, it&rsquo;s signal.</p>
+      </div>
+    </div>
+
+    <h3>Receiving feedback without defence</h3>
+    <p>The hardest part. When someone tells you something you did wasn&rsquo;t great, every instinct says &ldquo;explain, defend, contextualise.&rdquo; That instinct kills the feedback loop &mdash; people stop telling you things because it&rsquo;s tiring.</p>
+
+    <div class="framework">
+      <h4>The 24-Hour Rule</h4>
+      <ol>
+        <li><strong>In the moment:</strong> say &ldquo;thank you &mdash; let me sit with that.&rdquo; Nothing else.</li>
+        <li><strong>Within 24 hours:</strong> think about it. Is it fair? What was the actual behaviour that prompted it? What&rsquo;s the smallest change that addresses it?</li>
+        <li><strong>Within a week:</strong> come back. &ldquo;I thought about what you said. Here&rsquo;s what I&rsquo;m trying differently.&rdquo; The loop closes.</li>
+      </ol>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The immediate defence</h5>
+        <p>&ldquo;Yeah, but that was because&hellip;&rdquo; Within three seconds of feedback landing, you&rsquo;re explaining why it&rsquo;s not a fair read. The other person learns: don&rsquo;t bother giving this feedback again.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The pause, then the return</h5>
+        <p>Take the feedback. Think. Decide later whether you agree. Come back in a few days with either a changed behaviour or a respectful disagreement &mdash; but not in the first thirty seconds.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Silent absorption</h5>
+        <p>You take the feedback quietly, never respond, and never change. The giver has no idea if it landed. They stop giving.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The visible return</h5>
+        <p>Close the loop explicitly. &ldquo;You flagged that my MRs were too large. I&rsquo;ve been breaking them up. Let me know if they&rsquo;re landing better.&rdquo; This is the move that earns you more feedback next time.</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Feedback is the fastest way to grow &mdash; and it has a price. The price is sitting with discomfort for 24 hours without arguing. Pay it. Everything else on this page is slower than the feedback loop you open when you stop being defensive.</p>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>The Software Engineer&rsquo;s Guidebook</em> &mdash; Gergely Orosz. Career navigation through the early years.</li>
+      <li><em>Thanks for the Feedback</em> &mdash; Stone &amp; Heen. Why feedback is hard and how to get better at receiving it.</li>
+      <li>Julie Zhuo, <em>The Making of a Manager</em> &mdash; IC-applicable chapters on growth and goals.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── Closing ─── -->
+  <section class="fade-in">
+    <div class="quote">
+      <p>No matter how well prepared or skilled you are, sooner or later fortune will knock on your door. When it does, will you be ready?</p>
+      <div class="attribution">&mdash; Andy Hunt &amp; Dave Thomas, <em>The Pragmatic Programmer</em></div>
+    </div>
+
+    <h3>One thing to try this week</h3>
+    <p>Don&rsquo;t try to apply everything on this page. Pick one.</p>
+    <ul>
+      <li>Keep a &ldquo;things I don&rsquo;t understand&rdquo; list for a week. Pick the top item on Friday and dig for 30 minutes.</li>
+      <li>Flag a slip at 30% instead of 100% the next time you&rsquo;re behind.</li>
+      <li>Turn one complaint you&rsquo;d normally make into a proposal, using the PDC framework.</li>
+      <li>Block a 90-minute exploration slot next week. Actually hold it.</li>
+      <li>Ask one teammate the &ldquo;one thing I could work on next&rdquo; question.</li>
+    </ul>
+    <p>Come back to this chapter in a month. Try a different one.</p>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

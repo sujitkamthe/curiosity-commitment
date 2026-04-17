@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Working With Others &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="collaboration.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Working With Others</h1>
+    <p class="subtitle">On this team, there&rsquo;s no PM, no separate QA, no infra team, no BA. The engineers own every aspect of delivery &mdash; requirements, design, code, tests, deploy, ops. That means <em>you</em> are the one talking to stakeholders, scoping stories, pushing back, writing the doc. This chapter is about doing that well.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#no-handoffs">1. Collaboration Without Handoffs</a></li>
+      <li><a href="#stakeholders">2. Talking to Stakeholders</a></li>
+      <li><a href="#scoping">3. Scoping &amp; Pushing Back</a></li>
+      <li><a href="#disagreeing">4. Disagreeing Well With Peers</a></li>
+      <li><a href="#async">5. Async &amp; Remote Norms</a></li>
+      <li><a href="#writing">6. Writing for Readers Not in the Room</a></li>
+      <li><a href="#designers">7. Working With Designers (When Present)</a></li>
+      <li><a href="#users">8. Users Are Collaborators, Too</a></li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="fade-in" id="no-handoffs">
+    <span class="section-num">01 &middot; Premise</span>
+    <h2>Collaboration Without Handoffs</h2>
+    <p class="section-intro">On teams with a PM, a BA, a QA, and an infra team, engineers often think of collaboration as &ldquo;handoffs between roles.&rdquo; Someone gathers requirements; someone writes tickets; someone builds; someone tests; someone deploys. Your team doesn&rsquo;t have that. The work still has to get done &mdash; but <em>you</em> do all the parts.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>When no one else will gather the requirement, you will. When no one else will scope the story, you will. When no one else will push back on an idea that won&rsquo;t work, you will. The question isn&rsquo;t &ldquo;whose job is this?&rdquo; &mdash; it&rsquo;s &ldquo;how do I do this well enough that we ship something that actually matters?&rdquo;</p>
+    </div>
+
+    <h3>What this means in practice</h3>
+    <table class="comparison">
+      <tr><th>On a typical cross-functional team</th><th>On yours</th></tr>
+      <tr><td>PM talks to the stakeholder, writes the ticket</td><td>You talk to the stakeholder, ask the right questions, write the ticket yourself</td></tr>
+      <tr><td>BA gathers business requirements</td><td>You ask the business questions &mdash; who, what, why &mdash; before you code</td></tr>
+      <tr><td>QA writes test plans, finds bugs</td><td>You design the test cases, dogfood, hunt your own edges</td></tr>
+      <tr><td>Designer produces the wireframe</td><td>You work with design if present; if not, you make reasonable UX calls and get feedback</td></tr>
+      <tr><td>Infra team deploys and monitors</td><td>You deploy, you set up the alert, you&rsquo;re on call</td></tr>
+    </table>
+
+    <p>This is not a bug &mdash; it&rsquo;s a feature, if you let it be. Engineers who own every layer make better decisions than engineers who only see one. But it requires skills that aren&rsquo;t only about code.</p>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128302;</span>
+      <div>
+        <p><strong>Why this chapter matters:</strong> the hardest skills on a team like this aren&rsquo;t technical. They are the collaboration skills a PM or BA would usually own &mdash; talking to a stakeholder, scoping cleanly, saying no well, writing for people who aren&rsquo;t in the room. Grow these and you become the engineer the whole team wants involved in the hard conversations.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2 -->
+  <section class="fade-in" id="stakeholders">
+    <span class="section-num">02 &middot; Stakeholders</span>
+    <h2>Talking to Stakeholders</h2>
+    <p class="section-intro">A stakeholder is anyone outside the engineering team who needs something from what you build &mdash; a client, a product owner, a business sponsor, a user group, an operations team. When there&rsquo;s no PM buffering, you&rsquo;re the one they talk to. That changes how you prepare and how you listen.</p>
+
+    <h3>The first conversation</h3>
+    <div class="framework">
+      <h4>The Requirement Discovery Loop</h4>
+      <ol>
+        <li><strong>Ask about the problem, not the solution.</strong> They&rsquo;ll usually lead with a solution (&ldquo;add a button that&hellip;&rdquo;). Redirect: &ldquo;What problem does that solve? Who has it? How often?&rdquo;</li>
+        <li><strong>Ask about the current workaround.</strong> If they have one, it tells you what matters and how urgent it is. If they don&rsquo;t, ask what they do today.</li>
+        <li><strong>Ask what done looks like.</strong> In concrete, verifiable terms. &ldquo;The report runs in under 10 seconds for the top-5 clients&rdquo; is a done. &ldquo;Faster reports&rdquo; is a wish.</li>
+        <li><strong>Ask what it&rsquo;s worth.</strong> Not in money necessarily &mdash; in time saved, in errors avoided, in users helped. This is your scoping compass later.</li>
+        <li><strong>Reflect back.</strong> &ldquo;So the problem is X, the current workaround is Y, done looks like Z &mdash; is that right?&rdquo; Nine times out of ten something changes in the answer. Better to hear it now than in a review.</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p><strong>The stakeholder will describe the solution they want. That&rsquo;s natural &mdash; it&rsquo;s easier to describe a shape than a problem.</strong> Your value is in reaching underneath that to the real need. See <a href="questioning.html#five-whys">the Five Whys</a> for the technique; apply it kindly, not interrogatively.</p>
+      </div>
+    </div>
+
+    <h3>A scenario: the &ldquo;just add a button&rdquo;</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128270;</span>
+      <div>
+        <p>A stakeholder: &ldquo;Can you add a button on the invoice page that exports to Excel?&rdquo;</p>
+        <p><strong>Just-do-it version:</strong> you build the button. Two weeks later they come back: &ldquo;The Excel is missing the tax breakdown. And can it schedule itself? And actually we need it by month, not invoice.&rdquo; You&rsquo;ve built the wrong thing three times.</p>
+        <p><strong>Loop version:</strong> &ldquo;What do you do with the export once you have it?&rdquo; &mdash; &ldquo;Send it to finance monthly for reconciliation.&rdquo; &mdash; &ldquo;Got it &mdash; so the real need is a monthly finance report with tax detail, not a per-invoice export. Let me check what data we have and come back with a sketch.&rdquo; One conversation saved three sprints.</p>
+      </div>
+    </div>
+
+    <h3>Patterns &amp; anti-patterns</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Taking dictation</h5>
+        <p>You treat the stakeholder&rsquo;s word as the spec. You don&rsquo;t question the solution they proposed. You build exactly what they said. It doesn&rsquo;t solve the problem.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Partner, don&rsquo;t stenograph</h5>
+        <p>You&rsquo;re the engineer &mdash; you know what&rsquo;s possible, cheap, and risky. The stakeholder knows the problem. Both of you shape the solution together. Pushback is part of the service.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;I&rsquo;m just the dev&rdquo;</h5>
+        <p>Something in the requirement doesn&rsquo;t make sense. You ship it anyway because &ldquo;they&rsquo;re the business.&rdquo; They didn&rsquo;t know what you know. The bad outcome is on you too.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Raise it kindly, early</h5>
+        <p>&ldquo;I want to check one thing &mdash; the way X is described, it&rsquo;ll cost us Y. Is that the tradeoff you want?&rdquo; You&rsquo;re not blocking; you&rsquo;re surfacing a decision they didn&rsquo;t know they were making.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3 -->
+  <section class="fade-in" id="scoping">
+    <span class="section-num">03 &middot; Scope</span>
+    <h2>Scoping &amp; Pushing Back</h2>
+    <p class="section-intro">Every story is too big at first. Without a PM to scope for you, the engineer who scopes wins back weeks of time and delivers more value. Scoping is a conversation, not a refusal. Pushing back is the kindest thing you can do when the plan won&rsquo;t work.</p>
+
+    <h3>The scope-down moves</h3>
+    <div class="framework">
+      <h4>The Scoping Ladder</h4>
+      <ol>
+        <li><strong>What&rsquo;s the smallest version that&rsquo;s still useful?</strong> Not useless &mdash; the <em>smallest useful</em>. Often half the feature solves 80% of the pain.</li>
+        <li><strong>What can we ship behind a flag?</strong> See <a href="shipping-safely.html">Shipping Safely</a>. Flags let you ship a scary thing to one user and learn.</li>
+        <li><strong>What can be manual this time?</strong> Before automating, do it by hand once. You&rsquo;ll learn what&rsquo;s actually needed when you automate.</li>
+        <li><strong>What can we skip if we&rsquo;re time-boxed?</strong> Agree the cuttable parts before you start, not at 5pm on Friday.</li>
+        <li><strong>What will we regret if we cut it?</strong> The one thing you can&rsquo;t add later without hating yourself. Don&rsquo;t cut that.</li>
+      </ol>
+    </div>
+
+    <h3>Pushing back well</h3>
+    <p>Pushing back isn&rsquo;t saying no. It&rsquo;s making the tradeoff visible so the stakeholder can decide with full information. Your job is to surface what the request will cost, what it will return, and what alternatives exist.</p>
+
+    <div class="framework">
+      <h4>The Tradeoff-Visible Pushback</h4>
+      <ol>
+        <li><strong>Acknowledge the need.</strong> &ldquo;I understand why we want this.&rdquo;</li>
+        <li><strong>Name the cost.</strong> Time, complexity, risk, displaced work. Specific.</li>
+        <li><strong>Offer the alternative.</strong> A smaller version, a later version, a different shape that costs less.</li>
+        <li><strong>Make it their decision.</strong> &ldquo;We can do X by date Y if we delay Z. Or the smaller version by end of this sprint. Which do you want?&rdquo;</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127793;</span>
+      <div>
+        <p><strong>Why this works:</strong> stakeholders don&rsquo;t experience tradeoff-visible pushback as resistance &mdash; they experience it as professionalism. You&rsquo;re the engineer who thinks about cost, not the engineer who says yes to everything and slips. Over time this earns you <em>more</em> say in decisions, not less.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The hopeful &ldquo;yes&rdquo;</h5>
+        <p>You agree to a scope you know is too big because you don&rsquo;t want to disappoint. You&rsquo;re behind by week two. The stakeholder is more disappointed by the slip than they&rsquo;d have been by the no.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The honest early number</h5>
+        <p>&ldquo;This is about 3 weeks of work, not 1. Here&rsquo;s a 1-week version that solves the 80%. Which do you want?&rdquo; Decision made with real numbers.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Flat &ldquo;no&rdquo; without alternatives</h5>
+        <p>&ldquo;We can&rsquo;t do that.&rdquo; No reason, no alternative. The stakeholder feels dismissed. Trust burns.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; &ldquo;Not this way &mdash; but here&rsquo;s a way that works&rdquo;</h5>
+        <p>Your job is to find a path, not to block. &ldquo;The current shape won&rsquo;t scale past 100 users &mdash; but if we batch the writes and relax realtime, we can hit 10,000.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4 -->
+  <section class="fade-in" id="disagreeing">
+    <span class="section-num">04 &middot; Peers</span>
+    <h2>Disagreeing Well With Peers</h2>
+    <p class="section-intro">Engineers disagree. About design, about a refactor, about whether to ship. That&rsquo;s not a problem &mdash; it&rsquo;s the process. The problem is engineers who <em>can&rsquo;t</em> disagree well: the ones who either go quiet or go loud, both of which kill the thinking in the room.</p>
+
+    <h3>The three-move disagreement</h3>
+    <div class="framework">
+      <h4>The Disagreement Moves</h4>
+      <ol>
+        <li><strong>Mirror the argument first.</strong> &ldquo;What I&rsquo;m hearing is that you want X because Y &mdash; is that right?&rdquo; Half of disagreements evaporate when both sides realise they&rsquo;re not actually disagreeing.</li>
+        <li><strong>State your concern specifically.</strong> Not &ldquo;I don&rsquo;t like it&rdquo; &mdash; &ldquo;I&rsquo;m worried about case Z because&hellip;&rdquo;</li>
+        <li><strong>Propose a test.</strong> What evidence would change your mind? What would change theirs? &ldquo;If we spike it and see under 100ms, I&rsquo;m fine with this approach.&rdquo; Now disagreement is a prediction, not a stand-off.</li>
+      </ol>
+    </div>
+
+    <h3>Disagree and commit</h3>
+    <p>Sometimes you lose. You said your piece, the group chose differently, and you still think you&rsquo;re right. The move is <em>disagree and commit</em>: you voice your disagreement fully in the room, and you support the group&rsquo;s decision fully outside it. You don&rsquo;t snipe in DMs. You don&rsquo;t execute badly to prove you were right. You help make the chosen path succeed, and you flag early if new evidence suggests you were right.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Teams don&rsquo;t need engineers who are always right. They need engineers who can hold an opinion, voice it fully, then row in the direction the team chose. The former is an argument; the latter is a teammate.</p>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The silent disagree</h5>
+        <p>You don&rsquo;t argue in the meeting. You think the plan is wrong. Two weeks later the plan fails. You say &ldquo;I thought so.&rdquo; Nobody is grateful. Your silence cost the team.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Voice-in-room, support-outside</h5>
+        <p>You voice the concern clearly in the room. The group still chooses the other path. You help it succeed. If it fails, the team learns &mdash; you don&rsquo;t need to say &ldquo;I told you so.&rdquo; The fact that you voiced it already did.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Winning the argument, losing the relationship</h5>
+        <p>You win because you argue loudest. Your peer stops proposing things when you&rsquo;re in the room. The group loses a contributor.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Curious questions, not verdicts</h5>
+        <p>&ldquo;What happens when the table hits 10 million rows?&rdquo; beats &ldquo;this won&rsquo;t scale.&rdquo; Questions let the other person arrive at the answer. That&rsquo;s the kind of disagreement that strengthens the team.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5 -->
+  <section class="fade-in" id="async">
+    <span class="section-num">05 &middot; Async</span>
+    <h2>Async &amp; Remote Norms</h2>
+    <p class="section-intro">Most teams work across time zones, calendars, or offices. Async is the default, not a fallback. How you write, how you schedule, and how you give feedback in async changes whether the team can actually operate.</p>
+
+    <h3>The async-first shifts</h3>
+    <table class="comparison">
+      <tr><th>Old habit</th><th>Async-first habit</th></tr>
+      <tr><td>&ldquo;Quick call?&rdquo; for everything</td><td>Default to writing; call only when writing isn&rsquo;t enough</td></tr>
+      <tr><td>Decisions in meetings, nowhere recorded</td><td>Decisions written down where the team can find them, even when the meeting happened</td></tr>
+      <tr><td>Expecting real-time replies on DMs</td><td>Messages are letters; replies come in hours, not minutes, unless tagged urgent</td></tr>
+      <tr><td>Meetings where half the room can&rsquo;t attend</td><td>Meetings with written agenda + written summary; the attend-live version is optional</td></tr>
+      <tr><td>&ldquo;Ping me when you&rsquo;re online&rdquo;</td><td>Leave the context now; they answer when their window opens</td></tr>
+    </table>
+
+    <h3>Writing an async message people can act on</h3>
+    <div class="framework">
+      <h4>The Async Message Shape</h4>
+      <ol>
+        <li><strong>Headline</strong> &mdash; conclusion or ask in the first sentence. &ldquo;I need a review on MR 421 by EOD Thursday.&rdquo;</li>
+        <li><strong>Context</strong> &mdash; two lines max of why and what.</li>
+        <li><strong>What you&rsquo;ve already tried / ruled out</strong> &mdash; saves a round trip.</li>
+        <li><strong>Specific ask</strong> &mdash; &ldquo;can you verify the retry logic&rdquo; beats &ldquo;thoughts?&rdquo;</li>
+        <li><strong>Urgency</strong> &mdash; is this blocking? Today? This week? Background?</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#9200;</span>
+      <div>
+        <p><strong>A good async message is a gift to the reader:</strong> they can decide in 30 seconds whether to act now, later, or delegate. A bad one asks them to figure out what you need. Your team has finite attention &mdash; write to respect it.</p>
+      </div>
+    </div>
+
+    <h3>Meetings that earn their live time</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The meeting that could have been a doc</h5>
+        <p>You gather six people to read the same thing together, then discuss vaguely. Six hours of time gone. Nothing recorded. Half the team couldn&rsquo;t attend.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Doc first, then decide if a call</h5>
+        <p>Write the doc. Share async. If after reading there are genuine disagreements or tradeoffs to resolve, <em>then</em> call. The call is 20 minutes because everyone prepared.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; No written output</h5>
+        <p>A call was great. Four decisions were made. None were written down. Two weeks later nobody remembers.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Ten-line summary posted after every call</h5>
+        <p>Decisions, owners, dates. Posted in the channel. Whoever called the meeting posts the summary. Takes five minutes. Earns hours.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6 -->
+  <section class="fade-in" id="writing">
+    <span class="section-num">06 &middot; Writing</span>
+    <h2>Writing for Readers Not in the Room</h2>
+    <p class="section-intro">In a team without a PM or BA, engineers become the writers. READMEs, ADRs, runbooks, handover notes, migration guides, design docs. Writing is not a soft skill in this environment &mdash; it&rsquo;s the medium through which decisions survive past the meeting.</p>
+
+    <h3>The four documents you owe your team</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>README</h4>
+        <p>What is this service, what does it do, how do I run it locally, where do I find its tests. The first thing a new engineer reads. Keep it current the day you change anything load-bearing.</p>
+      </div>
+      <div class="card">
+        <h4>ADR (Architecture Decision Record)</h4>
+        <p>When you make a decision with consequences &mdash; chose Kafka over RabbitMQ, chose Postgres over DynamoDB &mdash; write a short ADR: context, decision, consequences. Future-you will want to know why.</p>
+      </div>
+      <div class="card">
+        <h4>Runbook</h4>
+        <p>See <a href="incidents.html#runbooks">Incidents &amp; On-Call</a>. What to do when the thing you own breaks.</p>
+      </div>
+      <div class="card">
+        <h4>Handover note</h4>
+        <p>When you hand off work &mdash; to another engineer, to your future self, at the end of a project &mdash; write a short note. Done, not-done, known-bug, next-step, who knows what. Costs ten minutes, saves days.</p>
+      </div>
+    </div>
+
+    <h3>What good technical writing looks like</h3>
+    <div class="framework">
+      <h4>The Readability Rules</h4>
+      <ol>
+        <li><strong>Lead with the conclusion.</strong> The reader may not finish. Put the answer first.</li>
+        <li><strong>Short sentences. Short paragraphs.</strong> No prose flex. This is a technical document, not an essay.</li>
+        <li><strong>Concrete over abstract.</strong> &ldquo;Response p95 is 400ms&rdquo; beats &ldquo;performance is acceptable.&rdquo;</li>
+        <li><strong>Say what changed, not just what is.</strong> When you update a doc, mark or note the change &mdash; readers who saw the old version need to know.</li>
+        <li><strong>Write for the tired reader.</strong> The person reading this is probably stressed, in a hurry, or debugging. Kindness is specificity.</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7 -->
+  <section class="fade-in" id="designers">
+    <span class="section-num">07 &middot; Design</span>
+    <h2>Working With Designers (When Present)</h2>
+    <p class="section-intro">Some projects have a designer on the team. Most of your work won&rsquo;t. Either way, you&rsquo;re making UX decisions &mdash; every form you build, every error message, every empty state. How you handle design depends on what you&rsquo;ve got; the stance is the same.</p>
+
+    <h3>With a designer on the team</h3>
+    <div class="framework">
+      <h4>The Partnership Moves</h4>
+      <ol>
+        <li><strong>Involve them before coding</strong>, not after. A Figma update costs an hour; a rebuild costs a week.</li>
+        <li><strong>Ask about the why, not just the what.</strong> &ldquo;What problem is this solving for the user?&rdquo; If they don&rsquo;t know, that&rsquo;s a red flag together.</li>
+        <li><strong>Flag engineering constraints early.</strong> &ldquo;This animation is expensive on mobile &mdash; can we use Y?&rdquo; is a partnership. Silently shipping a cheaper version isn&rsquo;t.</li>
+        <li><strong>Respect the specificity.</strong> Designers care about pixel-level detail for a reason. If something looks &ldquo;close enough,&rdquo; it isn&rsquo;t &mdash; match the spec or raise the tradeoff.</li>
+      </ol>
+    </div>
+
+    <h3>Without a designer</h3>
+    <div class="framework">
+      <h4>The Bare-Minimum UX Checklist</h4>
+      <ol>
+        <li><strong>Copy the pattern already in the product.</strong> Consistency beats creativity when there&rsquo;s no designer to disagree with you.</li>
+        <li><strong>Design the error states.</strong> Not just the happy path. What happens when the network fails? What happens when the input is empty?</li>
+        <li><strong>Write the copy like a human.</strong> &ldquo;Couldn&rsquo;t save your changes &mdash; please check your connection&rdquo; beats &ldquo;ERROR: req_id 4729 failed.&rdquo;</li>
+        <li><strong>Get a second pair of eyes.</strong> Not a designer &mdash; any teammate. Ask: &ldquo;would you be confused here?&rdquo; Most UX bugs are caught by a five-minute walkthrough.</li>
+        <li><strong>Accessibility minimums.</strong> Labels on form inputs, reasonable contrast, keyboard-navigable, alt text on images. The baseline is not optional.</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8 -->
+  <section class="fade-in" id="users">
+    <span class="section-num">08 &middot; Users</span>
+    <h2>Users Are Collaborators, Too</h2>
+    <p class="section-intro">On this team, you don&rsquo;t have a product owner filtering user feedback to you. Sometimes you talk to users directly. Even when you don&rsquo;t, the last and most important collaborator is the one who uses what you build. Build the habit of including them &mdash; not just at the end.</p>
+
+    <h3>Dogfooding before &ldquo;done&rdquo;</h3>
+    <p>If it&rsquo;s possible to use what you built, use it. Not run the tests &mdash; <em>use</em> it. Fill out the real form. Scroll the real list. Hit the real slow endpoint. Half the small bugs that ship are ones nobody would have written because they&rsquo;d have noticed while using the feature for 60 seconds.</p>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>A quiet rule:</strong> before you call a feature done, use it for at least one real task in a browser or the real environment. If it&rsquo;s an internal tool, use it to do a real internal task. If it&rsquo;s an API, call it with a real downstream client. Catch the bug you&rsquo;d have shipped.</p>
+      </div>
+    </div>
+
+    <h3>Talking to users directly</h3>
+    <div class="framework">
+      <h4>The User Conversation Moves</h4>
+      <ol>
+        <li><strong>Watch, don&rsquo;t lecture.</strong> If you&rsquo;re doing a usability check, let them try the thing. Don&rsquo;t explain it. Confusion is data.</li>
+        <li><strong>Ask open questions.</strong> &ldquo;What are you trying to do here?&rdquo; &ldquo;What did you expect to happen?&rdquo; &mdash; not &ldquo;is this good?&rdquo;</li>
+        <li><strong>Separate the complaint from the underlying need.</strong> &ldquo;This is too slow&rdquo; might mean &ldquo;I&rsquo;m doing this ten times a day&rdquo; or &ldquo;I was waiting during a demo.&rdquo; Different problems, different fixes.</li>
+        <li><strong>Write down what you heard.</strong> Especially the direct quotes. They&rsquo;re worth more than your paraphrase in any later conversation.</li>
+        <li><strong>Close the loop.</strong> When you fix something they flagged, tell them. It&rsquo;s the cheapest trust-building move you have.</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>On teams with no PM, engineers often claim &ldquo;I don&rsquo;t have access to users.&rdquo; The honest version is usually &ldquo;I don&rsquo;t ask.&rdquo; You can email. You can shadow a call. You can use the thing yourself. The users are reachable; the blocker is almost always habit, not access.</p>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Shape Up</em> (Ryan Singer, Basecamp) &mdash; free online. How a small team ships without a PM buffer; the shaping model is particularly useful.</li>
+      <li><em>The Mom Test</em> (Rob Fitzpatrick) &mdash; short, practical book on how to talk to users without getting misleading feedback.</li>
+      <li><em>Writing for Developers</em> (Piotr Sarna &amp; Cynthia Dunlop) &mdash; the mechanics of good technical writing.</li>
+      <li><em>Working in Public</em> (Nadia Asparouhova) &mdash; collaboration patterns in open-source apply to any team with few formal role boundaries.</li>
+      <li><em>The Culture Map</em> (Erin Meyer) &mdash; on cross-cultural collaboration; valuable on distributed teams.</li>
+      <li><em>Accelerate</em> (Forsgren, Humble, Kim) &mdash; what high-performing engineering teams actually do; vindicates dev-team-owns-everything when done well.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>On your next new story, ask the three discovery questions before you write a line of code: what&rsquo;s the problem, what&rsquo;s the workaround, what does done look like?</li>
+      <li>The next time a story feels too big, propose a smaller version with an explicit tradeoff list &mdash; not a flat push-back.</li>
+      <li>Dogfood your current feature for five minutes in a real environment before you call it done.</li>
+      <li>After your next meeting, post a ten-line summary in the channel: decisions, owners, dates.</li>
+      <li>Write a one-page handover note for the current thing you own, even if no one&rsquo;s asking. Put it where someone else can find it.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

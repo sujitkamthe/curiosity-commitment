@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Hygiene &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="security.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Security Hygiene</h1>
+    <p class="subtitle">Security isn&rsquo;t a separate team&rsquo;s problem. When the dev team owns everything, security is your problem &mdash; baked into every commit, not bolted on before release. This chapter is about the everyday habits that keep your code, your users, and your org safe.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#why">1. Why This Chapter Exists</a></li>
+      <li><a href="#secrets">2. Secrets &amp; Credentials</a></li>
+      <li><a href="#input">3. Never Trust Input</a></li>
+      <li><a href="#authn-authz">4. Authn vs Authz</a></li>
+      <li><a href="#dependencies">5. Dependencies Are Code You Didn&rsquo;t Write</a></li>
+      <li><a href="#data">6. Handling Sensitive Data</a></li>
+      <li><a href="#owasp">7. The OWASP Top 10 &mdash; Short Form</a></li>
+      <li><a href="#threat-model">8. Threat Modelling for Your Change</a></li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="fade-in" id="why">
+    <span class="section-num">01 &middot; Why</span>
+    <h2>Why This Chapter Exists</h2>
+    <p class="section-intro">Many teams have a security team that runs scans, approves releases, and flags issues. Yours doesn&rsquo;t. That means every commit is also a security decision &mdash; made by you, usually without noticing. Getting the small habits right is how you avoid the expensive accidents.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Security bugs are usually boring: a secret in a repo, a missing permission check, a SQL query built from a string. They don&rsquo;t require creativity to prevent &mdash; they require habits. Build the habits now and you&rsquo;ll rarely meet the exciting version.</p>
+    </div>
+
+    <h3>The default stance</h3>
+    <ul>
+      <li><strong>Assume input is hostile</strong> &mdash; from users, from other services, from yesterday&rsquo;s migration script.</li>
+      <li><strong>Assume least privilege</strong> &mdash; what&rsquo;s the minimum permission this code needs to work? Start there and only expand with reason.</li>
+      <li><strong>Assume breach is possible</strong> &mdash; if an attacker got in today, what would they see? Design the blast radius before you need it.</li>
+      <li><strong>Assume you&rsquo;ll make mistakes</strong> &mdash; put in layered defences so a single mistake isn&rsquo;t catastrophic.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2 -->
+  <section class="fade-in" id="secrets">
+    <span class="section-num">02 &middot; Secrets</span>
+    <h2>Secrets &amp; Credentials</h2>
+    <p class="section-intro">The most common security accident is still the most preventable: a secret in a git repo. Keys, passwords, tokens, connection strings &mdash; once they&rsquo;re in history, treat them as public.</p>
+
+    <h3>The rules</h3>
+    <div class="framework">
+      <h4>The Secrets Rules</h4>
+      <ol>
+        <li><strong>No secrets in code, config files in the repo, or commit messages.</strong> Ever. Not even a test key.</li>
+        <li><strong>Use a secrets manager</strong> &mdash; Vault, AWS/GCP Secret Manager, Kubernetes Secrets with care, a dedicated tool. Your app reads at runtime.</li>
+        <li><strong>Local dev uses a <code>.env</code> that&rsquo;s gitignored</strong>, never committed. Provide a <code>.env.example</code> with placeholder values.</li>
+        <li><strong>Rotate on suspicion.</strong> If a secret <em>might</em> have been exposed, rotate it. Takes an hour; saves a breach.</li>
+        <li><strong>Rotate on schedule for sensitive ones.</strong> Auth tokens, database credentials, cloud keys &mdash; on a cadence, not &ldquo;when we remember.&rdquo;</li>
+        <li><strong>Pre-commit scan.</strong> Run a tool (gitleaks, trufflehog) locally or in CI that blocks commits with secrets. Make the default path safe.</li>
+      </ol>
+    </div>
+
+    <h3>The &ldquo;oh no&rdquo; checklist</h3>
+    <p>You just realised you committed a secret.</p>
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <ol>
+          <li><strong>Rotate the secret immediately.</strong> Not after you clean the repo &mdash; first. Removing it from git does not remove it from every clone, mirror, backup, and log.</li>
+          <li><strong>Tell the team.</strong> Slack, security channel, whatever you have. Fast transparency is the right move.</li>
+          <li><strong>Invalidate anything the secret could have touched.</strong> Sessions, cached tokens, downstream dependencies that use it.</li>
+          <li><strong>Clean the repo history</strong> only after rotation. <code>git filter-repo</code> or equivalent. Force-push if private; harder if public.</li>
+          <li><strong>Add a pre-commit scan</strong> so this shape of mistake can&rsquo;t repeat.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;It&rsquo;s only a test secret&rdquo;</h5>
+        <p>A key that&rsquo;s &ldquo;only for staging.&rdquo; Committed. Leaked. Turns out staging touches real customer data, or shares a DB with prod, or the key is valid for internal APIs.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; All secrets are real secrets</h5>
+        <p>Test keys, dev keys, &ldquo;just for now&rdquo; keys &mdash; they all go in the secrets manager. If something&rsquo;s not a secret, it&rsquo;s a config value, and that&rsquo;s fine to commit.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3 -->
+  <section class="fade-in" id="input">
+    <span class="section-num">03 &middot; Input</span>
+    <h2>Never Trust Input</h2>
+    <p class="section-intro">Every injection bug has the same shape: user data flowed somewhere it wasn&rsquo;t supposed to flow &mdash; a database query, a shell command, an HTML output, a log line that gets parsed. The fix is always the same: treat the boundary as a boundary.</p>
+
+    <div class="framework">
+      <h4>The Input Rules</h4>
+      <ol>
+        <li><strong>Parameterise every query.</strong> Use prepared statements / bound parameters. Never build SQL with string concatenation. Never.</li>
+        <li><strong>Escape at the output layer, not the input layer.</strong> HTML-escape when rendering HTML, shell-escape when calling shell. Input validation is in addition, not instead.</li>
+        <li><strong>Validate shape and range.</strong> If you expect an integer 1&ndash;100, reject anything else at the boundary. Don&rsquo;t trust what&rsquo;s declared; verify.</li>
+        <li><strong>Whitelist where you can.</strong> Enum-safe choices beat free-text choices.</li>
+        <li><strong>Reject early, in one place.</strong> Validate at the entry point (controller, handler). Inner code can then assume valid input.</li>
+        <li><strong>Avoid <code>eval</code>, <code>exec</code>, and dynamic code paths on user data.</strong> If you need it, treat it as a red flag &mdash; lock it down or find another way.</li>
+      </ol>
+    </div>
+
+    <h3>The classic shapes to recognise</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>SQL Injection</h4>
+        <p><code>&quot;SELECT * FROM users WHERE id = &quot; + input</code>. Fix: prepared statements. Every time.</p>
+      </div>
+      <div class="card">
+        <h4>XSS (Cross-Site Scripting)</h4>
+        <p>User-supplied text rendered into HTML without escaping. Fix: render through a templating engine that auto-escapes, or escape explicitly.</p>
+      </div>
+      <div class="card">
+        <h4>Command Injection</h4>
+        <p><code>exec(&quot;convert &quot; + filename)</code>. Fix: pass as arguments, not strings. Use APIs that accept arrays, not shell strings.</p>
+      </div>
+      <div class="card">
+        <h4>Path Traversal</h4>
+        <p>User provides &ldquo;filename&rdquo;, you open <code>./uploads/&quot; + filename</code>. They pass <code>../../etc/passwd</code>. Fix: resolve, normalise, check the result is still inside the allowed directory.</p>
+      </div>
+      <div class="card">
+        <h4>Unsafe Deserialization</h4>
+        <p>Parsing untrusted YAML/pickled/serialised blobs that can execute code. Fix: use safe parsers; don&rsquo;t deserialise untrusted data into live objects.</p>
+      </div>
+      <div class="card">
+        <h4>SSRF (Server-Side Request Forgery)</h4>
+        <p>User provides a URL, your server fetches it. They provide <code>http://169.254.169.254</code> (cloud metadata). Fix: whitelist destinations; block internal addresses.</p>
+      </div>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>A habit that catches 90% of these:</strong> when you write code that mixes user input with SQL, shell, HTML, URLs, or filesystem paths &mdash; stop. Ask: &ldquo;what&rsquo;s my escape or parameter mechanism here?&rdquo; If you can&rsquo;t name it, you probably don&rsquo;t have one.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4 -->
+  <section class="fade-in" id="authn-authz">
+    <span class="section-num">04 &middot; Authn / Authz</span>
+    <h2>Authn vs Authz</h2>
+    <p class="section-intro">Two different problems, often confused. <strong>Authentication</strong> is &ldquo;who are you?&rdquo; &mdash; proven by password, token, or key. <strong>Authorisation</strong> is &ldquo;what are you allowed to do?&rdquo; &mdash; enforced at every operation. Most bugs are on the second one.</p>
+
+    <h3>Authentication habits</h3>
+    <ul>
+      <li><strong>Never implement your own auth primitives.</strong> Use the library your platform provides. Password hashing, token signing, session management have one-way trapdoors you don&rsquo;t want to discover yourself.</li>
+      <li><strong>Use strong, salted, slow password hashing</strong> &mdash; bcrypt, scrypt, or argon2. Not MD5, not SHA-256. Not &ldquo;SHA-256 twice.&rdquo;</li>
+      <li><strong>Assume tokens will leak.</strong> Short-lived tokens, rotation, the ability to revoke.</li>
+      <li><strong>Protect login from brute-force and credential-stuffing.</strong> Rate-limit, monitor, alert on unusual login patterns.</li>
+    </ul>
+
+    <h3>Authorisation habits &mdash; the one that bites</h3>
+    <div class="framework">
+      <h4>The Authz Checklist</h4>
+      <ol>
+        <li><strong>Every endpoint has an explicit permission check.</strong> Not &ldquo;authentication is required&rdquo; &mdash; &ldquo;this specific user can do this specific thing to this specific resource.&rdquo;</li>
+        <li><strong>Check ownership on every resource access.</strong> If a URL includes a resource ID, verify the logged-in user is allowed to touch that resource. Don&rsquo;t assume &ldquo;they wouldn&rsquo;t have the ID.&rdquo;</li>
+        <li><strong>Default deny.</strong> A new endpoint without explicit permission setup should refuse access &mdash; not allow it.</li>
+        <li><strong>Separate admin paths from user paths.</strong> Admin operations use different endpoints, different middleware, different audit logging.</li>
+        <li><strong>Don&rsquo;t rely on UI hiding.</strong> The UI hiding a button doesn&rsquo;t stop anyone from calling the endpoint directly.</li>
+      </ol>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; IDOR (Insecure Direct Object Reference)</h5>
+        <p>You fetch <code>/invoices/42</code> and return it. You forgot to check the logged-in user owns invoice 42. User changes the number in their URL bar; now they can see anyone&rsquo;s invoice.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Ownership check on every resource fetch</h5>
+        <p><code>invoice = findByIdAndOwner(42, currentUser)</code>. If the tuple doesn&rsquo;t match, return 404 (not 403 &mdash; don&rsquo;t leak whether the ID exists).</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Permission check in the UI only</h5>
+        <p>The admin button is only shown to admins. Someone inspects the network call and replays it without being an admin. The endpoint didn&rsquo;t check; it trusted the UI.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Permission check on every endpoint</h5>
+        <p>UI hiding is UX. Authorisation is a server-side concern. Both belong; they solve different problems.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5 -->
+  <section class="fade-in" id="dependencies">
+    <span class="section-num">05 &middot; Dependencies</span>
+    <h2>Dependencies Are Code You Didn&rsquo;t Write</h2>
+    <p class="section-intro">Most of the code in your service was written by strangers. A single <code>npm install</code> pulls in hundreds of transitive packages. Each one is a trust decision you&rsquo;re making without reading. Small habits make that manageable.</p>
+
+    <div class="framework">
+      <h4>The Dependency Hygiene Loop</h4>
+      <ol>
+        <li><strong>Commit the lockfile.</strong> <code>package-lock.json</code>, <code>Cargo.lock</code>, <code>pom.xml</code>, <code>go.sum</code>. Reproducible builds are non-negotiable.</li>
+        <li><strong>Automate vulnerability alerts.</strong> Dependabot, Renovate, Snyk, npm audit, or equivalent. A new CVE against your dependencies should create a ticket automatically.</li>
+        <li><strong>Patch on a rhythm.</strong> Security updates weekly or monthly &mdash; not &ldquo;when we remember.&rdquo; Small, frequent updates beat one big scary one every year.</li>
+        <li><strong>Pin direct dependencies; let transitive ones float within the lockfile.</strong> You control what you declare; the lockfile locks the tree you got.</li>
+        <li><strong>Be suspicious of obscure packages.</strong> Tiny download counts, recent creation, maintainer you can&rsquo;t verify, names close to popular packages (&ldquo;typo-squatting&rdquo;). Don&rsquo;t install without a reason.</li>
+        <li><strong>Read release notes on major updates.</strong> A minor version bump is probably fine; a major one might be changing security defaults. Ten minutes of reading saves real pain.</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>The &ldquo;left-pad&rdquo; principle:</strong> every dependency is a commitment. The more you take, the more you trust. When you&rsquo;re about to add one to do something trivial, ask: can I write this in 10 lines? Sometimes yes. Sometimes the library is the right call because it&rsquo;s handling edge cases you&rsquo;d get wrong. Decide on purpose, not by reflex.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6 -->
+  <section class="fade-in" id="data">
+    <span class="section-num">06 &middot; Data</span>
+    <h2>Handling Sensitive Data</h2>
+    <p class="section-intro">Most of the data your service touches &mdash; emails, names, addresses, identifiers, payment details, health or financial info &mdash; is someone&rsquo;s. The rules for handling it are not optional: they&rsquo;re contracts, often legal ones. Know the basics.</p>
+
+    <div class="framework">
+      <h4>The Data Handling Rules</h4>
+      <ol>
+        <li><strong>Minimise.</strong> Don&rsquo;t collect data you don&rsquo;t need. Don&rsquo;t store data you don&rsquo;t need. The safest data is data you don&rsquo;t have.</li>
+        <li><strong>Encrypt in transit.</strong> TLS everywhere, including internal calls. HTTP inside the cluster is not &ldquo;safe&rdquo; &mdash; treat it as the public internet.</li>
+        <li><strong>Encrypt at rest</strong> for sensitive columns &mdash; PII, payment, credentials. Most databases support this; enable it.</li>
+        <li><strong>Mask in logs.</strong> Never log full credit card numbers, full tokens, passwords, health details, or government IDs. See <a href="observability.html#what-not-to-log">Observability &mdash; What Not to Log</a>.</li>
+        <li><strong>Separate what&rsquo;s needed for ops from what isn&rsquo;t.</strong> Engineers need stats and counters in production, rarely raw user data. Build your debug tools around that distinction.</li>
+        <li><strong>Know your regulations.</strong> GDPR, HIPAA, PCI, or local equivalents &mdash; not memorised end to end, but know what applies to your product and where to look when it does.</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The single most common data leak is not a clever attack &mdash; it&rsquo;s a log file or an analytics event. The PII went there because someone logged the whole request body while debugging. Ten lines of filtering, added on day one, prevents the whole class.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7 -->
+  <section class="fade-in" id="owasp">
+    <span class="section-num">07 &middot; OWASP</span>
+    <h2>The OWASP Top 10 &mdash; Short Form</h2>
+    <p class="section-intro">The OWASP Top 10 is the industry&rsquo;s list of the most common web vulnerabilities. You don&rsquo;t need to memorise the whole document &mdash; you need to recognise the shapes. Here they are, short.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h4>Broken Access Control</h4>
+        <p>The IDOR-style bugs in section 4. Fix: permission check everywhere, default deny.</p>
+      </div>
+      <div class="card">
+        <h4>Cryptographic Failures</h4>
+        <p>Weak hashing, no TLS, plaintext storage. Fix: use the right primitives, encrypt by default.</p>
+      </div>
+      <div class="card">
+        <h4>Injection</h4>
+        <p>SQL, command, LDAP, NoSQL. Fix: parameters, not strings.</p>
+      </div>
+      <div class="card">
+        <h4>Insecure Design</h4>
+        <p>The flaw is in the architecture, not the code. Fix: threat-model before you build.</p>
+      </div>
+      <div class="card">
+        <h4>Security Misconfiguration</h4>
+        <p>Default passwords, debug mode in prod, overly permissive CORS. Fix: known-good templates, minimum config, audit.</p>
+      </div>
+      <div class="card">
+        <h4>Vulnerable Components</h4>
+        <p>Old dependencies with known CVEs. Fix: the dependency loop in section 5.</p>
+      </div>
+      <div class="card">
+        <h4>Identification &amp; Authentication Failures</h4>
+        <p>Weak session management, predictable tokens, no MFA. Fix: use the library, don&rsquo;t roll your own.</p>
+      </div>
+      <div class="card">
+        <h4>Software &amp; Data Integrity Failures</h4>
+        <p>Unverified update streams, unsigned artifacts, insecure deserialisation. Fix: verify what you install and what you parse.</p>
+      </div>
+      <div class="card">
+        <h4>Logging &amp; Monitoring Failures</h4>
+        <p>You&rsquo;d have caught the breach if you&rsquo;d been looking. Fix: see <a href="observability.html">Observability</a>.</p>
+      </div>
+      <div class="card">
+        <h4>SSRF</h4>
+        <p>Server fetching URLs it shouldn&rsquo;t. Fix: whitelist, block internal addresses.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127942;</span>
+      <div>
+        <p><strong>A useful annual habit:</strong> once a year, skim the current OWASP Top 10 (it updates every few years). For each item, ask: &ldquo;which of our services is most exposed?&rdquo; Two hours. It&rsquo;ll catch something.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8 -->
+  <section class="fade-in" id="threat-model">
+    <span class="section-num">08 &middot; Threat-Model</span>
+    <h2>Threat Modelling for Your Change</h2>
+    <p class="section-intro">Threat modelling sounds heavyweight. At the scale of a single MR or design doc, it&rsquo;s a 10-minute conversation that catches most of the mistakes. The question is: &ldquo;what could go wrong here if someone tried?&rdquo;</p>
+
+    <div class="framework">
+      <h4>The Five-Minute Threat Model (STRIDE-lite)</h4>
+      <ol>
+        <li><strong>Spoofing &mdash;</strong> could someone pretend to be another user? Do we verify identity at every step?</li>
+        <li><strong>Tampering &mdash;</strong> could someone modify data in flight or at rest? Are we validating and signing where it matters?</li>
+        <li><strong>Repudiation &mdash;</strong> could a user deny an action they took? Do we have the audit trail to prove it?</li>
+        <li><strong>Information disclosure &mdash;</strong> what sensitive data does this touch? Where could it leak (logs, error messages, responses)?</li>
+        <li><strong>Denial of service &mdash;</strong> could someone make this expensive with a cheap request? Rate limits, quotas, bounded work?</li>
+        <li><strong>Elevation of privilege &mdash;</strong> could a user become an admin? Can input control control flow it shouldn&rsquo;t?</li>
+      </ol>
+    </div>
+
+    <h3>When to do it</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Saving it for &ldquo;security review&rdquo;</h5>
+        <p>You build the whole feature, it&rsquo;s ready to ship, and now you think about threats. The fixes are expensive now. Some of them mean architectural changes you can&rsquo;t make.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Threat-model at design time</h5>
+        <p>The five-minute model applies when you&rsquo;re still drawing boxes and arrows. The fixes are cheap. Often they reshape the design; that&rsquo;s when reshaping is free.</p>
+      </div>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Run a secrets scan in pre-commit and CI</td><td>Rely on memory to not commit secrets</td></tr>
+      <tr><td>Parameterise every query at the library level</td><td>Escape inputs by hand and hope</td></tr>
+      <tr><td>Check ownership on every resource access</td><td>Trust the URL or the UI to enforce access</td></tr>
+      <tr><td>Automate dependency scans and review weekly</td><td>Update packages once a year in a panic</td></tr>
+      <tr><td>Minimise the data you collect and retain</td><td>Store everything &ldquo;in case we need it&rdquo;</td></tr>
+      <tr><td>Use the platform&rsquo;s auth library</td><td>Implement your own crypto, hashing, or token logic</td></tr>
+      <tr><td>Threat-model at design time, not review time</td><td>Bolt security on at the end</td></tr>
+    </table>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>OWASP Top 10</em> (owasp.org) &mdash; free. Refresh your memory annually.</li>
+      <li><em>Web Security for Developers</em> (Malcolm McDonald) &mdash; short, accessible, covers the basics at the right depth.</li>
+      <li><em>The Tangled Web</em> (Michal Zalewski) &mdash; deeper, excellent on browser security.</li>
+      <li><em>Threat Modeling: Designing for Security</em> (Adam Shostack) &mdash; the canonical text if you want depth.</li>
+      <li><em>Cryptography Engineering</em> (Ferguson, Schneier, Kohno) &mdash; when you want to know why &ldquo;don&rsquo;t roll your own&rdquo; is the rule.</li>
+      <li>tldrsec (tldrsec.com) &mdash; accessible weekly newsletter summarising what&rsquo;s happening in security.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Run a secret-scanner (gitleaks, trufflehog) against your repo. Rotate anything it finds.</li>
+      <li>Pick one endpoint you own and verify every path has an explicit ownership check. Add one where missing.</li>
+      <li>Look at your latest log output. Find one instance of PII or a token leaking and filter it.</li>
+      <li>Run your dependency audit (<code>npm audit</code>, <code>pip-audit</code>, <code>cargo audit</code>, etc.). Fix one real vulnerability.</li>
+      <li>On your next design doc, add a five-minute threat-model section. Even a paragraph is more than zero.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

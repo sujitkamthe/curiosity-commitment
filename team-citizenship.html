@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Citizenship &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="team-citizenship.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Team Citizenship</h1>
+    <p class="subtitle">Pairing etiquette. Standups that matter. Helping newer joiners. Async communication that respects readers. The quiet difference between a giver and a taker on a team.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#pairing">1. Pairing Etiquette</a></li>
+      <li><a href="#standups">2. Standups That Matter</a></li>
+      <li><a href="#onboarding">3. Helping Newer Joiners</a></li>
+      <li><a href="#async">4. Async Written Communication</a></li>
+      <li><a href="#givers">5. Givers, Takers, and the Compound Cost</a></li>
+      <li><a href="#agile">6. Agile Practices &mdash; Not Rituals</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Pairing -->
+  <section class="fade-in" id="pairing">
+    <span class="section-num">01 &middot; Pairing</span>
+    <h2>Pairing Etiquette</h2>
+    <p class="section-intro">Pairing is one of the fastest ways to learn and one of the fastest ways to ship hard problems &mdash; if both people are actually present. Done badly, it&rsquo;s two people half-watching one person code. Done well, it&rsquo;s more than twice as effective as solo work.</p>
+
+    <h3>Roles &mdash; driver and navigator</h3>
+    <p>In a good pairing session, one person is <strong>driving</strong> (typing) and the other is <strong>navigating</strong> (thinking about the bigger picture, catching mistakes, suggesting approaches). These are different cognitive modes. You can&rsquo;t do both well at the same time.</p>
+
+    <div class="framework">
+      <h4>The Pairing Moves</h4>
+      <ol>
+        <li><strong>Switch every 10&ndash;20 minutes.</strong> Either person can call the switch. Both stay engaged because both are about to take the keyboard.</li>
+        <li><strong>Driver thinks out loud.</strong> &ldquo;I&rsquo;m about to rename this to X&hellip;&rdquo; Narration lets the navigator catch mistakes early.</li>
+        <li><strong>Navigator stays one step ahead.</strong> Don&rsquo;t watch the driver type &mdash; think about what happens after the current block.</li>
+        <li><strong>Agree on the goal before starting.</strong> &ldquo;In the next 90 minutes we&rsquo;ll get the failing test to pass and refactor X.&rdquo; Without this, you drift.</li>
+        <li><strong>Take breaks.</strong> Pairing is intense. 90 minutes, then a proper break.</li>
+      </ol>
+    </div>
+
+    <h3>What good pairing looks like</h3>
+    <ul>
+      <li>Both people engaged; neither person silent or zoned out</li>
+      <li>Keyboard switches fluidly; no &ldquo;who&rsquo;s driving&rdquo; confusion</li>
+      <li>Disagreements are explored out loud, not avoided</li>
+      <li>The quieter person gets pulled in (&ldquo;what do you think?&rdquo;)</li>
+      <li>Progress you couldn&rsquo;t have made alone, and both people learned something</li>
+    </ul>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Navigator on their phone</h5>
+        <p>You&rsquo;re physically there but not actually watching. Driver makes a mistake. You miss it. The &ldquo;pair&rdquo; was solo with an audience.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Present or not there at all</h5>
+        <p>If you&rsquo;re not going to pair, say so &mdash; &ldquo;I need to step out&rdquo;. A 30-minute focused pair beats 2 hours of half-presence.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Silent driver</h5>
+        <p>You type without narrating. The navigator doesn&rsquo;t know what you&rsquo;re about to do. Catches happen after the fact instead of before.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Narrate intent</h5>
+        <p>&ldquo;I&rsquo;m going to extract this into a function called X because Y.&rdquo; Navigator can course-correct cheaply.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; One person drives for 3 hours</h5>
+        <p>The navigator fades. The driver is also tired. Quality drops on both sides.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Switch regularly</h5>
+        <p>10&ndash;20 minutes. If you&rsquo;re tracking in Pomodoros, switch each break. The switch refreshes both minds.</p>
+      </div>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Why this matters:</strong> pairing is expensive (two people, one keyboard). It&rsquo;s worth it when the work is genuinely hard, when you&rsquo;re teaching or learning, or when the cost of a mistake is high (tricky migration, security-sensitive code). For routine work, solo is usually fine. Know which is which.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Standups -->
+  <section class="fade-in" id="standups">
+    <span class="section-num">02 &middot; Standups</span>
+    <h2>Standups That Matter</h2>
+    <p class="section-intro">Most standups drift into a status-reading exercise that nobody looks forward to. Your job at this stage isn&rsquo;t to fix that alone &mdash; but your contributions to it can help reset what the meeting is for. Use the time to coordinate, not to report.</p>
+
+    <h3>What standup is actually for</h3>
+    <p>Standup exists for three reasons: align on who&rsquo;s working on what, surface blockers, and offer or ask for help. It is <em>not</em> for your manager to keep tabs on you (that happens in 1:1s). If the meeting has drifted to status reporting, your individual update can still serve the real goal &mdash; but the content changes.</p>
+
+    <div class="framework">
+      <h4>A Useful Standup Update</h4>
+      <ol>
+        <li><strong>What I shipped since yesterday</strong> &mdash; one line. &ldquo;Yesterday the pricing refactor merged.&rdquo;</li>
+        <li><strong>What I&rsquo;m on today</strong> &mdash; one line. &ldquo;Today I&rsquo;m debugging the timeout on the checkout API.&rdquo;</li>
+        <li><strong>Where I&rsquo;m stuck (if anywhere)</strong> &mdash; specific and brief. &ldquo;I&rsquo;m blocked on the test env &mdash; it&rsquo;s been down since yesterday.&rdquo;</li>
+        <li><strong>Help I need or can offer</strong> &mdash; if relevant. &ldquo;If anyone&rsquo;s familiar with the payment-service circuit breaker, I&rsquo;d love 15 min.&rdquo;</li>
+      </ol>
+    </div>
+
+    <h3>The art of not talking in standup</h3>
+    <p>Not every item deserves airtime. If your debug conversation is going to take 10 minutes, take it out of standup &mdash; &ldquo;let&rsquo;s talk after, I have specific questions.&rdquo; The group doesn&rsquo;t need to watch two people work through it.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The vague update</h5>
+        <p>&ldquo;Yesterday I was working on the order stuff. Today I&rsquo;ll continue on that.&rdquo; Three days in a row. Nobody knows if you&rsquo;re making progress.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Specific and shippable</h5>
+        <p>&ldquo;Finished the pricing logic, MR up. Today I&rsquo;m on the webhook retries &mdash; aiming to have a draft by EOD.&rdquo; Progress is visible.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Hiding blockers</h5>
+        <p>You say &ldquo;things are fine&rdquo; because admitting you&rsquo;re stuck feels bad. Two days later you&rsquo;re still stuck and now the team is behind.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Name the stuck, ask for help</h5>
+        <p>&ldquo;Stuck on X since yesterday. I&rsquo;ve tried A and B. Anyone seen this?&rdquo; Usually someone has, 30 seconds, done. The &ldquo;stuck is embarrassing&rdquo; instinct is one of the most expensive ones in a team.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Detailed technical discussion in standup</h5>
+        <p>Two people debug a problem in real-time while eight people listen.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Table it</h5>
+        <p>&ldquo;Let&rsquo;s take this after standup.&rdquo; Group meeting; two-person conversation. Keep them separate.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Your contribution to standup culture:</strong> model the format. Be concise, specific, and honest about blockers. Ask your specific question or offer your specific help. When a couple of people consistently do this, standup slowly becomes useful.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Onboarding -->
+  <section class="fade-in" id="onboarding">
+    <span class="section-num">03 &middot; Onboarding</span>
+    <h2>Helping Newer Joiners</h2>
+    <p class="section-intro">Every time someone new joins, the team has a choice: make their first weeks painful or make them useful. The choice is mostly made by whoever happens to be around, willing to spend 15 minutes. That person can be you.</p>
+
+    <h3>Why this is part of your job</h3>
+    <p>You probably just joined a team yourself a year or two ago. Remember how disorienting the first weeks were? The random meetings that assumed context, the documentation that was three years out of date, the senior engineer who was &ldquo;happy to help&rdquo; but too busy to actually respond. You&rsquo;re now the person who can fix that for the next joiner.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Helping a newer joiner is not charity. It&rsquo;s one of the highest-leverage things you can do for the team. A joiner who ramps up in 3 weeks instead of 8 saves you and everyone else months of explaining over time.</p>
+    </div>
+
+    <h3>What &ldquo;helping&rdquo; actually looks like</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>First-day walk-through</h4>
+        <p>Thirty minutes. Take them through the main flow of the product as a user, then the main flow in code. Answer the obvious questions they&rsquo;re too new to ask.</p>
+      </div>
+      <div class="card">
+        <h4>Be their first DM-friendly person</h4>
+        <p>&ldquo;DM me anything in the first two weeks, nothing is too basic.&rdquo; Remove the friction of asking.</p>
+      </div>
+      <div class="card">
+        <h4>Pair on their first ticket</h4>
+        <p>An hour of pairing on their first real task teaches more than a week of solo ramp-up.</p>
+      </div>
+      <div class="card">
+        <h4>Review their first MR carefully &mdash; and kindly</h4>
+        <p>The tone of their first review shapes how they show up in reviews for months. Be direct about quality; be warm about people.</p>
+      </div>
+      <div class="card">
+        <h4>Update docs as they hit gaps</h4>
+        <p>They hit a confusion. You explain. Now you add that explanation to the README. The next joiner finds it there.</p>
+      </div>
+      <div class="card">
+        <h4>Introduce them to people</h4>
+        <p>&ldquo;If you need X, talk to Priya.&rdquo; The social network of the team is non-obvious. Help them build it.</p>
+      </div>
+    </div>
+
+    <h3>The &ldquo;silly question&rdquo; pledge</h3>
+    <p>Make it safe for them to ask anything. &ldquo;There are no silly questions&rdquo; is a cliché; &ldquo;I&rsquo;ll answer any question for two weeks, no judgement&rdquo; is a commitment. The latter lands. Keep it.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;Ask me anytime&rdquo; that&rsquo;s not real</h5>
+        <p>You said it but you&rsquo;re always heads-down. They DM; you respond two days later. They stop asking.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Scheduled check-ins for the first two weeks</h5>
+        <p>15 minutes every day for the first week; a couple of times in the second. They save questions; you plow through a batch. Both of you get time back.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Leaving onboarding to &ldquo;the leader&rdquo;</h5>
+        <p>You assume the team lead is handling it. They&rsquo;re handling the strategic parts; the day-to-day unblocking is on the team.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Claim a piece</h5>
+        <p>&ldquo;I&rsquo;ll walk them through the order service on day 3.&rdquo; Specific, owned, one hour. Repeats across three teammates and the new person has a real ramp-up plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Async -->
+  <section class="fade-in" id="async">
+    <span class="section-num">04 &middot; Async</span>
+    <h2>Async Written Communication</h2>
+    <p class="section-intro">In a distributed or partly-distributed team, most of your work-related communication is written. Slack, email, PR comments, tickets. Writing well here is not a literary skill &mdash; it&rsquo;s a productivity skill. Good writing respects the reader&rsquo;s time; bad writing wastes it in ways that compound.</p>
+
+    <h3>The core principle: respect the reader&rsquo;s time</h3>
+    <p>Every message you write will be read by N people, where N is often more than you think. Five extra seconds of clarity in the writing saves five seconds &times; N &times; every future reader. This arithmetic always favours the writer spending the extra time.</p>
+
+    <div class="framework">
+      <h4>The Async Writing Moves</h4>
+      <ol>
+        <li><strong>Lead with the conclusion.</strong> &ldquo;We need to roll back. Why follows.&rdquo; Not &ldquo;So, I was looking at&hellip;&rdquo;</li>
+        <li><strong>One point per message.</strong> Don&rsquo;t stack &ldquo;also&hellip; and another thing&hellip;&rdquo;</li>
+        <li><strong>Be specific.</strong> File paths, dates, names, numbers. Not &ldquo;the thing we talked about.&rdquo;</li>
+        <li><strong>Say what you want.</strong> An answer? A decision? Acknowledgement? Say so.</li>
+        <li><strong>Say the urgency.</strong> &ldquo;Blocking me today&rdquo; vs &ldquo;whenever&rdquo; vs &ldquo;for context, no response needed.&rdquo;</li>
+        <li><strong>Use threads for detail.</strong> Keep the channel&rsquo;s scannable surface clean.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: two Slack messages</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p><strong>Message A (wasteful):</strong> &ldquo;Hey, so I was looking at the checkout thing and I noticed some things and I think we might need to do something about it. Got a minute?&rdquo;</p>
+        <p><strong>Message B (respectful):</strong> &ldquo;Heads up &mdash; checkout latency p95 has doubled since yesterday&rsquo;s deploy (600ms &rarr; 1.2s). I think it&rsquo;s the new inventory lookup. I&rsquo;m looking now. Will flag in #incidents if it looks worse than a minor regression. (No action needed from you unless I escalate.)&rdquo;</p>
+        <p>Message A is a 5-minute conversation waiting to happen. Message B conveys everything in 30 seconds of reading and keeps the recipient unblocked.</p>
+      </div>
+    </div>
+
+    <h3>Public over private &mdash; mostly</h3>
+    <p>Default to public channels over DMs. Three reasons:</p>
+    <ol>
+      <li>Someone else might have the answer faster.</li>
+      <li>The answer becomes searchable for the next person.</li>
+      <li>You don&rsquo;t create a single-person dependency.</li>
+    </ol>
+    <p>Exceptions: anything sensitive, people-adjacent, or about a mistake you made. Those stay private.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;Hi!&rdquo; then waiting</h5>
+        <p>You DM &ldquo;Hi!&rdquo; and wait for them to reply before asking the question. That&rsquo;s a round-trip you could have saved.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Lead with the question</h5>
+        <p>&ldquo;Hey &mdash; quick Q when you&rsquo;re free: do we have a rate limit on the external API? I&rsquo;m hitting 429s.&rdquo; They can answer whenever. No round trip.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The wall of text</h5>
+        <p>A 400-word message with no structure. Reader&rsquo;s eyes glaze. They either skim and miss the ask, or put it off for later.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; TL;DR at the top, detail below</h5>
+        <p>&ldquo;TL;DR: need a decision on X by Thursday. Detail follows.&rdquo; Reader knows the ask in ten seconds; can read detail if they need it.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Confusing channel with DM</h5>
+        <p>You ask a technical question in DMs. Two days later a teammate hits the same thing and you explain it again.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Team channels for team questions</h5>
+        <p>The answer gets indexed, teammates benefit. Cost: basically zero.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Givers and Takers -->
+  <section class="fade-in" id="givers">
+    <span class="section-num">05 &middot; Citizenship</span>
+    <h2>Givers, Takers, and the Compound Cost</h2>
+    <p class="section-intro">Every team has three groups: people who give more than they take, people who give and take roughly evenly, and people who mostly take. You don&rsquo;t need a badge or a title to be in the first group &mdash; you just need the habit. And over time, the habit defines your reputation more than any feature you shipped.</p>
+
+    <h3>What giving actually looks like</h3>
+    <p>It&rsquo;s small. Unglamorous. Un-career-accelerating in any single instance. But it compounds. It&rsquo;s:</p>
+    <ul>
+      <li>Reviewing a peer&rsquo;s MR within hours instead of days</li>
+      <li>Answering a question in #general when you could have left it</li>
+      <li>Fixing the broken setup script after you hit it, instead of working around it</li>
+      <li>Updating the README when the steps you followed were out of date</li>
+      <li>Helping a teammate unblock themselves instead of doing it for them</li>
+      <li>Staying ten minutes after a meeting to clarify with the person who didn&rsquo;t follow</li>
+      <li>Taking the unglamorous ticket because someone has to</li>
+      <li>Mentoring without being asked to mentor</li>
+    </ul>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Almost none of these are visible to management. All of them are visible to peers. A year of giving at this level builds you a reputation that no performance review can: the engineer people actually want to work with.</p>
+    </div>
+
+    <h3>What taking looks like (and why to notice it in yourself)</h3>
+    <p>Taking isn&rsquo;t malicious. Most of the time it&rsquo;s a lapse of attention: you&rsquo;re busy, you&rsquo;re stressed, and you don&rsquo;t think about the costs your pattern imposes on others.</p>
+    <ul>
+      <li>Leaving MRs to rot because &ldquo;I&rsquo;m not really on this team for reviews&rdquo;</li>
+      <li>Asking questions in DMs that could have been searched first</li>
+      <li>Handing broken scripts to the next person</li>
+      <li>Pinging people at 10pm for non-urgent things</li>
+      <li>Hoarding knowledge because it makes you look indispensable</li>
+      <li>Never volunteering for the unglamorous ticket</li>
+    </ul>
+    <p>Notice these in yourself. They&rsquo;re not character flaws; they&rsquo;re lapses. Correcting them is cheap. Not correcting them, over two years, costs you meaningfully.</p>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127793;</span>
+      <div>
+        <p><strong>The compounding:</strong> when you need a favour, a stretch ticket, a reference for your next job, or simply to be given the benefit of the doubt on a rough week &mdash; the people who answer are the people you&rsquo;ve been giving to for months or years. Investment made quietly over time; yielded at precisely the moments you need it.</p>
+      </div>
+    </div>
+
+    <h3>Where to start if you notice you&rsquo;re a taker</h3>
+    <p>Pick one small thing and do it weekly for a month:</p>
+    <ul>
+      <li>Review two MRs a week that you weren&rsquo;t tagged on</li>
+      <li>Answer one question in a team channel that you could have left</li>
+      <li>Fix one small annoyance in the dev setup that&rsquo;s been bothering you</li>
+      <li>Update one page of docs that&rsquo;s stale</li>
+      <li>Help one new joiner without being asked</li>
+    </ul>
+    <p>The shift from taker to giver isn&rsquo;t a conversion moment. It&rsquo;s five or six small habits that, over a quarter, quietly change how your teammates feel about working with you.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Agile -->
+  <section class="fade-in" id="agile">
+    <span class="section-num">06 &middot; Process</span>
+    <h2>Agile Practices &mdash; Not Rituals</h2>
+    <p class="section-intro">Most teams have some version of agile: standups, sprint planning, retros, estimation. Most of it, most of the time, feels like ritual. Your job at this stage isn&rsquo;t to critique the process &mdash; it&rsquo;s to understand what each practice is trying to buy, and to contribute in a way that makes the practice actually deliver that.</p>
+
+    <h3>What each practice is trying to achieve</h3>
+    <table class="comparison">
+      <tr><th>Practice</th><th>What it&rsquo;s actually for</th><th>What it becomes when you don&rsquo;t contribute</th></tr>
+      <tr><td>Standup</td><td>Coordination, blocker-surfacing, help-offering</td><td>Status-report recital</td></tr>
+      <tr><td>Sprint planning</td><td>Shared understanding of what&rsquo;s getting done, who&rsquo;s doing what, what the risks are</td><td>Lead assigning tickets while people nod</td></tr>
+      <tr><td>Backlog refinement</td><td>Stories are clear and estimable before you commit to them</td><td>Stories are committed to vague, then clarified mid-sprint</td></tr>
+      <tr><td>Retro</td><td>Surfacing what went well and what to improve; committing to one thing</td><td>A graveyard of &ldquo;action items&rdquo; nobody owns</td></tr>
+      <tr><td>Demos</td><td>Seeing the real thing, catching misalignment with stakeholders early</td><td>A slide deck someone made under duress</td></tr>
+      <tr><td>Estimation</td><td>Collective calibration on size/risk; surface unknowns</td><td>Number-calling contest</td></tr>
+    </table>
+
+    <h3>Your contributions</h3>
+    <div class="framework">
+      <h4>Making Agile Work &mdash; From Your Seat</h4>
+      <ol>
+        <li><strong>Standup:</strong> be concise, raise blockers, offer help. Don&rsquo;t use it for status theatre.</li>
+        <li><strong>Sprint planning:</strong> come <em>prepared</em> having read the stories. Ask &ldquo;what&rsquo;s the goal?&rdquo; before &ldquo;how long&rdquo;.</li>
+        <li><strong>Refinement:</strong> read stories ahead. Ask the clarification questions. Flag when acceptance criteria are missing.</li>
+        <li><strong>Retro:</strong> bring one specific observation. Own one action item. Follow up on last retro&rsquo;s actions.</li>
+        <li><strong>Demos:</strong> run your own feature. Narrate. Invite the specific feedback you want.</li>
+        <li><strong>Estimation:</strong> estimate honestly. Flag unknowns explicitly. Push for a spike if needed.</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>The reframe:</strong> the ritual is fine. It&rsquo;s just a container. What fills the container is what the team puts in it. If you show up passively, you make the container feel empty. If you show up prepared and contribute, the meeting earns its time. Your part is what you control.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Complaining about agile without proposing</h5>
+        <p>&ldquo;These ceremonies are useless.&rdquo; See <a href="foundations.html#propose-dont-complain">Propose, don&rsquo;t complain</a>. The ceremony isn&rsquo;t the problem; the way <em>your team</em> runs it is. Offer an alternative.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Retro-time proposals</h5>
+        <p>&ldquo;Standup has been long. What if we try a two-minute-per-person cap for the next two weeks, then see?&rdquo; Small, time-boxed, proposable.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Ghosting retro actions</h5>
+        <p>The retro produces action items. Nobody follows up. Next retro has the same items. The ritual becomes a cynical exercise.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Own one action</h5>
+        <p>Volunteer for one retro action. Do it. Report back next retro. Even one person following through changes the retro&rsquo;s culture.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>The Scrum Guide</em> (free, 13 pages) &mdash; the minimal definition of Scrum. Worth reading once so you know what the ritual is <em>supposed</em> to be.</li>
+      <li><em>Accelerate</em> &mdash; Forsgren, Humble, Kim. The research on what high-performing teams actually do.</li>
+      <li><em>The Mythical Man-Month</em> &mdash; Fred Brooks. Old. Still relevant. Why communication is the dominant cost on any team.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Switch who&rsquo;s driving every 15 minutes in your next pair; narrate intent.</li>
+      <li>Volunteer to walk a newer joiner through one flow this week.</li>
+      <li>Review one MR you weren&rsquo;t explicitly tagged on.</li>
+      <li>Lead your next standup update with what you&rsquo;re blocked on, not just what you&rsquo;re on.</li>
+      <li>Own one action item from the next retro through to completion.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

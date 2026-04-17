@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git, MRs &amp; Code Review &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="git-reviews.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Git, MRs &amp; Code Review</h1>
+    <p class="subtitle">Git hygiene. Small, reviewable MRs. Self-review before you ask for review. Reviewing others as part of the job. Receiving review without defence. The habits that make team code reliable &mdash; not just yours.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#git-hygiene">1. Git Hygiene</a></li>
+      <li><a href="#small-mrs">2. Small, Reviewable MRs</a></li>
+      <li><a href="#self-review">3. Self-Review First</a></li>
+      <li><a href="#reviewing">4. Reviewing Others&rsquo; Code</a></li>
+      <li><a href="#receiving">5. Receiving Review Well</a></li>
+      <li><a href="#mr-template">6. The MR Description That Makes Review Easy</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Git Hygiene -->
+  <section class="fade-in" id="git-hygiene">
+    <span class="section-num">01 &middot; Git</span>
+    <h2>Git Hygiene</h2>
+    <p class="section-intro">Git is your time machine. Good git habits make that time machine useful; bad ones turn it into a confused log that nobody wants to read. At this stage, you should have a handful of git habits you hold without thinking.</p>
+
+    <h3>The core habits</h3>
+    <div class="framework">
+      <h4>Git Basics You Actually Use</h4>
+      <ol>
+        <li><strong>Small, meaningful commits.</strong> One logical change per commit. Not &ldquo;WIP&rdquo; x 12.</li>
+        <li><strong>Commit messages that future-you can read.</strong> A subject line under 70 chars, describing <em>what and why</em>.</li>
+        <li><strong>Branches with meaningful names.</strong> <code>sujit/refactor-order-service</code> beats <code>temp-fix-2</code>.</li>
+        <li><strong>Rebase before merge</strong> (if your team does rebase) &mdash; history stays linear and readable.</li>
+        <li><strong>Don&rsquo;t force-push shared branches.</strong> Your own feature branch? Fine. <code>main</code> or a branch others are working on? Never.</li>
+        <li><strong><code>git status</code> before anything destructive.</strong> Know what you have before you blow it away.</li>
+      </ol>
+    </div>
+
+    <h3>Writing a commit message</h3>
+    <p>A good commit message has a subject line and, if needed, a body. The subject line is a summary in imperative mood (&ldquo;Fix X&rdquo;, &ldquo;Add Y&rdquo; &mdash; not &ldquo;Fixed&rdquo; or &ldquo;Fixing&rdquo;). The body explains the <em>why</em> if it&rsquo;s not obvious from the diff.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Useless messages</h5>
+        <p><code>&ldquo;fix&rdquo;</code>, <code>&ldquo;update&rdquo;</code>, <code>&ldquo;wip&rdquo;</code>, <code>&ldquo;.&rdquo;</code>, <code>&ldquo;address review comments&rdquo;</code>. Tells the reader nothing.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; What and why</h5>
+        <p><code>&ldquo;Parallelise payment-service calls to cut checkout latency&rdquo;</code>. Subject tells you what. Body (optional) tells you why it was slow and what approach you took.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The &ldquo;fixup fixup fixup&rdquo; trail</h5>
+        <p>Every time you fix a review comment, it&rsquo;s a new commit. Final MR has 14 micro-commits. Nobody wants to bisect this.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Squash or fixup before merge</h5>
+        <p>Either squash at merge time, or use <code>git commit --fixup</code> and <code>git rebase -i --autosquash</code> to fold review fixes into the original commits. Clean final history.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Huge commits that do three unrelated things</h5>
+        <p>One commit refactors the service, fixes a typo, and adds a new feature. When something breaks, <code>git bisect</code> is useless.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; One logical change per commit</h5>
+        <p>Refactor in one commit. Fix typo in another. Feature in a third. History becomes a ladder of small, reversible steps.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>The force-push rule:</strong> if a branch is yours alone, <code>--force-with-lease</code> is fine. If anyone else might have pulled it, don&rsquo;t. Force-pushing <code>main</code> is almost always a mistake; many teams block it entirely.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li>Chris Beams, &ldquo;How to Write a Git Commit Message&rdquo; &mdash; the classic blog post on commit hygiene.</li>
+      <li><em>Pro Git</em> (free online) &mdash; the canonical reference. Chapters 2&ndash;3 cover 90% of daily use.</li>
+      <li>Linus Torvalds&rsquo; talk on git &mdash; YouTube, 2007. Old but illuminates why git is shaped the way it is.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Small MRs -->
+  <section class="fade-in" id="small-mrs">
+    <span class="section-num">02 &middot; Size</span>
+    <h2>Small, Reviewable MRs</h2>
+    <p class="section-intro">The single biggest thing you can do to make your code review experience better is to submit smaller MRs. Small MRs get reviewed faster, reviewed better, and merged sooner. Large MRs rot in the queue, get rubber-stamped, and introduce bugs everyone missed.</p>
+
+    <h3>Why size matters so much</h3>
+    <p>Reviewer attention is finite. A 50-line MR gets close scrutiny. A 500-line MR gets skimmed. A 2000-line MR gets an &ldquo;LGTM&rdquo; and a hope. The actual quality of the review is roughly inverse to size. This is measured, consistently, across teams.</p>
+    <p>Small also means: easier to revert, easier to rebase, easier to understand in git history. Large MRs are an anti-pattern that costs the team even after they merge.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Aim for MRs that a reviewer can deeply understand in 15 minutes. That&rsquo;s usually 200&ndash;400 lines of real change (not generated files, not pure deletions). Anything over 600 is a candidate for splitting.</p>
+    </div>
+
+    <h3>How to keep MRs small</h3>
+    <div class="framework">
+      <h4>The Small-MR Playbook</h4>
+      <ol>
+        <li><strong>Refactors before features.</strong> If you need to refactor to make the feature cleaner, do the refactor in a <em>separate</em> MR first. Merge. Then the feature MR.</li>
+        <li><strong>One concern per MR.</strong> Refactor, feature, or bug fix &mdash; not two of them, and never three.</li>
+        <li><strong>Stack branches.</strong> Feature branch A depends on the pending refactor branch. Review and merge A after the refactor.</li>
+        <li><strong>Use feature flags.</strong> Ship half-built code behind a flag so you can land it in pieces instead of one giant drop.</li>
+        <li><strong>Scope aggressively.</strong> The things you&rsquo;d &ldquo;like to also fix&rdquo; &mdash; open follow-up tickets, don&rsquo;t include them.</li>
+      </ol>
+    </div>
+
+    <h3>The &ldquo;but it has to be big&rdquo; case</h3>
+    <p>Sometimes it really does. A migration. A framework upgrade. A ground-up rewrite. In these cases: warn the reviewer ahead of time, write a description that&rsquo;s roughly <em>longer</em> than the diff summary, suggest the order to read files, and point out the three places that actually deserve attention. Make it as small as it can be for the task, not artificially small.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;While I was there&rdquo;</h5>
+        <p>You open a file to fix a bug, and end up also renaming three things, extracting a function, and adding a log. Your 20-line bug fix is now a 400-line MR. The reviewer has to disentangle.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Two MRs</h5>
+        <p>MR 1: bug fix, 20 lines, merges fast. MR 2: the cleanup you noticed, separately. Reviewer can focus on each.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;Let me finish the whole feature first&rdquo;</h5>
+        <p>You work on a branch for two weeks. You open a 2000-line MR. Reviewers look at it, then at their calendars.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Merge early, merge often</h5>
+        <p>First piece merges on day 2. Second piece on day 5. Third piece on day 8. Each is reviewable. You&rsquo;re never far from main.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Self Review -->
+  <section class="fade-in" id="self-review">
+    <span class="section-num">03 &middot; Self-Review</span>
+    <h2>Self-Review First</h2>
+    <p class="section-intro">Before you click &ldquo;request review&rdquo;, read your own MR top to bottom in the MR view. Every time. This one habit eliminates maybe half the comments your reviewer would otherwise make.</p>
+
+    <h3>Why self-review works</h3>
+    <p>The MR view shows you your code the way a reviewer will see it &mdash; without the context of your local editor, your recent changes, your understanding of what you meant. Things you didn&rsquo;t notice while writing jump out: debug <code>console.log</code> you forgot to remove, commented-out blocks, a variable renamed inconsistently, a confusing name, a missing test.</p>
+
+    <div class="framework">
+      <h4>The Self-Review Pass</h4>
+      <ol>
+        <li><strong>Read the full diff in the MR view.</strong> Not in your IDE.</li>
+        <li><strong>File by file, line by line.</strong> Slowly.</li>
+        <li><strong>For each change, ask: does this change make sense on its own?</strong> Without the context of what I was doing.</li>
+        <li><strong>Look for leftovers.</strong> Debug prints, commented-out code, dead variables, TODO comments left behind.</li>
+        <li><strong>Check the description.</strong> Does it accurately say what the MR does? Does it explain <em>why</em>?</li>
+        <li><strong>Leave comments on your own MR</strong> where a reviewer might ask. &ldquo;I left this in because&hellip;&rdquo; or &ldquo;I&rsquo;m unsure about&hellip;&rdquo; &mdash; preempt the questions.</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Why this matters:</strong> the reviewer&rsquo;s time is the team&rsquo;s scarcest resource. Every nit you catch yourself is a nit they don&rsquo;t have to surface &mdash; which saves a round-trip and keeps the review focused on substance. Self-review is the cheapest way to respect reviewer time.</p>
+      </div>
+    </div>
+
+    <h3>Scenario: the &ldquo;oh&rdquo; moment</h3>
+    <p>You open your MR. First thing you see: a file you didn&rsquo;t mean to commit &mdash; your editor config. Two seconds in, you&rsquo;ve caught a thing that would have cost the reviewer a minute to flag and you a minute to unstage. Multiply by everything you catch. The ROI is obvious the first time you try it.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Pushing and requesting immediately</h5>
+        <p>You finish coding, commit, push, hit &ldquo;request review.&rdquo; The reviewer finds two debug prints and a broken import.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Read it yourself first</h5>
+        <p>Even 5 minutes. You&rsquo;ll remove the debug prints, notice the broken import, and improve one variable name. The review that follows is about real substance.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Reviewing -->
+  <section class="fade-in" id="reviewing">
+    <span class="section-num">04 &middot; Giving Review</span>
+    <h2>Reviewing Others&rsquo; Code</h2>
+    <p class="section-intro">Reviewing code is part of your job, not a favour you do. It&rsquo;s how the team maintains quality, how knowledge spreads, and how you learn by reading code you didn&rsquo;t write. Treat it as first-class work, not an interruption to your &ldquo;real&rdquo; work.</p>
+
+    <h3>What you&rsquo;re reviewing for</h3>
+    <div class="framework">
+      <h4>What to Look For</h4>
+      <ol>
+        <li><strong>Correctness.</strong> Does it do what it claims? Are the edge cases handled?</li>
+        <li><strong>Clarity.</strong> Will someone else understand this in six months?</li>
+        <li><strong>Safety.</strong> Tests? Error handling? Security concerns (input validation, auth, secrets)?</li>
+        <li><strong>Design.</strong> Is the shape right, or is it building on a questionable abstraction?</li>
+        <li><strong>Consistency.</strong> Does it fit with how this codebase works, or does it introduce a third way?</li>
+      </ol>
+      <p style="margin-top:12px;">Whitespace and formatting are not on this list. That&rsquo;s what the linter is for.</p>
+    </div>
+
+    <h3>How to phrase comments</h3>
+    <p>Reviews are not performance reviews. Phrase comments as curious, collaborative observations &mdash; not demands. The code is the author&rsquo;s, not yours.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Command tone</h5>
+        <p>&ldquo;Change this to X.&rdquo; &ldquo;This is wrong.&rdquo; &ldquo;Don&rsquo;t do that.&rdquo;</p>
+      </div>
+      <div class="better">
+        <h5>Curious tone</h5>
+        <p>&ldquo;What do you think about X instead?&rdquo; &ldquo;I wonder if this handles empty input &mdash; worth checking?&rdquo; &ldquo;Could we also consider Y?&rdquo;</p>
+      </div>
+      <div class="pitfall">
+        <h5>Blocking every nit</h5>
+        <p>10 comments, all style, all &ldquo;must change.&rdquo; Author gets 10 round-trips for cosmetic issues.</p>
+      </div>
+      <div class="better">
+        <h5>Label severity</h5>
+        <p>Prefix: <code>nit:</code> for style/taste (optional), <code>q:</code> for questions, <code>blocking:</code> for things that must change before merge. Author knows what to act on immediately.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Reviewing only what&rsquo;s wrong</h5>
+        <p>Only negative comments. Author gets 14 &ldquo;fix this&rdquo; and zero &ldquo;this is good.&rdquo;</p>
+      </div>
+      <div class="better">
+        <h5>Note the good</h5>
+        <p>&ldquo;Nice extraction here.&rdquo; &ldquo;This test covers an edge case I wouldn&rsquo;t have thought of.&rdquo; Fifteen seconds. Makes reviews better feedback loops.</p>
+      </div>
+    </div>
+
+    <h3>Review turnaround</h3>
+    <p>A review that takes three days costs more than the reviewer realises. The author has context-switched. Re-loading that context on day three costs an hour. The team&rsquo;s velocity is gated by review latency more than it is by coding speed.</p>
+
+    <div class="tip">
+      <span class="tip-icon">&#128337;</span>
+      <div>
+        <p><strong>A reasonable target:</strong> review MRs the same day, ideally within a few hours. If you can&rsquo;t, say so &mdash; &ldquo;I&rsquo;ll look at this tomorrow morning&rdquo; is better than silence, and the author can find another reviewer if they need it sooner.</p>
+      </div>
+    </div>
+
+    <h3>When you don&rsquo;t know enough to review</h3>
+    <p>Sometimes an MR touches an area you don&rsquo;t know well. That&rsquo;s fine &mdash; you can still review <em>parts</em>. Comment on the parts you understand. Flag explicitly: &ldquo;I reviewed X and Y; I didn&rsquo;t feel confident about Z, maybe worth a second look from someone who knows that area.&rdquo; Partial review with honesty beats a blanket LGTM.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Receiving -->
+  <section class="fade-in" id="receiving">
+    <span class="section-num">05 &middot; Receiving</span>
+    <h2>Receiving Review Well</h2>
+    <p class="section-intro">When feedback comes back on your MR, every instinct says &ldquo;explain, defend, argue.&rdquo; Most of that is wrong. Learning to receive review gracefully makes every reviewer want to review your MRs &mdash; and the quality of your code goes up.</p>
+
+    <h3>The core moves</h3>
+    <div class="framework">
+      <h4>Receiving Review Gracefully</h4>
+      <ol>
+        <li><strong>Assume good intent.</strong> The reviewer is trying to help, even when phrasing lands harsh.</li>
+        <li><strong>Don&rsquo;t argue in the thread unless necessary.</strong> Most disagreements are resolved faster with a 5-minute chat than 10 round-trips of comments.</li>
+        <li><strong>If you agree, just fix it.</strong> No need to justify the original choice.</li>
+        <li><strong>If you disagree, say why &mdash; briefly.</strong> &ldquo;I chose X because Y. Happy to change if you still prefer Z.&rdquo;</li>
+        <li><strong>When you resolve a comment, make sure the resolution is visible.</strong> Either reply &ldquo;fixed&rdquo; or rely on the tool&rsquo;s resolve mechanism.</li>
+        <li><strong>Thank the reviewer.</strong> Their time is a gift. A brief &ldquo;thanks, good catch&rdquo; on a nice comment is fifteen seconds you won&rsquo;t regret.</li>
+      </ol>
+    </div>
+
+    <h3>When you think the reviewer is wrong</h3>
+    <p>Sometimes they are. That&rsquo;s fine. But before you reply combatively, assume 30% chance they&rsquo;re right and you&rsquo;re missing something. Re-read the comment. Consider their suggestion. <em>Then</em> reply.</p>
+
+    <div class="tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p><strong>If it&rsquo;s genuinely a disagreement worth escalating:</strong> move to a chat. Async back-and-forth on a PR comment is the slowest medium for disagreement. A 3-minute call often resolves what would be ten comments.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Arguing every comment</h5>
+        <p>You reply to 12 of 14 comments with &ldquo;I did it this way because&hellip;&rdquo; Reviewer stops giving feedback.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Fix the easy ones, discuss the real ones</h5>
+        <p>10 of 14 are easy &mdash; just fix. The 4 that are real disagreements, discuss. Reviewer sees focused engagement, not resistance.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Silent resentment</h5>
+        <p>You fix everything but grumble about it afterwards. The reviewer doesn&rsquo;t know. You do it again next time. Rinse, repeat.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Raise it once, clearly</h5>
+        <p>&ldquo;Hey, I&rsquo;ve noticed you push back a lot on the way I structure X &mdash; can we align on a convention so we&rsquo;re not going back and forth each MR?&rdquo; One conversation fixes ten MRs.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. MR Description -->
+  <section class="fade-in" id="mr-template">
+    <span class="section-num">06 &middot; Description</span>
+    <h2>The MR Description That Makes Review Easy</h2>
+    <p class="section-intro">A good MR description doubles the reviewer&rsquo;s effectiveness. It answers the questions they were going to ask, shows them the order to read in, and gives them the context to make a judgement instead of a guess. Five minutes writing it saves fifteen minutes of review confusion.</p>
+
+    <h3>The template</h3>
+    <div class="framework">
+      <h4>A Good MR Description</h4>
+      <ol>
+        <li><strong>What this does</strong> &mdash; one or two sentences. Link to the ticket.</li>
+        <li><strong>Why</strong> &mdash; the problem, the motivation. Especially important if the &ldquo;what&rdquo; alone wouldn&rsquo;t be obvious.</li>
+        <li><strong>Approach</strong> &mdash; high-level shape. What you changed where, why this approach over alternatives you considered.</li>
+        <li><strong>How to test / verify</strong> &mdash; how the reviewer can check that it works, or what they should look for if they want to click through.</li>
+        <li><strong>Any open questions</strong> &mdash; things you&rsquo;re unsure about, or specific points you want a reviewer&rsquo;s eye on.</li>
+        <li><strong>Screenshots / videos</strong> &mdash; for anything visible. A 10-second screen recording is often worth 200 words.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: two MR descriptions, same change</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p><strong>Description A:</strong> &ldquo;Fix order processing bug.&rdquo;</p>
+        <p><strong>Description B:</strong></p>
+        <blockquote style="border-left:3px solid var(--accent);padding-left:16px;margin:12px 0;color:var(--text-secondary);">
+          <p><strong>What:</strong> Fix race condition in OrderProcessor where two concurrent cancel requests could both succeed. Closes TICK-412.</p>
+          <p><strong>Why:</strong> Prod logs showed 3 duplicate refunds last week; root cause is the check-then-act pattern in <code>cancelOrder</code>. The second request passed the &ldquo;is not cancelled&rdquo; check before the first request had committed.</p>
+          <p><strong>Approach:</strong> Replaced the check-then-act with an atomic conditional update (<code>UPDATE &hellip; WHERE status = 'ACTIVE'</code>). If zero rows affected, the request is a no-op. Considered pessimistic locking, but the update pattern is simpler and doesn&rsquo;t add contention elsewhere.</p>
+          <p><strong>Testing:</strong> Added a concurrent-request test that reproduces the old behaviour (fails) and verifies the fix (passes). Also manually fired two parallel curl requests on staging.</p>
+          <p><strong>Open question:</strong> should we audit-log the no-op? Left it out for now &mdash; happy to add if you think it&rsquo;s worth it.</p>
+        </blockquote>
+        <p>Description A requires the reviewer to figure out everything. Description B gives them the context to review in 10 minutes. Five minutes of writing, massive savings on the other side.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Empty or one-line description</h5>
+        <p>Reviewer opens a 300-line diff with no context. They have to reverse-engineer the intent. Review takes 40 minutes.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The five-minute description</h5>
+        <p>Tell the reviewer what, why, how, and what to look at. Review takes 15 minutes. They actually check the right things.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; No screenshots for visual changes</h5>
+        <p>UI MR. Reviewer has to pull the branch and run it to see what it looks like. Friction. Half won&rsquo;t bother.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Before/after screenshots</h5>
+        <p>Two images or a short GIF. Reviewer sees the change instantly and knows what&rsquo;s been checked visually.</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Your MR description is an investment in the reviewer&rsquo;s time. A great description costs you five minutes and saves the reviewer fifteen. Over a year of MRs, that&rsquo;s days of their time reclaimed. Team-wide, it&rsquo;s how review-turnaround culture is built.</p>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li>Google&rsquo;s <em>Code Review Developer Guide</em> (free, public) &mdash; the best industry-wide reference, covers both author and reviewer sides.</li>
+      <li>Michael Lynch, &ldquo;How to Do Code Reviews Like a Human&rdquo; (two-part blog post).</li>
+      <li><em>What to Look for in a Code Review</em> &mdash; Trisha Gee&rsquo;s short eBook (free from JetBrains).</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Write a full MR description (what, why, how, testing) on your next PR.</li>
+      <li>Before asking for review on your next MR, read it top to bottom in the MR view.</li>
+      <li>Prefix your next review comments with <code>nit:</code>, <code>q:</code>, or <code>blocking:</code>.</li>
+      <li>Leave one specific positive comment on a peer&rsquo;s MR this week.</li>
+      <li>Squash your MR&rsquo;s fixup commits before merge &mdash; clean final history.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

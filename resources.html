@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="resources.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Resources</h1>
+    <p class="subtitle">Books, talks, blogs, and podcasts worth your time at this stage. The guide is a map; these are the territory. Pick one thing, finish one thing, apply one thing &mdash; don&rsquo;t accumulate.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#mindset">1. Mindset &amp; Career</a></li>
+      <li><a href="#craft">2. Clean Code &amp; Craft</a></li>
+      <li><a href="#debugging">3. Debugging &amp; Reading Code</a></li>
+      <li><a href="#testing">4. Testing</a></li>
+      <li><a href="#data">5. Data &amp; Systems</a></li>
+      <li><a href="#production">6. Production, Security &amp; Reliability</a></li>
+      <li><a href="#ai">7. AI Coding Tools</a></li>
+      <li><a href="#collab">8. Collaboration &amp; Writing</a></li>
+      <li><a href="#talks">9. Talks Worth Watching</a></li>
+      <li><a href="#blogs">10. Blogs &amp; Newsletters</a></li>
+      <li><a href="#podcasts">11. Podcasts</a></li>
+      <li><a href="#using">12. How to Actually Use These</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Mindset -->
+  <section class="fade-in" id="mindset">
+    <span class="section-num">01 &middot; Mindset &amp; Career</span>
+    <h2>Mindset &amp; Career</h2>
+    <p class="section-intro">The books that shape how you approach the job itself &mdash; not just the code. If you only read from one section, read from this one.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>The Pragmatic Programmer</h4>
+        <p><em>Andy Hunt &amp; Dave Thomas.</em> Foundational. Covers care, craft, and the attitude of a serious engineer. Read once now, again in two years.</p>
+      </div>
+      <div class="card">
+        <h4>The Missing README</h4>
+        <p><em>Chris Riccomini &amp; Dmitriy Ryaboy.</em> Written explicitly for this career stage. Practical, unpretentious, high signal.</p>
+      </div>
+      <div class="card">
+        <h4>The Software Engineer&rsquo;s Guidebook</h4>
+        <p><em>Gergely Orosz.</em> Career navigation through the first decade. The chapters on growth levels alone are worth it.</p>
+      </div>
+      <div class="card">
+        <h4>Thanks for the Feedback</h4>
+        <p><em>Douglas Stone &amp; Sheila Heen.</em> The book on <em>receiving</em> feedback. Changes how you handle every review and 1:1.</p>
+      </div>
+      <div class="card">
+        <h4>Deep Work</h4>
+        <p><em>Cal Newport.</em> Why maker hours matter. How to protect them from the everything-is-a-notification modern workplace.</p>
+      </div>
+      <div class="card">
+        <h4>Radical Candor</h4>
+        <p><em>Kim Scott.</em> On direct, caring communication. IC chapters apply as much as manager ones.</p>
+      </div>
+      <div class="card">
+        <h4>The Effective Engineer</h4>
+        <p><em>Edmond Lau.</em> Focuses on leverage &mdash; the engineering choices that produce disproportionate impact. Short and practical.</p>
+      </div>
+      <div class="card">
+        <h4>Staff Engineer</h4>
+        <p><em>Will Larson.</em> Aspirational but valuable &mdash; interviews with staff engineers on what the work actually looks like. Read to see the shape of the path ahead.</p>
+      </div>
+      <div class="card">
+        <h4>The Staff Engineer&rsquo;s Path</h4>
+        <p><em>Tanya Reilly.</em> The practical companion to Larson&rsquo;s book. The chapters on &ldquo;big-picture thinking&rdquo; and &ldquo;executing&rdquo; apply well before the staff level.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Craft -->
+  <section class="fade-in" id="craft">
+    <span class="section-num">02 &middot; Clean Code &amp; Craft</span>
+    <h2>Clean Code &amp; Craft</h2>
+    <p class="section-intro">Reading, naming, designing, refactoring. The quiet practices that compound into a career.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Clean Code</h4>
+        <p><em>Robert C. Martin.</em> Controversial in parts &mdash; read with critical eye. But the chapters on naming, functions, and comments remain foundational.</p>
+      </div>
+      <div class="card">
+        <h4>A Philosophy of Software Design</h4>
+        <p><em>John Ousterhout.</em> Short, sharp, focused on managing complexity. One of the best modern books on design.</p>
+      </div>
+      <div class="card">
+        <h4>Refactoring (2nd ed.)</h4>
+        <p><em>Martin Fowler.</em> The catalogue of refactors and when to apply them. Reference for years to come.</p>
+      </div>
+      <div class="card">
+        <h4>Code Complete (2nd ed.)</h4>
+        <p><em>Steve McConnell.</em> The encyclopaedia. Dense but reliable. Skim first; return for specific topics.</p>
+      </div>
+      <div class="card">
+        <h4>Practical Object-Oriented Design</h4>
+        <p><em>Sandi Metz.</em> Ruby on the cover, universal in the lessons. Teaches you to think about messages and dependencies.</p>
+      </div>
+      <div class="card">
+        <h4>The Art of Readable Code</h4>
+        <p><em>Boswell &amp; Foucher.</em> Short, focused on readability at the line and function level. Excellent for your stage.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Debugging -->
+  <section class="fade-in" id="debugging">
+    <span class="section-num">03 &middot; Debugging &amp; Reading Code</span>
+    <h2>Debugging &amp; Reading Code</h2>
+    <p class="section-intro">Every hour spent getting better at debugging saves ten somewhere else. These books teach the method.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Debugging</h4>
+        <p><em>David Agans.</em> Short, canonical. Nine rules that cover 95% of problems. Worth re-reading every year.</p>
+      </div>
+      <div class="card">
+        <h4>Working Effectively with Legacy Code</h4>
+        <p><em>Michael Feathers.</em> How to change code you didn&rsquo;t write without breaking it. Applies to almost every real codebase.</p>
+      </div>
+      <div class="card">
+        <h4>Reading Legacy Code (online essays)</h4>
+        <p><em>Various authors, notably Marianne Bellotti.</em> Shorter reads on why old code is the way it is.</p>
+      </div>
+      <div class="card">
+        <h4>Site Reliability Engineering</h4>
+        <p><em>Google SRE book, free online.</em> The operations and reliability side. Chapters on incidents and postmortems are gold.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Testing -->
+  <section class="fade-in" id="testing">
+    <span class="section-num">04 &middot; Testing</span>
+    <h2>Testing</h2>
+    <p class="section-intro">From &ldquo;I should probably write tests&rdquo; to &ldquo;tests are how I move fast without fear.&rdquo;</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Test-Driven Development: By Example</h4>
+        <p><em>Kent Beck.</em> The original. Short and practical. Read it, try it, decide for yourself.</p>
+      </div>
+      <div class="card">
+        <h4>Growing Object-Oriented Software, Guided by Tests</h4>
+        <p><em>Freeman &amp; Pryce.</em> The deeper book. How tests shape design. Dense but rewarding.</p>
+      </div>
+      <div class="card">
+        <h4>Unit Testing Principles, Practices and Patterns</h4>
+        <p><em>Vladimir Khorikov.</em> A modern, opinionated take on what makes tests valuable vs brittle.</p>
+      </div>
+      <div class="card">
+        <h4>The Art of Unit Testing</h4>
+        <p><em>Roy Osherove.</em> A friendly introduction with real examples. Good starting point.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Data -->
+  <section class="fade-in" id="data">
+    <span class="section-num">05 &middot; Data &amp; Systems</span>
+    <h2>Data &amp; Systems</h2>
+    <p class="section-intro">For depth in databases, distributed systems, and the parts of the stack that bite in production.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Designing Data-Intensive Applications</h4>
+        <p><em>Martin Kleppmann.</em> The book on how real systems store and move data. The chapters on transactions and replication are career-changing.</p>
+      </div>
+      <div class="card">
+        <h4>Use the Index, Luke!</h4>
+        <p><em>Markus Winand (use-the-index-luke.com).</em> Free, focused, excellent on DB indexing. Short enough to finish in a weekend.</p>
+      </div>
+      <div class="card">
+        <h4>SQL Performance Explained</h4>
+        <p><em>Markus Winand.</em> Companion book to &ldquo;Use the Index, Luke.&rdquo; Deeper dive if the free site leaves you wanting more.</p>
+      </div>
+      <div class="card">
+        <h4>Accelerate</h4>
+        <p><em>Forsgren, Humble, Kim.</em> The research on what distinguishes high-performing engineering teams. Short; data-driven.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Production, Security & Reliability -->
+  <section class="fade-in" id="production">
+    <span class="section-num">06 &middot; Production, Security &amp; Reliability</span>
+    <h2>Production, Security &amp; Reliability</h2>
+    <p class="section-intro">When the dev team owns running the thing in production, this reading list is not optional. Pick the book that matches the part of production you touch most.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Site Reliability Engineering</h4>
+        <p><em>Google SRE Book.</em> Free online. The vocabulary of SLOs, error budgets, and incident response. The chapters on postmortems and on-call are canonical.</p>
+      </div>
+      <div class="card">
+        <h4>The Site Reliability Workbook</h4>
+        <p><em>Google.</em> The practical companion with case studies. Read alongside the SRE book.</p>
+      </div>
+      <div class="card">
+        <h4>Observability Engineering</h4>
+        <p><em>Charity Majors, Liz Fong-Jones, George Miranda.</em> The modern reference on logs, metrics, traces, and what comes after. Opinionated and sharp.</p>
+      </div>
+      <div class="card">
+        <h4>Accelerate</h4>
+        <p><em>Forsgren, Humble, Kim.</em> The data behind small-and-frequent deploys, trunk-based development, and what separates high-performing engineering teams. Listed here too because the shipping-safely chapter leans on it.</p>
+      </div>
+      <div class="card">
+        <h4>Continuous Delivery</h4>
+        <p><em>Jez Humble &amp; Dave Farley.</em> The foundational text. Older now, but the principles still hold.</p>
+      </div>
+      <div class="card">
+        <h4>Database Reliability Engineering</h4>
+        <p><em>Laine Campbell &amp; Charity Majors.</em> Deep on safe database operations &mdash; migrations, rollouts, incidents.</p>
+      </div>
+      <div class="card">
+        <h4>Web Security for Developers</h4>
+        <p><em>Malcolm McDonald.</em> Short, accessible, at the right depth for engineers who aren&rsquo;t security specialists. Start here.</p>
+      </div>
+      <div class="card">
+        <h4>OWASP Top 10</h4>
+        <p><em>owasp.org.</em> Free. Refresh annually. You should be able to recognise each category in code.</p>
+      </div>
+      <div class="card">
+        <h4>Threat Modeling</h4>
+        <p><em>Adam Shostack.</em> The canonical book if you want depth. Start lighter; come here when you do.</p>
+      </div>
+      <div class="card">
+        <h4>The Tangled Web</h4>
+        <p><em>Michal Zalewski.</em> Deep, exceptional on browser security. A slow, rewarding read.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. AI Coding Tools -->
+  <section class="fade-in" id="ai">
+    <span class="section-num">07 &middot; AI Coding Tools</span>
+    <h2>AI Coding Tools</h2>
+    <p class="section-intro">A moving target. Books are too slow for this space &mdash; blogs and docs are the canon. These are the writers who&rsquo;ve been the most honest and useful on what AI tools actually do.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Simon Willison&rsquo;s blog</h4>
+        <p>simonwillison.net. The clearest, most ongoing writeup of what AI tools can and can&rsquo;t do. Updated weekly. Highly practical.</p>
+      </div>
+      <div class="card">
+        <h4>Addy Osmani on AI-assisted engineering</h4>
+        <p>addyosmani.com. Practical writing on habits, workflows, and failure modes for engineers using AI coding tools.</p>
+      </div>
+      <div class="card">
+        <h4>Anthropic &mdash; Building Effective Agents</h4>
+        <p>anthropic.com. Worth reading once to understand how these tools actually construct answers. Shapes how you prompt them.</p>
+      </div>
+      <div class="card">
+        <h4>GitHub Copilot / Cursor / Claude Code docs</h4>
+        <p>Read the docs of the tool you use. The best-practice sections are usually lightly hidden and genuinely useful.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8. Collaboration & Writing -->
+  <section class="fade-in" id="collab">
+    <span class="section-num">08 &middot; Collaboration &amp; Writing</span>
+    <h2>Collaboration &amp; Writing</h2>
+    <p class="section-intro">When the dev team has no PM, BA, or separate QA, engineers become the talkers and the writers. These are the books for that side of the job.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Shape Up</h4>
+        <p><em>Ryan Singer, Basecamp.</em> Free online. How a small team ships without a PM buffer. The shaping model is useful on any team that owns its own scope.</p>
+      </div>
+      <div class="card">
+        <h4>The Mom Test</h4>
+        <p><em>Rob Fitzpatrick.</em> Short, practical book on how to talk to users without getting misleading feedback. Applies whenever you talk to anyone about a product.</p>
+      </div>
+      <div class="card">
+        <h4>Writing for Developers</h4>
+        <p><em>Piotr Sarna &amp; Cynthia Dunlop.</em> The mechanics of good technical writing &mdash; docs, blogs, ADRs, READMEs.</p>
+      </div>
+      <div class="card">
+        <h4>Working in Public</h4>
+        <p><em>Nadia Asparouhova.</em> Collaboration patterns in open-source apply to any team with few formal role boundaries.</p>
+      </div>
+      <div class="card">
+        <h4>The Culture Map</h4>
+        <p><em>Erin Meyer.</em> Cross-cultural collaboration. Valuable on any distributed team.</p>
+      </div>
+      <div class="card">
+        <h4>Crucial Conversations</h4>
+        <p><em>Patterson, Grenny, McMillan, Switzler.</em> A handbook for the disagreements that matter. Read the chapter on &ldquo;state your path&rdquo; a few times.</p>
+      </div>
+      <div class="card">
+        <h4>Team Topologies</h4>
+        <p><em>Matthew Skelton &amp; Manuel Pais.</em> On how teams are shaped and how they interact. Useful framing for teams that own everything end-to-end.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 9. Talks -->
+  <section class="fade-in" id="talks">
+    <span class="section-num">09 &middot; Talks</span>
+    <h2>Talks Worth Watching</h2>
+    <p class="section-intro">A good talk can shape how you see a problem for years. These are on YouTube, free, and reward re-watching.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Kevlin Henney &mdash; &ldquo;Seven Ineffective Coding Habits of Many Programmers&rdquo;</h4>
+        <p>Funny, wise, specific. Changes how you look at code.</p>
+      </div>
+      <div class="card">
+        <h4>Sandi Metz &mdash; &ldquo;All the Little Things&rdquo;</h4>
+        <p>On finding and fixing the small design issues that compound. A masterclass in careful thinking.</p>
+      </div>
+      <div class="card">
+        <h4>Dan North &mdash; &ldquo;Patterns of Effective Delivery&rdquo;</h4>
+        <p>A counter-intuitive, thoughtful talk on how good engineers actually work.</p>
+      </div>
+      <div class="card">
+        <h4>Kent Beck &mdash; &ldquo;Software Design Is Human Relationships&rdquo;</h4>
+        <p>The later-career Beck is philosophical and worth sitting with.</p>
+      </div>
+      <div class="card">
+        <h4>Rich Hickey &mdash; &ldquo;Simple Made Easy&rdquo;</h4>
+        <p>Clojure on the surface, timeless on design underneath. One of the best talks in the industry.</p>
+      </div>
+      <div class="card">
+        <h4>Gary Bernhardt &mdash; &ldquo;Boundaries&rdquo;</h4>
+        <p>Functional core, imperative shell. Short. Will change how you structure applications.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 10. Blogs -->
+  <section class="fade-in" id="blogs">
+    <span class="section-num">10 &middot; Blogs &amp; Newsletters</span>
+    <h2>Blogs &amp; Newsletters</h2>
+    <p class="section-intro">Pick two or three. Subscribe. Actually read them.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Martin Fowler</h4>
+        <p>martinfowler.com. Short, focused pieces on design, refactoring, testing, architecture. Reference-quality.</p>
+      </div>
+      <div class="card">
+        <h4>Julia Evans</h4>
+        <p>jvns.ca. A masterclass in publicly practising curiosity. Her zines on debugging, containers, Linux, and git are excellent.</p>
+      </div>
+      <div class="card">
+        <h4>Dan Luu</h4>
+        <p>danluu.com. Long, deeply-researched pieces. Slower reading, higher signal. Try &ldquo;Diseconomies of scale&rdquo; or &ldquo;Normalization of deviance.&rdquo;</p>
+      </div>
+      <div class="card">
+        <h4>The Pragmatic Engineer</h4>
+        <p>Gergely Orosz&rsquo;s newsletter. Industry news and career-focused writing for engineers at this stage and above.</p>
+      </div>
+      <div class="card">
+        <h4>Charity Majors</h4>
+        <p>charity.wtf. Opinionated, sharp writing on observability, on-call, and the operational side of software. About ten years ahead of most teams.</p>
+      </div>
+      <div class="card">
+        <h4>Will Larson (lethain.com)</h4>
+        <p>lethain.com. The writing that became <em>Staff Engineer</em> and <em>An Elegant Puzzle</em>. Practical and direction-setting.</p>
+      </div>
+      <div class="card">
+        <h4>Simon Willison</h4>
+        <p>simonwillison.net. The best ongoing writeup of AI coding tools, plus strong essays on SQLite, Django, and building software in public.</p>
+      </div>
+      <div class="card">
+        <h4>Increment</h4>
+        <p>increment.com. Long-form engineering writing organised by theme. Browse the back issues.</p>
+      </div>
+      <div class="card">
+        <h4>Lara Hogan</h4>
+        <p>larahogan.me. On management and IC growth &mdash; the feedback, resilience, and communication writing applies to any engineer.</p>
+      </div>
+      <div class="card">
+        <h4>Brendan Gregg</h4>
+        <p>brendangregg.com. Performance at depth. Essential when you need to go deep on systems-level perf.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 11. Podcasts -->
+  <section class="fade-in" id="podcasts">
+    <span class="section-num">11 &middot; Podcasts</span>
+    <h2>Podcasts</h2>
+    <p class="section-intro">Put one in your ears on a walk, a commute, or while you wash dishes. The ones below are the ones worth staying subscribed to.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>The Pragmatic Engineer Podcast</h4>
+        <p><em>Gergely Orosz.</em> Interviews with engineers and engineering leaders about how software actually gets built in different companies. High signal.</p>
+      </div>
+      <div class="card">
+        <h4>The Changelog</h4>
+        <p>changelog.com. Long-running, wide-ranging conversations with developers behind open-source and industry trends. Friendly tone, serious guests.</p>
+      </div>
+      <div class="card">
+        <h4>Software Engineering Daily</h4>
+        <p>softwareengineeringdaily.com. Daily interviews across the stack. Good for grazing; skip what doesn&rsquo;t match your current work.</p>
+      </div>
+      <div class="card">
+        <h4>CoRecursive</h4>
+        <p>corecursive.com. Stories behind software. Quieter, more narrative. Episodes like &ldquo;The Perfect Bug Report&rdquo; are classics.</p>
+      </div>
+      <div class="card">
+        <h4>Thoughtworks Technology Podcast</h4>
+        <p>thoughtworks.com/insights/podcasts. Discussions of architectural and delivery patterns from the team behind the Technology Radar.</p>
+      </div>
+      <div class="card">
+        <h4>Oxide and Friends</h4>
+        <p>oxide.computer/podcasts. Long-form technical conversations between senior engineers. Weekly. Excellent when you&rsquo;re ready to dig deep.</p>
+      </div>
+      <div class="card">
+        <h4>Hanselminutes</h4>
+        <p>hanselminutes.com. Scott Hanselman interviews people shaping software and the web. Broad, human, consistently worth your 30 minutes.</p>
+      </div>
+      <div class="card">
+        <h4>The Stack Overflow Podcast</h4>
+        <p>stackoverflow.blog/podcast. Conversations about developer life and craft from the Stack Overflow team and guests.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 12. How to use -->
+  <section class="fade-in" id="using">
+    <span class="section-num">12 &middot; Practice</span>
+    <h2>How to Actually Use These</h2>
+    <p class="section-intro">The failure mode with a list like this is to bookmark everything and read nothing. A small habit beats a huge backlog.</p>
+
+    <div class="framework">
+      <h4>The Learning Loop</h4>
+      <ol>
+        <li><strong>Pick one.</strong> One book or one talk. Not five.</li>
+        <li><strong>Finish it,</strong> even if you&rsquo;re 50% bored by chapter three. Skim the boring parts; don&rsquo;t abandon.</li>
+        <li><strong>Extract one idea.</strong> What&rsquo;s the one thing you&rsquo;ll try differently at work?</li>
+        <li><strong>Apply it this week.</strong> On real code, in a real MR.</li>
+        <li><strong>Share what you learned.</strong> A Slack message, a lunch-and-learn, a team wiki entry. Teaching solidifies the learning.</li>
+        <li><strong>Pick the next one.</strong> Move on. Don&rsquo;t stockpile.</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127793;</span>
+      <div>
+        <p><strong>Why this matters:</strong> reading ten books and applying none of them is the same as reading none of them. Reading two books and applying one thing from each changes your career. The delta between the two is the difference between knowledge and skill.</p>
+      </div>
+    </div>
+
+    <h3>The stage-sequencing suggestion</h3>
+    <p>If you&rsquo;re looking for a path through this list over the next year:</p>
+    <ol>
+      <li><strong>Start with <em>The Pragmatic Programmer</em> or <em>The Missing README</em>.</strong> The mindset books ground everything else.</li>
+      <li><strong>Then one craft book</strong> (<em>A Philosophy of Software Design</em> or <em>Refactoring</em>).</li>
+      <li><strong>Then one debugging/testing book</strong> (<em>Debugging</em> by Agans, or <em>Growing Object-Oriented Software</em>).</li>
+      <li><strong>Then one systems book</strong> (<em>Designing Data-Intensive Applications</em> if you touch backend; skip if you don&rsquo;t).</li>
+      <li><strong>Sprinkle talks and blog posts throughout.</strong> They&rsquo;re shorter and often set you up for the next book.</li>
+    </ol>
+    <p>Four books in a year, actually finished and actually applied, is a lot. Don&rsquo;t try for more.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <div class="quote">
+      <p>Knowledge without practice is nothing; practice without knowledge is dangerous.</p>
+      <div class="attribution">&mdash; Confucius (approximately), and every good engineering mentor</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

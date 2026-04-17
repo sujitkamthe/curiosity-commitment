@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Depth in Your Stack &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="depth.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Depth in Your Stack</h1>
+    <p class="subtitle">Surface knowledge gets you through year one. After that, depth is what unlocks the next decade. Pick your language, your framework, and your database. Go deep on purpose.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#why-depth">1. Why Depth Matters</a></li>
+      <li><a href="#language">2. Knowing Your Language Deeply</a></li>
+      <li><a href="#framework">3. Knowing Your Framework</a></li>
+      <li><a href="#database">4. Knowing Your Database</a></li>
+      <li><a href="#read-source">5. Reading the Source</a></li>
+      <li><a href="#t-shape">6. T-Shaped vs I-Shaped</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Why Depth -->
+  <section class="fade-in" id="why-depth">
+    <span class="section-num">01 &middot; Motivation</span>
+    <h2>Why Depth Matters</h2>
+    <p class="section-intro">&ldquo;I know enough of X to get my job done.&rdquo; That&rsquo;s where most engineers stall. It&rsquo;s also where the gap opens between them and the engineers you admire. Depth &mdash; real, curious, read-the-source depth &mdash; is what lets you diagnose the weird bug, design the right abstraction, and give the kind of review that improves a codebase.</p>
+
+    <h3>What surface knowledge looks like</h3>
+    <p>You can write code in the language. You can use the framework&rsquo;s main features. You can query the database. But:</p>
+    <ul>
+      <li>When a bug&rsquo;s root cause is <em>inside</em> the framework, you&rsquo;re stuck.</li>
+      <li>When the team needs to pick between two approaches, you shrug because both &ldquo;seem fine.&rdquo;</li>
+      <li>When someone asks &ldquo;why are we seeing this behaviour?&rdquo; you guess.</li>
+      <li>When you hit a performance problem, you don&rsquo;t know where the time is going.</li>
+    </ul>
+    <p>Surface knowledge is enough to ship features. It is not enough to grow.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>You don&rsquo;t need to know everything deeply. You do need at least one deep thing. Without depth in any area, you can&rsquo;t diagnose, can&rsquo;t design, and can&rsquo;t teach. Pick an area &mdash; your language, your framework, or your database &mdash; and commit to knowing it well.</p>
+    </div>
+
+    <h3>How depth compounds</h3>
+    <p>Depth in one area creates leverage across all areas. The person who understands their database deeply writes better backends. The person who understands their language deeply writes cleaner abstractions in it. The person who understands async deeply debugs ten times faster. You don&rsquo;t need to be deep in everything &mdash; depth anywhere transfers.</p>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Why this matters:</strong> your market value over the next decade is roughly proportional to how many things you&rsquo;re deep on, not how many things you&rsquo;ve touched. Breadth is easy; depth takes effort. Start building one deep area now, while the habit is cheap.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Language -->
+  <section class="fade-in" id="language">
+    <span class="section-num">02 &middot; Language</span>
+    <h2>Knowing Your Language Deeply</h2>
+    <p class="section-intro">Every language has idioms, gotchas, and a worldview. The language you use every day rewards being understood. You won&rsquo;t master it by copying patterns from Stack Overflow &mdash; you&rsquo;ll master it by actively exploring how it works and why.</p>
+
+    <h3>What &ldquo;deep in a language&rdquo; means</h3>
+    <div class="framework">
+      <h4>The Language Depth Checklist</h4>
+      <ol>
+        <li><strong>The core data structures.</strong> How do lists, maps, sets behave? What&rsquo;s the time complexity of common operations? What&rsquo;s immutable, what&rsquo;s shared?</li>
+        <li><strong>The memory model / ownership model.</strong> Where do objects live? When are they collected? What gets shared vs copied?</li>
+        <li><strong>Concurrency &amp; async.</strong> Threads, coroutines, async/await, promises &mdash; what&rsquo;s actually happening? What&rsquo;s the scheduler doing?</li>
+        <li><strong>Error handling idioms.</strong> Exceptions, <code>Result</code>, <code>Option</code>, errors-as-values. What does your language prefer, and why?</li>
+        <li><strong>The standard library.</strong> You should <em>reach for it first</em>, not your favourite third-party package.</li>
+        <li><strong>The type system</strong> (if the language has one). Generics, variance, inference &mdash; what&rsquo;s possible, what&rsquo;s idiomatic, what&rsquo;s overkill.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: the async footgun</h3>
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p>In Node.js / TypeScript, you write:</p>
+        <pre style="background:var(--bg-alt);padding:12px;border-radius:6px;font-size:0.82rem;overflow-x:auto;">orders.forEach(async (order) =&gt; {
+  await processOrder(order);
+});
+console.log('done');</pre>
+        <p>It looks right. The <code>await</code> is there. The code compiles. But <code>done</code> prints before any order finishes &mdash; <code>forEach</code> doesn&rsquo;t wait on the async callback. You shipped this. Production has a race condition.</p>
+        <p><strong>Deep-language move:</strong> know that <code>forEach</code> returns <code>void</code> and ignores returned promises. Reach for <code>for...of</code> with <code>await</code>, or <code>Promise.all(orders.map(processOrder))</code> if parallel is fine. This isn&rsquo;t exotic knowledge &mdash; it&rsquo;s day-one JavaScript async. But you learn it by being curious, not by copying patterns.</p>
+      </div>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Read the language&rsquo;s style guide (Google Java, PEP 8, airbnb JS, etc.)</td><td>Copy patterns from random SO answers without understanding them</td></tr>
+      <tr><td>Read the release notes for each major version</td><td>Write code from whichever version you first learned</td></tr>
+      <tr><td>Know one weird corner of the language well &mdash; you&rsquo;ll be surprised how often it comes up</td><td>Stay entirely in the &ldquo;safe 20%&rdquo;</td></tr>
+      <tr><td>Benchmark yourself once: solve the same problem in two idioms</td><td>Assume both idioms are equivalent</td></tr>
+      <tr><td>Read good open-source code in your language &mdash; the language&rsquo;s own standard library is a start</td><td>Only read your team&rsquo;s code</td></tr>
+    </table>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Language-agnostic over time</h5>
+        <p>You use four languages shallowly. You&rsquo;re idiom-free in all of them. Every language you write looks like slightly-translated pseudocode.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; One language deeply, one or two others functionally</h5>
+        <p>Know one language in the way a native knows a spoken language. Know one or two more the way a tourist knows a city &mdash; enough to navigate. That T-shape is worth far more than flat breadth.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Framework -->
+  <section class="fade-in" id="framework">
+    <span class="section-num">03 &middot; Framework</span>
+    <h2>Knowing Your Framework</h2>
+    <p class="section-intro">The framework you use every day (Spring, Rails, Django, Angular, React, &hellip;) is a huge collection of decisions someone else made for you. Most of its weird behaviour is explained by understanding <em>one or two</em> core concepts. Learn them. You&rsquo;ll stop being surprised by your own application.</p>
+
+    <h3>The three things to learn about any framework</h3>
+    <div class="framework">
+      <h4>The Framework Core</h4>
+      <ol>
+        <li><strong>The lifecycle.</strong> What runs when? What&rsquo;s the order of init, config, request handling, shutdown? Most bugs live in lifecycle surprises.</li>
+        <li><strong>The extension points.</strong> Middleware, interceptors, hooks, filters, lifecycle callbacks. These are how the framework invites you to customise it.</li>
+        <li><strong>The &ldquo;framework tax&rdquo;.</strong> What does the framework do for you that you&rsquo;d otherwise do by hand? Understand the cost when you fight it vs work with it.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: the transaction that didn&rsquo;t</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p>Spring Boot, Java. You put <code>@Transactional</code> on a private method. The transaction doesn&rsquo;t start. You spend two days chasing ghosts.</p>
+        <p><strong>Deep-framework knowledge:</strong> Spring&rsquo;s <code>@Transactional</code> works via proxies. A proxy can only intercept calls coming <em>from outside</em> the class. Private methods, or calls within the same class via <code>this.x()</code>, bypass the proxy and therefore the transaction. This is a day-one Spring concept &mdash; but one most people learn only after being burned. Don&rsquo;t wait for the burn.</p>
+      </div>
+    </div>
+
+    <h3>How to build framework depth</h3>
+    <ul>
+      <li><strong>Read the quickstart even if you already &ldquo;know&rdquo; the framework.</strong> You&rsquo;ll find concepts you missed.</li>
+      <li><strong>Read the docs for features you use every day.</strong> Request handling, routing, data access, DI. Not the exotic stuff.</li>
+      <li><strong>Pick one surprising behaviour a week and investigate it.</strong> &ldquo;Why does X render twice?&rdquo; &ldquo;Why does Y get called before Z?&rdquo;</li>
+      <li><strong>Pair with a teammate who&rsquo;s deep.</strong> Half an hour of their time can teach you a concept you&rsquo;d take weeks to stumble into.</li>
+    </ul>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Copying framework config without understanding it</h5>
+        <p>Your <code>application.yml</code> / Webpack config / Angular module has 100 lines you didn&rsquo;t write. You don&rsquo;t know what any of them do. You&rsquo;re scared to touch any of them.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Understand one line at a time</h5>
+        <p>Don&rsquo;t refactor the config. Just, each week, understand one property you use. Over a few months you&rsquo;ll understand the whole file. The fear disappears.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Fighting the framework</h5>
+        <p>Writing long custom code to avoid using a feature the framework already provides &mdash; often because you don&rsquo;t know it&rsquo;s there.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Check if the framework has an answer first</h5>
+        <p>Before you write a helper, search the framework&rsquo;s own docs for the word. Nine times out of ten, it&rsquo;s a built-in.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Database -->
+  <section class="fade-in" id="database">
+    <span class="section-num">04 &middot; Database</span>
+    <h2>Knowing Your Database</h2>
+    <p class="section-intro">The database is where most real-world performance problems hide, where the most expensive bugs live, and where engineers still growing their craft lose the most time. Depth here pays back more than almost anywhere else.</p>
+
+    <h3>The database depth checklist</h3>
+    <div class="framework">
+      <h4>The DB Core</h4>
+      <ol>
+        <li><strong>How indexes work.</strong> When they help, when they don&rsquo;t, why adding one can slow writes, how to read an <code>EXPLAIN</code> plan.</li>
+        <li><strong>Transactions and isolation levels.</strong> What does your default isolation actually guarantee? Read-committed, repeatable-read, serializable &mdash; what&rsquo;s the real-world difference?</li>
+        <li><strong>The N+1 problem.</strong> The #1 silent performance killer. Learn to spot it in your ORM&rsquo;s output.</li>
+        <li><strong>Schema design basics.</strong> Normal forms (up to 3NF is enough), when to denormalise, how to think about relationships.</li>
+        <li><strong>Migrations.</strong> How to add a column, backfill, drop safely. How to NOT break production on deploy.</li>
+        <li><strong>Query plans.</strong> <code>EXPLAIN ANALYZE</code> should be your friend. Reading it is a learnable skill with a high payoff.</li>
+      </ol>
+    </div>
+
+    <h3>The N+1 scenario</h3>
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p>You&rsquo;re listing 50 orders. Each order has a customer. Your code:</p>
+        <pre style="background:var(--bg-alt);padding:12px;border-radius:6px;font-size:0.82rem;overflow-x:auto;">for (Order o : orders) {
+  Customer c = customerRepo.findById(o.getCustomerId());
+  // render o and c
+}</pre>
+        <p>The ORM issues: 1 query for orders, then 50 queries for customers. Locally with a fast DB: feels fine. In prod with latency: 51 round-trips, page takes 3 seconds.</p>
+        <p><strong>Deep-DB move:</strong> either fetch customers with a <code>JOIN</code>, or do one batch lookup (<code>WHERE customer_id IN (...)</code>). 2 queries instead of 51. You had to know the pattern existed to spot it in code review or in your own code.</p>
+      </div>
+    </div>
+
+    <h3>The index you didn&rsquo;t add</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p>A query on <code>orders WHERE customer_id = ? AND status = 'PAID'</code> is slow. Someone adds an index on <code>customer_id</code>. Still slow. An index on <code>status</code> alone. Still slow.</p>
+        <p><strong>Deep-DB knowledge:</strong> the right index is a composite on <code>(customer_id, status)</code> &mdash; because the query filters on both. A single-column index on a low-selectivity column (<code>status</code> has 5 values) barely helps. Knowing this once saves you from the same mistake for the rest of your career.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Trusting the ORM to be efficient</h5>
+        <p>You never look at the SQL your ORM generates. Production has ten silent N+1s. One of them will page someone at 2am.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Log queries locally, read them</h5>
+        <p>Enable query logging in dev. Glance at what your code is actually sending. You&rsquo;ll spot inefficiencies in minutes.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Running migrations without thought</h5>
+        <p>Adding a NOT NULL column to a huge table with an <code>ALTER</code> that locks it. Deploy fails. Prod is down.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Safe migration patterns</h5>
+        <p>Add nullable, backfill in batches, then enforce NOT NULL. Learn the three-step migration. It works for many other migrations too.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Not knowing your default isolation level</h5>
+        <p>You assume transactions prevent something they don&rsquo;t. A subtle race in prod. Impossible to reproduce locally.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Know the guarantee, design around it</h5>
+        <p>Read one page on isolation levels for your DB. You&rsquo;ll design around what&rsquo;s actually guaranteed, not what you hoped was.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Designing Data-Intensive Applications</em> &mdash; Martin Kleppmann. The chapter on transactions alone is career-changing.</li>
+      <li><em>Use the Index, Luke!</em> (use-the-index-luke.com) &mdash; a free, focused guide to DB indexing.</li>
+      <li>PostgreSQL EXPLAIN documentation &mdash; even if you don&rsquo;t use Postgres, the mental model generalises.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Read Source -->
+  <section class="fade-in" id="read-source">
+    <span class="section-num">05 &middot; Source</span>
+    <h2>Reading the Source</h2>
+    <p class="section-intro">The libraries and frameworks you use are not sealed boxes. They are code. Some of it is extraordinary code. Reading it is how you graduate from user to practitioner &mdash; and it is a skill almost nobody practises, which is exactly why practising it is a superpower.</p>
+
+    <h3>Why read source</h3>
+    <ul>
+      <li><strong>It demystifies.</strong> The thing you&rsquo;ve been treating as magic is just &hellip; code. Often simpler than you feared.</li>
+      <li><strong>It teaches idioms.</strong> How does this popular library structure its modules? How does it handle errors? Name things?</li>
+      <li><strong>It unlocks debugging.</strong> When you can step into the library, bugs inside the library stop being a wall.</li>
+      <li><strong>It makes you versatile.</strong> You start seeing the shapes of good design across languages and frameworks.</li>
+    </ul>
+
+    <div class="framework">
+      <h4>The Ten-Minute Source Read</h4>
+      <ol>
+        <li><strong>Pick a function you just used.</strong> Not a random file &mdash; the function you called five minutes ago.</li>
+        <li><strong>Jump to its source</strong> (every IDE does this).</li>
+        <li><strong>Read for ten minutes.</strong> You don&rsquo;t need to understand everything. Understand <em>one</em> thing.</li>
+        <li><strong>Note one thing you learned</strong> &mdash; in a scratch doc.</li>
+        <li><strong>Repeat weekly.</strong> Different function, different library.</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Why this matters:</strong> most engineers never read source code they didn&rsquo;t write. A year of weekly ten-minute reads puts you in a small minority. The shape of engineering quality becomes familiar to you, and you start writing better code by osmosis.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. T-shape -->
+  <section class="fade-in" id="t-shape">
+    <span class="section-num">06 &middot; Shape</span>
+    <h2>T-Shaped vs I-Shaped</h2>
+    <p class="section-intro">At this stage, your skills are usually I-shaped: some breadth across tools, no real depth anywhere. The move is to become T-shaped &mdash; deep in one thing, broad across others. Not a generalist, not a narrow specialist &mdash; an engineer with range plus anchor.</p>
+
+    <h3>The shapes</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>I-shaped (breadth only)</h4>
+        <p>You&rsquo;ve touched five languages, three frameworks, two databases. You&rsquo;re comfortable everywhere and deep nowhere. You can ship features. You can&rsquo;t answer hard questions.</p>
+      </div>
+      <div class="card">
+        <h4>Narrow specialist</h4>
+        <p>You know one thing extremely well and nothing else. You&rsquo;re invaluable for that one thing and helpless outside it. Fragile career, limited range.</p>
+      </div>
+      <div class="card">
+        <h4>T-shaped (the goal)</h4>
+        <p>One area deep (your language, or your framework, or your database). Comfortable breadth in the rest. You can contribute across the stack and go deep when it matters.</p>
+      </div>
+    </div>
+
+    <h3>Picking your deep area</h3>
+    <p>The choice isn&rsquo;t permanent &mdash; you&rsquo;ll add more deep areas over your career. But pick one now. How to choose:</p>
+    <ul>
+      <li><strong>What do you actually enjoy?</strong> Depth requires years; you can&rsquo;t fake enjoyment.</li>
+      <li><strong>What does your team need?</strong> Being the team&rsquo;s go-to for X is a career accelerator.</li>
+      <li><strong>What are you already closest to?</strong> You probably already have a 6-month head-start somewhere. Build on it.</li>
+    </ul>
+
+    <div class="framework">
+      <h4>The Depth Commitment</h4>
+      <ol>
+        <li><strong>Pick one area.</strong> Language, framework, or database. One. Write it down.</li>
+        <li><strong>Block 90 minutes a week</strong> for it (see <a href="foundations.html#exploration">Foundations &mdash; The Exploration Habit</a>).</li>
+        <li><strong>For the next six months,</strong> your weekly exploration is only in this area. Not &ldquo;a bit of everything.&rdquo;</li>
+        <li><strong>Share what you learn.</strong> Become the person the team asks about this. That reputation compounds.</li>
+        <li><strong>At six months, assess.</strong> Continue for another six, or expand to a second area.</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Being &ldquo;the person who knows X&rdquo; is one of the fastest ways to accelerate your career. You become a magnet for interesting work in X, which deepens X further, which makes you more of a magnet. The compounding is invisible for months and obvious in a year.</p>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>The Pragmatic Programmer</em> &mdash; Hunt &amp; Thomas, chapter on &ldquo;Your Knowledge Portfolio.&rdquo;</li>
+      <li><em>The Software Engineer&rsquo;s Guidebook</em> &mdash; Gergely Orosz, on growing range through the mid-career years.</li>
+      <li>Dan Luu&rsquo;s blog (danluu.com) &mdash; deep writing about deep systems, a model for what depth looks like in practice.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Pick your deep area (language, framework, or database). Write it down.</li>
+      <li>Read the source of one library function you use every day. Spend ten minutes.</li>
+      <li>Enable SQL query logging in dev and glance at what your ORM generates in your next story.</li>
+      <li>Read the release notes for your language&rsquo;s most recent version.</li>
+      <li>Use one language feature you&rsquo;ve never used before in your next MR.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Incidents &amp; On-Call &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="incidents.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Incidents &amp; On-Call</h1>
+    <p class="subtitle">When something breaks in production, the dev team is the one who fixes it. This chapter is about being the person who keeps their head, makes the right moves, and turns a bad hour into a learning. Every engineer owns production &mdash; not a separate team.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#first-incident">1. Your First Real Incident</a></li>
+      <li><a href="#severity">2. Severity Judgement</a></li>
+      <li><a href="#during">3. During the Incident</a></li>
+      <li><a href="#reading-prod">4. Reading Production</a></li>
+      <li><a href="#postmortem">5. The Blameless Postmortem</a></li>
+      <li><a href="#runbooks">6. Runbooks Your Future Self Will Thank You For</a></li>
+      <li><a href="#on-call">7. Being a Good On-Call</a></li>
+      <li><a href="#learning-from-others">8. Learning From Others&rsquo; Incidents</a></li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="fade-in" id="first-incident">
+    <span class="section-num">01 &middot; The Moment</span>
+    <h2>Your First Real Incident</h2>
+    <p class="section-intro">At some point, something you wrote &mdash; or a system you&rsquo;re on call for &mdash; breaks in production. Customers are affected. A Slack channel lights up. People are looking at you. This is a rite of passage. How you handle it shapes your reputation and, more importantly, what you learn about yourself as an engineer.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>An incident is not a test of whether you know the system perfectly. It&rsquo;s a test of whether you stay calm, communicate, and make deliberate moves. Nobody expects you to know everything. Everybody notices whether you panic, hide, or lead.</p>
+    </div>
+
+    <h3>What to feel vs what to do</h3>
+    <p>You&rsquo;ll feel an adrenaline spike, a fear of blame, and a strong urge to do <em>anything</em> that looks like progress. That&rsquo;s normal. The moves below are designed to work with that feeling rather than against it.</p>
+
+    <div class="framework">
+      <h4>The First Five Minutes</h4>
+      <ol>
+        <li><strong>Acknowledge.</strong> &ldquo;I&rsquo;m looking.&rdquo; In the channel. Even before you know anything. Silence feels longer than it is on the other side.</li>
+        <li><strong>Assess severity</strong> (see next section). Is this customer-visible? How many? Money? Security? Data?</li>
+        <li><strong>Start a log.</strong> Timestamp, what you see, what you&rsquo;re doing. A scratchpad is fine. You&rsquo;ll thank yourself later.</li>
+        <li><strong>Decide: stabilise or investigate?</strong> If customers are down, stabilise first &mdash; revert, restart, circuit-break. Understanding comes after the bleeding stops.</li>
+        <li><strong>Call for help early.</strong> Not &ldquo;help I can&rsquo;t solve it&rdquo; &mdash; &ldquo;I&rsquo;ve got X and am trying Y; a second pair of eyes would be useful.&rdquo; You don&rsquo;t earn points for solo-ing this.</li>
+      </ol>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>What not to do in the first five minutes:</strong> make random changes to production hoping something works. Delete data you think is bad. Disable monitoring because the alerts are &ldquo;noisy.&rdquo; Argue about who broke it. These are the actions that turn a 20-minute incident into a 4-hour one.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2 -->
+  <section class="fade-in" id="severity">
+    <span class="section-num">02 &middot; Severity</span>
+    <h2>Severity Judgement</h2>
+    <p class="section-intro">Not every alert is an incident, not every incident is a fire. Knowing the difference is a judgement skill. Getting this wrong in either direction hurts: under-reacting means customers suffer longer; over-reacting burns the team and dulls the signal for next time.</p>
+
+    <h3>The rough severity ladder</h3>
+    <table class="comparison">
+      <tr><th>Level</th><th>Looks like</th><th>The move</th></tr>
+      <tr><td>SEV-1</td><td>Site down, data loss, security breach, revenue-blocking</td><td>All-hands. Wake people up. Comms to the business within minutes.</td></tr>
+      <tr><td>SEV-2</td><td>Major feature broken for many users; meaningful customer pain</td><td>Working group now. Comms within the hour. Don&rsquo;t wait for tomorrow.</td></tr>
+      <tr><td>SEV-3</td><td>Partial degradation; workaround exists; some customers affected</td><td>Fix in hours, not days. Ticket created, owner assigned, comms if customer-facing.</td></tr>
+      <tr><td>SEV-4</td><td>Minor bug, cosmetic issue, internal tool</td><td>Normal backlog. Not an incident. Don&rsquo;t inflate the channel for these.</td></tr>
+    </table>
+
+    <h3>The three questions that decide severity</h3>
+    <div class="framework">
+      <h4>The Severity Triangle</h4>
+      <ol>
+        <li><strong>Who&rsquo;s affected?</strong> One internal user, a segment of customers, everyone?</li>
+        <li><strong>What&rsquo;s affected?</strong> Nice-to-have feature, core flow, money path, security, data integrity?</li>
+        <li><strong>How reversible is the damage?</strong> A restart fixes it vs data is corrupt and drifting further vs a secret has leaked.</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Err on the side of calling it early.</strong> It&rsquo;s far better to say &ldquo;I think this might be a SEV-2 &mdash; let me confirm&rdquo; than to discover in the postmortem that you sat on it for an hour. You can always downgrade. You rarely recover the lost time.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;It&rsquo;s probably fine&rdquo;</h5>
+        <p>An alert fires. You check the dashboard for 30 seconds. Things look okay-ish. You don&rsquo;t dig. Two hours later someone in sales is asking why orders are failing.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Prove it&rsquo;s fine</h5>
+        <p>Alerts don&rsquo;t fire for nothing (if yours do, fix the alert). Look at the actual graph, the actual logs, and sample an actual customer flow. &ldquo;I confirmed via X, Y, Z that the impact is zero&rdquo; is the bar, not &ldquo;looks fine.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3 -->
+  <section class="fade-in" id="during">
+    <span class="section-num">03 &middot; In the Fire</span>
+    <h2>During the Incident</h2>
+    <p class="section-intro">An incident is not a programming problem; it&rsquo;s a coordination problem that happens to involve programming. The engineer who makes the most progress is usually the one who communicates most clearly, not the one who types fastest.</p>
+
+    <h3>Comms that help vs comms that hurt</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Silent heroism</h5>
+        <p>You go head-down, figure it out, fix it, and only tell people after. Meanwhile, three people were blocked, two duplicated your work, and the business had no ETA.</p>
+      </div>
+      <div class="better">
+        <h5>Narrate while you work</h5>
+        <p>&ldquo;I see 500s starting at 14:02; I&rsquo;m checking the deploy log.&rdquo; &ldquo;Deploy at 14:01 changed X.&rdquo; &ldquo;Rolling back; ETA 3 minutes.&rdquo; Every few minutes, not every thought. Enough that others know the state without asking.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Speculating as fact</h5>
+        <p>&ldquo;The database is overloaded&rdquo; (you don&rsquo;t actually know yet). The room runs with it. Ten minutes later it turns out to be a stuck queue. Now you&rsquo;ve lost ten minutes and some credibility.</p>
+      </div>
+      <div class="better">
+        <h5>Separate observation from hypothesis</h5>
+        <p>&ldquo;Observation: error rate is 8x baseline. Hypothesis: DB connection pool exhausted. Checking.&rdquo; Label it. You&rsquo;re not wrong to guess &mdash; you&rsquo;re only wrong to present a guess as a fact.</p>
+      </div>
+    </div>
+
+    <h3>Roles in a bigger incident</h3>
+    <p>When more than two people are working an incident, one person coordinates &mdash; everyone else works <em>for</em> that person. The coordinator doesn&rsquo;t do the investigation; they keep the timeline, decide what to try next, and handle the business comms. If your team doesn&rsquo;t have this role formally, someone has to play it informally. Ask: &ldquo;who&rsquo;s driving?&rdquo;</p>
+
+    <div class="framework">
+      <h4>The During-Incident Moves</h4>
+      <ol>
+        <li><strong>Stabilise before you understand.</strong> If a revert stops the bleeding, revert now. Root cause later.</li>
+        <li><strong>Change one thing at a time.</strong> Multiple simultaneous changes mean you can&rsquo;t tell what worked.</li>
+        <li><strong>Write it down as you go.</strong> Every action taken, every observation, every guess. Timestamped.</li>
+        <li><strong>Update every 10&ndash;15 minutes</strong> even if the update is &ldquo;still investigating, no new info.&rdquo; Silence reads as panic.</li>
+        <li><strong>Know when to escalate.</strong> If your ETA has passed twice, it&rsquo;s time to pull someone else in.</li>
+      </ol>
+    </div>
+
+    <h3>When to revert vs when to roll forward</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p><strong>Default to revert.</strong> If a recent deploy looks involved, revert first and debug on a healthy system. &ldquo;Fixing forward&rdquo; under incident pressure is how two-hour outages turn into six-hour ones. The exceptions: revert is itself risky (DB migrations), or the bug pre-dates the deploy and rolling back won&rsquo;t help. Those are judgement calls &mdash; but the default is revert.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4 -->
+  <section class="fade-in" id="reading-prod">
+    <span class="section-num">04 &middot; Evidence</span>
+    <h2>Reading Production</h2>
+    <p class="section-intro">You can&rsquo;t debug production the way you debug a local process. The game is to <em>ask the right system</em> &mdash; logs, metrics, traces, recent deploys, and the code &mdash; in the right order, to narrow down what&rsquo;s broken without adding more noise to the fire.</p>
+
+    <h3>The four signals</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Metrics (what&rsquo;s happening?)</h4>
+        <p>Error rate, latency, traffic, saturation. Shows <em>shape</em>. Answers &ldquo;is this wide or narrow? new or worsening?&rdquo; Check first: metrics are cheap to read.</p>
+      </div>
+      <div class="card">
+        <h4>Logs (why is it happening?)</h4>
+        <p>Specific errors, stack traces, sequence of events. Shows <em>detail</em>. Filter aggressively: don&rsquo;t drown in normal logs. Grep for the error signature.</p>
+      </div>
+      <div class="card">
+        <h4>Traces (where is it happening?)</h4>
+        <p>One request across many services. Shows <em>path</em>. Answers &ldquo;which hop is slow? which service is erroring?&rdquo; Invaluable in microservices.</p>
+      </div>
+      <div class="card">
+        <h4>Deploy log (what changed?)</h4>
+        <p>Recent deploys, config changes, feature flag flips, infrastructure changes. Answers &ldquo;did we cause this ourselves in the last hour?&rdquo; Check early &mdash; often this is the answer.</p>
+      </div>
+    </div>
+
+    <h3>The order that usually works</h3>
+    <div class="framework">
+      <h4>The Production Investigation Loop</h4>
+      <ol>
+        <li><strong>Confirm the impact.</strong> Metric shows the shape; one real customer request confirms it&rsquo;s real.</li>
+        <li><strong>Check recent changes.</strong> Deploys, config, flags, migrations in the last hour or three. If one correlates, revert and observe.</li>
+        <li><strong>Isolate the scope.</strong> All endpoints or one? All regions or one? All users or a segment? The narrower the scope, the closer the cause.</li>
+        <li><strong>Read the errors.</strong> What&rsquo;s the most common stack trace right now? Not the random ones &mdash; the clustered ones.</li>
+        <li><strong>Follow the trace.</strong> Pick one failing request. Trace it end-to-end. Where did it first go wrong?</li>
+        <li><strong>Form a hypothesis, test it, repeat.</strong> Same scientific method as local debugging &mdash; just with higher stakes and more comms.</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128270;</span>
+      <div>
+        <p><strong>The &ldquo;what changed?&rdquo; reflex:</strong> most incidents are caused by a recent change in your own system, your dependencies, or your infrastructure. Before theorising about exotic causes, exhaust the &ldquo;what changed in the last N hours?&rdquo; question. It&rsquo;s the cheapest question you can ask and it solves most incidents.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5 -->
+  <section class="fade-in" id="postmortem">
+    <span class="section-num">05 &middot; After</span>
+    <h2>The Blameless Postmortem</h2>
+    <p class="section-intro">The incident ended. The real value comes from what the team learns from it. A good postmortem is honest, specific, and blameless &mdash; it looks at the system, not the person, and lands with concrete changes that make the next incident less likely.</p>
+
+    <h3>Why &ldquo;blameless&rdquo; &mdash; and what it actually means</h3>
+    <p>Blameless doesn&rsquo;t mean &ldquo;nobody&rsquo;s at fault.&rdquo; It means the postmortem is not a trial. People made reasonable decisions given what they knew. The system let them make a mistake that mattered. The fix is to change the system &mdash; the code, the tests, the alerts, the runbooks &mdash; so the same reasonable decision can&rsquo;t cause the same bad outcome.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>If an engineer could cause an incident by making a plausible mistake, the system is too easy to break. The action item isn&rsquo;t &ldquo;be more careful&rdquo; &mdash; it&rsquo;s add a check, a guard, a test, an automated rollback, or a runbook that makes the plausible mistake safe.</p>
+    </div>
+
+    <h3>The shape of a good postmortem</h3>
+    <div class="framework">
+      <h4>The Postmortem Template</h4>
+      <ol>
+        <li><strong>Summary.</strong> One paragraph. What broke, for how long, who was affected, how it was fixed.</li>
+        <li><strong>Timeline.</strong> Timestamped. What happened, what was detected, what was tried, what worked. The log you kept during the incident is the first draft.</li>
+        <li><strong>Root cause(s).</strong> The technical chain. Use the <a href="questioning.html#five-whys">Five Whys</a> &mdash; don&rsquo;t stop at the first proximate cause.</li>
+        <li><strong>What went well.</strong> Not padding &mdash; real things. Alert fired fast, revert was clean, someone caught a side effect. Reinforce these.</li>
+        <li><strong>What went badly.</strong> Specific, not vague. &ldquo;Alert was noisy so we ignored it for 20 minutes&rdquo; &mdash; not &ldquo;monitoring needs improvement.&rdquo;</li>
+        <li><strong>Action items.</strong> Specific, owned, dated. &ldquo;Add integration test for X flow &mdash; Priya &mdash; by next Friday.&rdquo; Three real ones beat twenty aspirational ones.</li>
+        <li><strong>What to watch.</strong> If we don&rsquo;t know the full cause, what signal tells us it&rsquo;s happening again?</li>
+      </ol>
+    </div>
+
+    <h3>Patterns &amp; anti-patterns</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>The &ldquo;human error&rdquo; conclusion</h5>
+        <p>Root cause: &ldquo;engineer forgot to update config.&rdquo; Done. Action items: &ldquo;be more careful.&rdquo; Nothing changes. Next quarter the same thing happens to someone else.</p>
+      </div>
+      <div class="better">
+        <h5>System-level root cause</h5>
+        <p>&ldquo;The config was easy to forget because it was in a separate repo with no validation linking the two. Action: add CI check that fails when service X is deployed without matching config update.&rdquo;</p>
+      </div>
+      <div class="pitfall">
+        <h5>The 14-action-item postmortem</h5>
+        <p>Everyone felt bad, so everyone proposed a fix. A month later, zero are done. The postmortem produced no change.</p>
+      </div>
+      <div class="better">
+        <h5>Three owned, dated actions</h5>
+        <p>Three specific, prioritised actions, each with an owner and a date. Anything else goes to &ldquo;nice to have&rdquo; or the backlog. The actions that actually ship are the ones that beat twelve that don&rsquo;t.</p>
+      </div>
+      <div class="pitfall">
+        <h5>No follow-through</h5>
+        <p>The postmortem is written and filed. Action items aren&rsquo;t tracked. The incident recurs.</p>
+      </div>
+      <div class="better">
+        <h5>Actions in the backlog, reviewed monthly</h5>
+        <p>Action items become real tickets with owners. A standing agenda item checks which postmortem actions are open. &ldquo;Are we still vulnerable to X?&rdquo; is asked until the answer is no.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6 -->
+  <section class="fade-in" id="runbooks">
+    <span class="section-num">06 &middot; Runbooks</span>
+    <h2>Runbooks Your Future Self Will Thank You For</h2>
+    <p class="section-intro">A runbook is a short document that tells someone &mdash; including you at 2am &mdash; exactly what to do when a specific thing breaks. Write them when the knowledge is fresh. Your future self is tired, stressed, and will be grateful.</p>
+
+    <div class="framework">
+      <h4>The Minimum-Viable Runbook</h4>
+      <ol>
+        <li><strong>What triggers this runbook.</strong> The alert, the symptom, the page. Specific enough that someone knows &ldquo;yes, this is me.&rdquo;</li>
+        <li><strong>What it means.</strong> One sentence on what&rsquo;s actually going wrong when this fires.</li>
+        <li><strong>How to check it&rsquo;s real.</strong> Two or three commands or dashboard links. Rules out false positives.</li>
+        <li><strong>How to stabilise.</strong> The revert, restart, or circuit-break. Exact command, not vague guidance.</li>
+        <li><strong>How to investigate further.</strong> Logs to check, dashboards to open, people to call.</li>
+        <li><strong>Known escalations.</strong> If X and Y, escalate to Z.</li>
+        <li><strong>Last updated.</strong> A date. If it&rsquo;s more than six months old, treat with scepticism until verified.</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127793;</span>
+      <div>
+        <p><strong>The best time to write a runbook:</strong> the hour after you just handled the incident it covers. Everything is fresh. The commands you used are still in your terminal history. The dashboards you opened are still in your tabs. An hour invested now saves hours the next time &mdash; and the next person might not be you.</p>
+      </div>
+    </div>
+
+    <h3>What makes a runbook useful vs useless</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>&ldquo;Investigate the error&rdquo;</h5>
+        <p>The runbook says this. At 2am, that&rsquo;s zero help. If you&rsquo;re writing &ldquo;investigate&rdquo;, you haven&rsquo;t written a runbook.</p>
+      </div>
+      <div class="better">
+        <h5>&ldquo;Run <code>kubectl logs -n prod svc/orders --since=10m | grep ERROR</code>, look for patterns starting with &lsquo;DBLockTimeout&rsquo;&rdquo;</h5>
+        <p>Now a tired person can do the thing. Specificity is kindness.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Runbook untouched for two years</h5>
+        <p>Commands no longer work. Dashboards have moved. Names are of people who left. Worse than no runbook because it wastes time before you realise it&rsquo;s stale.</p>
+      </div>
+      <div class="better">
+        <h5>Updated as part of every incident it covers</h5>
+        <p>Each incident that uses a runbook updates it &mdash; new symptoms, commands that drifted, new known causes. The runbook improves by use.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7 -->
+  <section class="fade-in" id="on-call">
+    <span class="section-num">07 &middot; On-Call</span>
+    <h2>Being a Good On-Call</h2>
+    <p class="section-intro">On-call isn&rsquo;t just about responding to pages. It&rsquo;s about leaving the system better than you found it for the next person in the rotation &mdash; and protecting your own sustainability while you do.</p>
+
+    <h3>The on-call stance</h3>
+    <div class="framework">
+      <h4>The On-Call Mindset</h4>
+      <ol>
+        <li><strong>Respond fast, even if the answer is &ldquo;investigating.&rdquo;</strong> The SLA on acknowledgement is tighter than on resolution.</li>
+        <li><strong>Fix the page, not just the alert.</strong> If the alert was spurious, tune the alert. If it woke you up at 3am for something that wasn&rsquo;t urgent, make sure it doesn&rsquo;t do that to the next person.</li>
+        <li><strong>Leave the dashboard open.</strong> During your shift, glance at key signals even when nothing&rsquo;s paging. Catch the brewing incident before the alert does.</li>
+        <li><strong>Document new issues as you go.</strong> Unknown alerts become runbook entries by end of shift. Your future-self on-call will meet this again.</li>
+        <li><strong>Hand off deliberately.</strong> At the end of your shift, tell the next person what&rsquo;s live, what&rsquo;s watching, what was noisy. A 2-line handover beats nothing; a Slack thread beats silence.</li>
+      </ol>
+    </div>
+
+    <h3>Protecting yourself</h3>
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>On-call burnout is real.</strong> A shift where you got paged five times at night leaves you wrecked. Don&rsquo;t pretend otherwise. Acceptable things to do: swap with a teammate if you&rsquo;re exhausted, take half a day off after a rough night, raise alert fatigue in the retro. Not acceptable: silently suffering because &ldquo;that&rsquo;s the job.&rdquo; A team that doesn&rsquo;t fix its alert quality is burning its own people.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Re-closing noisy alerts</h5>
+        <p>An alert fires, you check, it&rsquo;s not real, you close it. Two hours later it fires again. You close it again. Three shifts of engineers do the same. Nobody fixes the alert.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Fix the alert on third repetition</h5>
+        <p>Third time you see a noisy alert, fix the alert itself: tighten the threshold, route to a non-page channel, or delete if it&rsquo;s not actionable. That&rsquo;s the on-call work that pays forward.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8 -->
+  <section class="fade-in" id="learning-from-others">
+    <span class="section-num">08 &middot; Learning</span>
+    <h2>Learning From Others&rsquo; Incidents</h2>
+    <p class="section-intro">Every public postmortem is a free lesson. Someone else paid the cost; you get to read the chapter. Build a habit of reading them &mdash; not to judge, but to stock your own pattern library.</p>
+
+    <h3>What to read</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Your own team&rsquo;s past postmortems</h4>
+        <p>Start here. What failure shapes repeat? What action items stuck, which drifted? Read the last year of them.</p>
+      </div>
+      <div class="card">
+        <h4>Public postmortems from big companies</h4>
+        <p>GitHub, Cloudflare, Stripe, AWS, GitLab, Basecamp all publish them. Shape-matches teach you far more than your own system&rsquo;s quirks.</p>
+      </div>
+      <div class="card">
+        <h4>&ldquo;How We Lost&hellip;&rdquo; engineering blog posts</h4>
+        <p>The longer-form versions are where the real thinking is. Read them the way you&rsquo;d read a case study.</p>
+      </div>
+      <div class="card">
+        <h4>The Google SRE book</h4>
+        <p>Free online. The chapters on incident management and postmortems are canonical. Read once, reread when you&rsquo;re on-call.</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>How to read a postmortem</h4>
+      <ol>
+        <li><strong>Before the root cause, predict it.</strong> Read the summary and timeline. Stop. What do you think the cause is? Often you&rsquo;ll be wrong &mdash; that&rsquo;s the learning.</li>
+        <li><strong>Map it to your system.</strong> Could this happen to us? Which part of our code is most exposed? What do we have that would catch it?</li>
+        <li><strong>Copy one action item into your own backlog.</strong> One &mdash; not all of them. The one most applicable to your system.</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>An engineer who has run five real incidents and read fifty postmortems is calmer and sharper in the sixth than one who has run five and read none. Incidents are expensive teachers; postmortems let you audit a class you didn&rsquo;t have to take.</p>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Site Reliability Engineering</em> (Google SRE Book) &mdash; free online. Chapters on incident management, postmortems, and on-call are foundational.</li>
+      <li><em>The Site Reliability Workbook</em> (Google) &mdash; the practical companion. Case studies and practice exercises.</li>
+      <li><em>Seeking SRE</em> (David Blank-Edelman, ed.) &mdash; essays on reliability from across the industry.</li>
+      <li>Blameless postmortem culture &mdash; John Allspaw&rsquo;s writing (<em>How Complex Systems Fail</em>, the Etsy/Adaptive Capacity Labs essays) is the best on the mindset.</li>
+      <li>Kitchen Soap (Allspaw&rsquo;s blog) &mdash; hard to find a better thinker on complex systems and failure.</li>
+      <li>Public postmortems: GitHub status blog, Cloudflare blog, Stripe engineering, AWS post-event summaries.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Read the last three postmortems your team wrote. Note one action item that drifted and propose picking it up.</li>
+      <li>Pick one alert that&rsquo;s woken people up without being actionable. Tune it, route it, or delete it.</li>
+      <li>Write a runbook for the last incident you worked &mdash; even if it&rsquo;s four lines. Commit it where the team can find it.</li>
+      <li>Read one public postmortem from a big company. Ask: could this happen to us, and what would catch it?</li>
+      <li>When your next alert fires, time-stamp every action you take. Treat it as the first draft of a postmortem.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

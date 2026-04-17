@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curiosity &amp; Commitment &mdash; A Guide for Growing Engineers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="index">
+
+  <!-- ─── NAV ─── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Curiosity &amp; Commitment</h1>
+      <p class="subtitle">A Guide for Growing Engineers</p>
+      <p class="subtitle" style="font-size:1rem;margin-top:-8px;">For engineers who&rsquo;ve shipped code and want to grow the habits, voice, and depth that turn a coder into a teammate a team can rely on.</p>
+      <p class="tagline">Two muscles you grow now. Everything else gets built on top.</p>
+      <a href="#paths" class="cta-btn">Explore the Guide</a>
+    </div>
+  </div>
+
+  <!-- ─── WHO THIS IS FOR ─── -->
+  <section class="fade-in">
+    <h2>Who This Is For</h2>
+    <div class="section-intro">
+      <p>This guide is for engineers who write working code and close stories &mdash; and want <strong>more</strong> than that. You know your stack enough to get things done. What&rsquo;s next isn&rsquo;t more syntax &mdash; it&rsquo;s the habits that separate someone who writes code from someone a team builds around: <strong>curiosity</strong> (you question, you dig, you ask why) and <strong>commitment</strong> (you finish, you follow through, your yes means yes).</p>
+      <p>It&rsquo;s not for people chasing management. If you&rsquo;re further along and you already own features end-to-end, see the <a href="https://sujitkamthe.github.io/craft-ownership/" target="_blank" rel="noopener">Craft &amp; Ownership</a> companion guide &mdash; that&rsquo;s the next step. If you&rsquo;re aiming at leadership, see <a href="https://sujitkamthe.github.io/beyond-ic/index.html" target="_blank" rel="noopener">Beyond IC</a>. This guide stops before both.</p>
+      <p>And it&rsquo;s not a test. There are no grades. The goal is that six months from now you recognise a habit that used to trip you up &mdash; and notice you don&rsquo;t do that anymore.</p>
+    </div>
+
+    <h2 style="margin-top:48px;">How to Use It</h2>
+    <div class="section-intro">
+      <p>It&rsquo;s a reference, not a course. Don&rsquo;t read it cover to cover. Pick the area that matches what&rsquo;s actually hard for you right now. Skim the frameworks. Try one thing this week. Come back when the situation shifts.</p>
+      <p>The <a href="self-assessment.html">self-assessment</a> is there to help you spot your smallest next step &mdash; not to rank you. Revisit it every few months; the things that feel hard now should feel routine later.</p>
+      <p>One framework, actually applied, beats ten frameworks read and forgotten. Small, consistent steps compound.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── START HERE ─── -->
+  <section class="wide fade-in" id="start-here">
+    <h2>Start Here</h2>
+    <p class="section-intro">New to the guide? Read these three, in this order. They set the stance, the habit, and one craft skill you can practise this week. Everything else is there for when a specific part of the job gets hard &mdash; come back then.</p>
+
+    <div class="path-grid">
+
+      <a href="foundations.html" class="path-card">
+        <span class="path-icon" style="font-weight:700;">1</span>
+        <h3>Foundations</h3>
+        <p>The stance everything else sits on: curiosity and commitment as muscles you practise, not traits you have. Start here or nothing else sticks.</p>
+        <div class="path-chapters">Read first &middot; The mindset shift</div>
+      </a>
+
+      <a href="questioning.html" class="path-card">
+        <span class="path-icon" style="font-weight:700;">2</span>
+        <h3>Questioning &amp; Proposing</h3>
+        <p>The one habit with the most leverage at this stage &mdash; propose, don&rsquo;t just complain. Name the problem, own part of the fix.</p>
+        <div class="path-chapters">Read second &middot; The habit that compounds</div>
+      </a>
+
+      <a href="clean-code.html" class="path-card">
+        <span class="path-icon" style="font-weight:700;">3</span>
+        <h3>Clean Code Habits</h3>
+        <p>One craft skill you can practise on your very next MR. Readability, naming, and small refactors &mdash; the daily moves that compound.</p>
+        <div class="path-chapters">Read third &middot; Practise this week</div>
+      </a>
+
+    </div>
+
+    <p class="section-intro" style="margin-top:24px;">Not sure these are the right three for you? Take the <a href="self-assessment.html">self-assessment</a> &mdash; it points you at the smallest next step based on what&rsquo;s actually hard right now. Or browse everything below.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── CHOOSE YOUR PATH ─── -->
+  <section class="wide fade-in" id="paths">
+    <h2>Browse All Topics</h2>
+    <p class="section-intro">Come back here when a specific part of the job gets hard. Pick the area that matches what you&rsquo;re stuck on &mdash; each grows either your curiosity or your commitment, usually both.</p>
+
+    <div class="path-grid">
+
+      <a href="foundations.html" class="path-card">
+        <span class="path-icon">&#127760;</span>
+        <h3>Foundations</h3>
+        <p>The apprentice mindset, curiosity and commitment as muscles, the &ldquo;propose, don&rsquo;t complain&rdquo; habit, protecting your focus, and owning your growth.</p>
+        <div class="path-chapters">Mindset &middot; Curiosity &middot; Commitment &middot; Propose Don&rsquo;t Complain &middot; Focus &middot; Career</div>
+      </a>
+
+      <a href="clean-code.html" class="path-card">
+        <span class="path-icon">&#10024;</span>
+        <h3>Clean Code Habits</h3>
+        <p>Readability first, naming as a design decision, refactor-as-you-go, modern language features, and the anti-patterns that quietly drag codebases down.</p>
+        <div class="path-chapters">Readability &middot; Naming &middot; Refactoring &middot; Modern Features &middot; Anti-Patterns</div>
+      </a>
+
+      <a href="depth.html" class="path-card">
+        <span class="path-icon">&#128300;</span>
+        <h3>Depth in Your Stack</h3>
+        <p>Knowing your language, framework, and database deeply. Reading the source. Building the one-or-two-hours-a-week exploration habit that compounds.</p>
+        <div class="path-chapters">Language &middot; Framework &middot; Database &middot; Source &middot; Exploration</div>
+      </a>
+
+      <a href="debugging-reading.html" class="path-card">
+        <span class="path-icon">&#128270;</span>
+        <h3>Debugging &amp; Reading</h3>
+        <p>The scientific method for bugs, reproducing before fixing, reading stack traces, using the debugger, and ramping up on an unfamiliar codebase.</p>
+        <div class="path-chapters">Method &middot; Reproduce &middot; Stack Traces &middot; Debugger &middot; Ramp-Up &middot; Prod Investigation</div>
+      </a>
+
+      <a href="testing.html" class="path-card">
+        <span class="path-icon">&#129514;</span>
+        <h3>Testing Basics</h3>
+        <p>Why we test, what to test, the pyramid at an intro level, writing testable code, and why &ldquo;I&rsquo;ll add tests later&rdquo; is never true.</p>
+        <div class="path-chapters">Why &middot; What &middot; Pyramid &middot; Testable Code &middot; TDD When It Helps</div>
+      </a>
+
+      <a href="git-reviews.html" class="path-card">
+        <span class="path-icon">&#128270;</span>
+        <h3>Git, MRs &amp; Code Review</h3>
+        <p>Git hygiene, small reviewable MRs, self-review first, reviewing others&rsquo; code as part of the job, and receiving feedback without defence.</p>
+        <div class="path-chapters">Git &middot; Small MRs &middot; Self-Review &middot; Reviewing &middot; Receiving</div>
+      </a>
+
+      <a href="delivery.html" class="path-card">
+        <span class="path-icon">&#128640;</span>
+        <h3>Delivery &amp; Completion</h3>
+        <p>Estimation that&rsquo;s honest, finishing what you started, the trap of overcommitting, dogfooding before &ldquo;done&rdquo;, and getting unstuck without asking immediately.</p>
+        <div class="path-chapters">Estimation &middot; Finish &middot; Overcommit &middot; Dogfood &middot; Unstuck &middot; Velocity</div>
+      </a>
+
+      <a href="questioning.html" class="path-card">
+        <span class="path-icon">&#10068;</span>
+        <h3>Questioning &amp; Proposing</h3>
+        <p>The Five Whys, asking good questions, challenging anti-patterns kindly, getting business context, and the foundational habit: propose, don&rsquo;t just complain.</p>
+        <div class="path-chapters">Five Whys &middot; Good Questions &middot; Challenge Kindly &middot; Business Context &middot; Propose</div>
+      </a>
+
+      <a href="speaking-up.html" class="path-card">
+        <span class="path-icon">&#128172;</span>
+        <h3>Speaking Up &amp; Feedback</h3>
+        <p>Having a voice in huddles and standups, holding opinions, giving feedback to peers, receiving feedback without defence, and actively asking for it.</p>
+        <div class="path-chapters">Voice &middot; Opinions &middot; Give &middot; Receive &middot; Ask For It</div>
+      </a>
+
+      <a href="team-citizenship.html" class="path-card">
+        <span class="path-icon">&#129309;</span>
+        <h3>Team Citizenship</h3>
+        <p>Pairing etiquette, standups that matter, helping newer joiners onboard, async communication that respects readers, and being a giver not a taker.</p>
+        <div class="path-chapters">Pairing &middot; Standups &middot; Onboarding &middot; Async &middot; Give &amp; Take</div>
+      </a>
+
+      <a href="ai-tools.html" class="path-card">
+        <span class="path-icon">&#129302;</span>
+        <h3>Using AI Tools</h3>
+        <p>Copilot, Cursor, Claude &mdash; how to use them as amplifiers rather than substitutes. Accept-verify-reject triage, prompting as a skill, and guarding your growth.</p>
+        <div class="path-chapters">Amplifier &middot; Verify &middot; Prompt &middot; Review &middot; Growth</div>
+      </a>
+
+      <a href="security.html" class="path-card">
+        <span class="path-icon">&#128274;</span>
+        <h3>Security Hygiene</h3>
+        <p>Secrets, input validation, authn vs authz, dependencies, sensitive data, OWASP basics, and lightweight threat modelling &mdash; the habits that keep accidents from becoming breaches.</p>
+        <div class="path-chapters">Secrets &middot; Input &middot; Authz &middot; Deps &middot; Data &middot; OWASP</div>
+      </a>
+
+      <a href="observability.html" class="path-card">
+        <span class="path-icon">&#128248;</span>
+        <h3>Observability &amp; Errors</h3>
+        <p>Logs, metrics, traces, and error-handling philosophy. What to log, what never to log, fail loud vs fail soft, and alerts that earn their ring.</p>
+        <div class="path-chapters">Logs &middot; Metrics &middot; Traces &middot; Errors &middot; Alerts</div>
+      </a>
+
+      <a href="shipping-safely.html" class="path-card">
+        <span class="path-icon">&#128666;</span>
+        <h3>Shipping Safely</h3>
+        <p>Feature flags, expand/migrate/contract migrations, progressive rollout, rollback as a first-class plan. How to ship without fear.</p>
+        <div class="path-chapters">Small Deploys &middot; Flags &middot; Migrations &middot; Rollout &middot; Rollback</div>
+      </a>
+
+      <a href="incidents.html" class="path-card">
+        <span class="path-icon">&#128680;</span>
+        <h3>Incidents &amp; On-Call</h3>
+        <p>Your first real incident, severity judgement, comms in the fire, reading production, blameless postmortems, runbooks, and being a good on-call.</p>
+        <div class="path-chapters">Severity &middot; Comms &middot; Investigate &middot; Postmortem &middot; Runbooks &middot; On-Call</div>
+      </a>
+
+      <a href="collaboration.html" class="path-card">
+        <span class="path-icon">&#128100;</span>
+        <h3>Working With Others</h3>
+        <p>When there&rsquo;s no PM, BA, or separate QA, the engineers do it all. Talking to stakeholders, scoping &amp; pushing back, disagreeing well, async norms, writing for readers not in the room.</p>
+        <div class="path-chapters">Stakeholders &middot; Scoping &middot; Disagree &middot; Async &middot; Writing &middot; Users</div>
+      </a>
+
+      <a href="resources.html" class="path-card">
+        <span class="path-icon">&#128218;</span>
+        <h3>Resources</h3>
+        <p>Books, videos, podcasts, blogs, and a framework quick-reference to deepen your craft.</p>
+      </a>
+
+      <a href="self-assessment.html" class="path-card">
+        <span class="path-icon">&#128200;</span>
+        <h3>Self-Assessment</h3>
+        <p>An honest checklist to understand where you are today and spot your smallest next step.</p>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── CLOSING QUOTE ─── -->
+  <section class="fade-in">
+    <div class="quote">
+      <p>Care about your craft. Why spend your life developing software unless you care about doing it well?</p>
+      <div class="attribution">&mdash; Andy Hunt &amp; Dave Thomas, <em>The Pragmatic Programmer</em></div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

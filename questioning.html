@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questioning &amp; Proposing &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="questioning.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Questioning &amp; Proposing</h1>
+    <p class="subtitle">The Five Whys. Asking good questions. Challenging anti-patterns kindly. Getting business context. And the habit this guide keeps coming back to: propose, don&rsquo;t just complain.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#five-whys">1. The Five Whys</a></li>
+      <li><a href="#good-questions">2. What Makes a Question Good</a></li>
+      <li><a href="#challenge-kindly">3. Challenging Anti-Patterns Kindly</a></li>
+      <li><a href="#business-context">4. Getting the Business Context</a></li>
+      <li><a href="#propose">5. Propose, Don&rsquo;t Just Complain (Revisited)</a></li>
+      <li><a href="#written-questions">6. Written Questions Beat Verbal for Async</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Five Whys -->
+  <section class="fade-in" id="five-whys">
+    <span class="section-num">01 &middot; Technique</span>
+    <h2>The Five Whys</h2>
+    <p class="section-intro">The Five Whys is a stupidly simple technique that consistently outperforms clever ones. You ask &ldquo;why?&rdquo; five times &mdash; not literally five, sometimes three, sometimes seven &mdash; and each answer becomes the next question. It surfaces the real cause, the real requirement, the real motivation. Most of the time, the first answer isn&rsquo;t it.</p>
+
+    <h3>Why the first answer is rarely the real answer</h3>
+    <p>People answer at the level they were asked. &ldquo;Why are we adding this field?&rdquo; gets &ldquo;because the PM wants it.&rdquo; Technically true. Useless. The <em>real</em> answer &mdash; the user problem, the legal constraint, the promise to a customer &mdash; is two or three whys deeper. And the engineering decision depends on it.</p>
+
+    <div class="framework">
+      <h4>The Five Whys in Practice</h4>
+      <ol>
+        <li><strong>Start with the surface ask.</strong> &ldquo;Add a retry button to the checkout page.&rdquo;</li>
+        <li><strong>Why?</strong> &ldquo;Because users get stuck when the payment call fails.&rdquo;</li>
+        <li><strong>Why do payment calls fail?</strong> &ldquo;Mostly timeout under load.&rdquo;</li>
+        <li><strong>Why do they timeout?</strong> &ldquo;The payment service sometimes takes 12 seconds.&rdquo;</li>
+        <li><strong>Why does it take 12 seconds?</strong> &ldquo;It does three sequential calls to fraud, wallet, and bank.&rdquo;</li>
+        <li><strong>Why sequential?</strong> &ldquo;Legacy &mdash; they can actually be parallel.&rdquo;</li>
+      </ol>
+      <p style="margin-top:12px;">The original ask was a retry button. The real fix is a two-line change to parallelise the payment calls. A retry button ships the visible symptom; the parallelisation fixes the actual bug. One is ten times the value of the other.</p>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Why this matters:</strong> half of all engineering work is spent building the wrong thing well. The Five Whys is the cheapest correction you can apply. Two minutes of asking saves two weeks of building.</p>
+      </div>
+    </div>
+
+    <h3>Where to apply it</h3>
+    <table class="comparison">
+      <tr><th>Situation</th><th>The first ask</th><th>What five whys tends to surface</th></tr>
+      <tr><td>Product request</td><td>&ldquo;Add a filter for X&rdquo;</td><td>The user actually wants to find a specific record &mdash; search would be better than filter</td></tr>
+      <tr><td>Bug report</td><td>&ldquo;This button is broken&rdquo;</td><td>A whole class of buttons silently fails under the same condition</td></tr>
+      <tr><td>Production incident</td><td>&ldquo;Service X went down&rdquo;</td><td>Service X has no circuit breaker because service Y it depends on is flaky</td></tr>
+      <tr><td>Slow build</td><td>&ldquo;CI is slow&rdquo;</td><td>One stage does a full npm install every run; caching was never configured</td></tr>
+      <tr><td>A story rejected in review</td><td>&ldquo;QA failed the story&rdquo;</td><td>The acceptance criteria were ambiguous and QA and dev interpreted them differently</td></tr>
+    </table>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;Five whys&rdquo; as interrogation</h5>
+        <p>Asked firing-squad-style, it feels hostile. &ldquo;But why? But why? But WHY?&rdquo; People shut down.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The collaborative whys</h5>
+        <p>&ldquo;Just so I understand &mdash; what&rsquo;s driving that?&rdquo; &ldquo;Help me see the chain here &mdash; where does X come from?&rdquo; Same technique, different energy.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Stopping at the first plausible answer</h5>
+        <p>&ldquo;Because that&rsquo;s what the spec says.&rdquo; Okay. Why does the spec say that? &ldquo;I don&rsquo;t know.&rdquo; That&rsquo;s the actual answer &mdash; keep going.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Notice when the chain breaks</h5>
+        <p>When the answer becomes &ldquo;I don&rsquo;t know&rdquo; or &ldquo;that&rsquo;s just how it is,&rdquo; you&rsquo;ve hit the edge of shared understanding. That&rsquo;s the gold. Ask who would know, or propose an answer and see if it holds.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Good Questions -->
+  <section class="fade-in" id="good-questions">
+    <span class="section-num">02 &middot; Quality</span>
+    <h2>What Makes a Question Good</h2>
+    <p class="section-intro">Asking questions is half of this chapter. Asking <em>good</em> questions is the other half. There&rsquo;s a meaningful difference between a question that moves a conversation forward and one that just flags you as lost.</p>
+
+    <h3>The anatomy of a good question</h3>
+    <div class="framework">
+      <h4>The Four Components</h4>
+      <ol>
+        <li><strong>Context:</strong> what you&rsquo;re looking at. &ldquo;I&rsquo;m reading the order-fulfilment service&hellip;&rdquo;</li>
+        <li><strong>Observation:</strong> what you&rsquo;ve noticed. &ldquo;&hellip;I see it calls the inventory API twice &mdash; once at reservation and once at dispatch.&rdquo;</li>
+        <li><strong>Your current hypothesis:</strong> what you think. &ldquo;I assumed the first call locks inventory and the second updates it, but the method names suggest otherwise.&rdquo;</li>
+        <li><strong>The ask:</strong> the specific thing you want resolved. &ldquo;Could you tell me if there&rsquo;s a reason for the double call, or is it something we can simplify?&rdquo;</li>
+      </ol>
+    </div>
+
+    <p>Compare that to the common version:</p>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>The vague question</h5>
+        <p>&ldquo;Hey, do you know how inventory works?&rdquo;</p>
+        <p>The responder has to ask three clarifying questions before they can help. It pushes all the cognitive work onto them.</p>
+      </div>
+      <div class="better">
+        <h5>The scaffolded question</h5>
+        <p>&ldquo;I&rsquo;m reading OrderFulfillmentService and I see two calls to the inventory API &mdash; reserve and confirm. I assumed reserve locks stock and confirm decrements it, but the method names read the other way round. Is there a reason, or is the naming just inverted?&rdquo;</p>
+        <p>Now the responder can answer in ten seconds with a yes/no. You&rsquo;ve done the thinking; they just add the missing piece.</p>
+      </div>
+    </div>
+
+    <h3>The &ldquo;I tried this first&rdquo; signal</h3>
+    <p>A good question almost always contains evidence that you&rsquo;ve already tried to answer it yourself. This is not about proving you&rsquo;re not lazy &mdash; it&rsquo;s about giving the answerer a starting point and eliminating the dead-ends they would otherwise explore.</p>
+
+    <div class="tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>The structure:</strong> &ldquo;I noticed X. I thought it might be because of Y, so I tried Z, and the result was W. I&rsquo;m now stuck because of Q.&rdquo; Almost any experienced teammate can triage that in 20 seconds. Compare that to &ldquo;this is broken, help?&rdquo; which can absorb an hour.</p>
+      </div>
+    </div>
+
+    <h3>When you don&rsquo;t yet have a hypothesis</h3>
+    <p>Sometimes you genuinely have no idea. That&rsquo;s fine &mdash; say so, and ask for direction rather than an answer. &ldquo;I&rsquo;m two hours into the caching bug and I&rsquo;m not sure where to look next. Could you spend five minutes pointing me at the right file or the right concept?&rdquo; That&rsquo;s a good question. &ldquo;Help, I&rsquo;m stuck&rdquo; isn&rsquo;t.</p>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Include the file, line, or exact error message</td><td>Paraphrase when the exact text would be faster</td></tr>
+      <tr><td>Say what you already tried</td><td>Say only what&rsquo;s broken</td></tr>
+      <tr><td>Ask one question at a time</td><td>Stack five questions into one message</td></tr>
+      <tr><td>Say what an answer would look like (&ldquo;yes/no&rdquo;, &ldquo;a pointer&rdquo;, &ldquo;15 min of pairing&rdquo;)</td><td>Leave the answerer guessing how much help you need</td></tr>
+      <tr><td>Close the loop after you&rsquo;re unstuck &mdash; one sentence is enough</td><td>Vanish after getting the answer</td></tr>
+    </table>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The quality of your questions is a reputation signal. Teammates remember &ldquo;she always asks sharp questions&rdquo; &mdash; or they remember &ldquo;he always needs me to dig the context out of him.&rdquo; The first earns you the rest of their attention. The second slowly loses it.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Challenge Kindly -->
+  <section class="fade-in" id="challenge-kindly">
+    <span class="section-num">03 &middot; Questioning the Status Quo</span>
+    <h2>Challenging Anti-Patterns Kindly</h2>
+    <p class="section-intro">The codebase will have things that look wrong. Patterns that feel off. Conventions that nobody seems to follow. Newer engineers often do one of two things: adopt them silently, or dismiss them loudly. Both are wrong. The right move is to <em>ask</em>, then propose.</p>
+
+    <h3>The three categories</h3>
+    <p>When you see something that looks wrong, it&rsquo;s usually one of three things. You don&rsquo;t know which yet.</p>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Historical reason you don&rsquo;t know</h4>
+        <p>Someone solved a real problem with this pattern. It&rsquo;s ugly because the problem was ugly. Understanding it changes your mind.</p>
+      </div>
+      <div class="card">
+        <h4>Accidental drift</h4>
+        <p>One person wrote it that way once. Three people copied it. Nobody thought it through. Now it&rsquo;s &ldquo;convention.&rdquo; Worth fixing.</p>
+      </div>
+      <div class="card">
+        <h4>Genuinely out-of-date</h4>
+        <p>It was right in 2018. Language features, libraries, or team norms have moved on. The code hasn&rsquo;t. Update it.</p>
+      </div>
+    </div>
+
+    <p>Asking &ldquo;what category is this?&rdquo; before proposing a fix is the move. Challenging a historical reason with &ldquo;this is obviously wrong&rdquo; loses you credibility and teaches you nothing. Asking &ldquo;what&rsquo;s the reason for this?&rdquo; gets you the history or the confession.</p>
+
+    <div class="framework">
+      <h4>The Kind Challenge</h4>
+      <ol>
+        <li><strong>Name what you see, neutrally.</strong> &ldquo;I see we&rsquo;re using X pattern in three services.&rdquo;</li>
+        <li><strong>Say what you would have expected.</strong> &ldquo;I would&rsquo;ve expected Y because of Z.&rdquo;</li>
+        <li><strong>Ask for the reason, genuinely curious.</strong> &ldquo;What&rsquo;s the history here &mdash; was there a reason for X?&rdquo;</li>
+        <li><strong>Listen without arguing.</strong> Even if the reason is weak, let it land first.</li>
+        <li><strong>Propose the alternative, tentatively.</strong> &ldquo;Given what you said, could we consider moving toward Y?&rdquo;</li>
+      </ol>
+    </div>
+
+    <h3>A scenario: the giant switch statement</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p>You&rsquo;re reading <code>NotificationDispatcher.java</code>. It&rsquo;s a 400-line class with a giant switch on notification type. Every time someone adds a new type, they add a case. You&rsquo;ve seen polymorphism. This feels wrong.</p>
+        <p><strong>Unkind version:</strong> &ldquo;This class is a mess. It should be polymorphic.&rdquo; (Technically maybe right. Socially wrong. The person who wrote it is standing there.)</p>
+        <p><strong>Kind version:</strong> &ldquo;I&rsquo;ve been reading NotificationDispatcher. I see it dispatches by switching on type &mdash; I would have expected a polymorphic approach with a NotificationHandler interface. Was there a reason for the switch? Sometimes it&rsquo;s because of framework constraints or serialization.&rdquo;</p>
+        <p>You might hear: &ldquo;honestly, it started with two types and we never refactored&rdquo; (accidental drift &mdash; now you have permission to propose a refactor). Or: &ldquo;the switch is needed because we have to register each handler with the messaging framework statically, and we haven&rsquo;t found a clean polymorphic way&rdquo; (historical reason &mdash; you&rsquo;ve learned something). Either way, you move forward with context.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Just silently copying the anti-pattern</h5>
+        <p>You notice the oddity, you don&rsquo;t ask, you propagate it. Now the pattern is in four places, not three.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Ask before adopting</h5>
+        <p>&ldquo;I&rsquo;m adding a new notification type and I noticed the existing pattern. Before I extend it, is the switch-based approach what we want, or do we want to refactor toward something cleaner?&rdquo; You&rsquo;ve opened the door.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The public takedown</h5>
+        <p>Calling out a bad pattern loudly in standup, in front of the person who wrote it, in a tone that says &ldquo;this is bad.&rdquo;</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The private curiosity</h5>
+        <p>One-to-one or in a design discussion, framed as a question. Same point, different landing.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Accepting &ldquo;that&rsquo;s how we do it here&rdquo; as the final word</h5>
+        <p>Someone says it, you shrug, the bad pattern lives another year.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; One polite follow-up</h5>
+        <p>&ldquo;Understood &mdash; and was there a reason we landed on that? Just trying to internalise it.&rdquo; If the second answer is also weak, now you know the category is &ldquo;drift&rdquo; and you have standing to propose a change.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Business Context -->
+  <section class="fade-in" id="business-context">
+    <span class="section-num">04 &middot; Why You&rsquo;re Building It</span>
+    <h2>Getting the Business Context</h2>
+    <p class="section-intro">The most avoidable failure at this stage is building a technically correct thing that solves the wrong problem. You wrote the right code. Tested it. Reviewed it. Shipped it. And the PM quietly kills the feature a month later because it doesn&rsquo;t do what users actually needed. Nobody&rsquo;s fault &mdash; you just never asked why.</p>
+
+    <h3>What &ldquo;business context&rdquo; actually means</h3>
+    <p>It&rsquo;s not an MBA. It&rsquo;s three questions:</p>
+    <div class="framework">
+      <h4>The Three Business Questions</h4>
+      <ol>
+        <li><strong>Who uses this?</strong> A specific user, a specific role, a specific segment. Not &ldquo;users&rdquo; in the abstract.</li>
+        <li><strong>What problem are they trying to solve?</strong> In their words, not ours. Not &ldquo;they need a filter&rdquo; &mdash; &ldquo;they&rsquo;re trying to find a specific order from six months ago.&rdquo;</li>
+        <li><strong>What happens if we don&rsquo;t build this?</strong> Revenue lost? Customers churn? Compliance risk? Or honestly &mdash; nothing much? The answer changes the priority and often the design.</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Why this matters:</strong> the design you choose should be shaped by the business answer. &ldquo;A user segment worth 40% of revenue&rdquo; is a different design problem than &ldquo;a nice-to-have for ten internal users.&rdquo; The first gets load-testing, the second doesn&rsquo;t. You can&rsquo;t decide that without the context.</p>
+      </div>
+    </div>
+
+    <h3>Getting the context</h3>
+    <p>Often the PM will brief you. Equally often they won&rsquo;t, because they assumed you already knew. Ask. The conversation takes ten minutes, and the answers will shift decisions you&rsquo;d otherwise make arbitrarily.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Building from the spec alone</h5>
+        <p>The spec says &ldquo;add a CSV export.&rdquo; You build it. You pick a sensible column order. Ship. Users complain because the order doesn&rsquo;t match the upstream system they need to feed.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Ask who reads the CSV</h5>
+        <p>&ldquo;Who&rsquo;s going to open this export? What do they do with it?&rdquo; &ldquo;Oh, they paste it into a vendor&rsquo;s tool that expects columns in this exact order.&rdquo; Now you know.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Assuming &ldquo;why&rdquo; is above your pay grade</h5>
+        <p>&ldquo;That&rsquo;s for the PM to decide.&rdquo; It is &mdash; but the PM isn&rsquo;t writing the code. You are. Your job is to turn &ldquo;why&rdquo; into design, which means you need it.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Treat business context as required input</h5>
+        <p>Don&rsquo;t start the story until you can answer the three questions. If you can&rsquo;t, that&rsquo;s the first thing to fix, not a blocker to hand-wave past.</p>
+      </div>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Ask the PM &ldquo;who&rsquo;s the user, what are they trying to do, what if we don&rsquo;t ship?&rdquo; before starting</td><td>Start from the Jira description and infer the rest</td></tr>
+      <tr><td>Talk to a customer-facing colleague occasionally (support, sales, CS)</td><td>Get all your product understanding from engineering</td></tr>
+      <tr><td>Watch a real user use your product once a quarter, if possible</td><td>Design exclusively from the inside</td></tr>
+      <tr><td>Know roughly how the company makes money</td><td>Treat the business as somebody else&rsquo;s concern</td></tr>
+    </table>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Inspired</em> &mdash; Marty Cagan. Short read. Teaches you to think like a PM &mdash; which makes you a better engineer.</li>
+      <li><em>Badass: Making Users Awesome</em> &mdash; Kathy Sierra. What user-centric thinking actually feels like.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Propose Don't Complain -->
+  <section class="fade-in" id="propose">
+    <span class="section-num">05 &middot; The Core Habit</span>
+    <h2>Propose, Don&rsquo;t Just Complain (Revisited)</h2>
+    <p class="section-intro">The <a href="foundations.html#propose-dont-complain">Foundations chapter</a> introduced the PDC habit. This section lives it &mdash; concretely, in the kinds of situations you face weekly.</p>
+
+    <h3>The PDC reflex</h3>
+    <p>You&rsquo;re going to notice problems every week: in code, in process, in tooling, in communication. The reflex you build now is: <strong>the moment I feel the urge to complain, ask myself what I&rsquo;d propose instead.</strong></p>
+    <p>Not &ldquo;what&rsquo;s the perfect fix.&rdquo; Not &ldquo;what would a staff engineer propose.&rdquo; Just: what&rsquo;s a reasonable next step? A small experiment. An hour&rsquo;s work. A conversation with someone. Something concrete.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The proposal doesn&rsquo;t have to be correct. It has to exist. A wrong proposal is a starting point; a correct complaint is a dead end. Teams forgive wrong proposals &mdash; they sharpen them collaboratively. They resent complainers who don&rsquo;t lift a finger.</p>
+    </div>
+
+    <h3>Common complaints, reframed as proposals</h3>
+    <table class="comparison">
+      <tr><th>What you want to say (complaint)</th><th>What to actually say (proposal)</th></tr>
+      <tr><td>&ldquo;The onboarding docs are terrible&rdquo;</td><td>&ldquo;Onboarding took me five days &mdash; I wrote up the gaps I hit. Want me to PR them into the README?&rdquo;</td></tr>
+      <tr><td>&ldquo;Standups are a waste of time&rdquo;</td><td>&ldquo;Standup has been drifting. What if we tried a two-minute-per-person format with a hard cut? I&rsquo;d help time-keep for a week.&rdquo;</td></tr>
+      <tr><td>&ldquo;Our tests are flaky&rdquo;</td><td>&ldquo;I&rsquo;ve been tracking the most frequent flakes &mdash; three tests account for 80%. I can pick one and kill it this sprint.&rdquo;</td></tr>
+      <tr><td>&ldquo;The logs are useless&rdquo;</td><td>&ldquo;I noticed our error logs don&rsquo;t include user or request IDs, which makes prod debugging painful. I&rsquo;d like to add structured logging to the two hottest endpoints &mdash; can I scope a ticket?&rdquo;</td></tr>
+      <tr><td>&ldquo;No one reviews my MRs&rdquo;</td><td>&ldquo;My MRs are sitting 2+ days. Would it help if I flagged them in the #review channel with a one-line summary? Happy to test that for a week.&rdquo;</td></tr>
+      <tr><td>&ldquo;The PM changes requirements constantly&rdquo;</td><td>&ldquo;I&rsquo;ve noticed requirements shift during sprints. Could we add a 15-min mid-sprint check with the PM to confirm scope? I can set it up.&rdquo;</td></tr>
+    </table>
+
+    <h3>Where to make proposals</h3>
+    <p>The right venue matters. The wrong venue buries good proposals.</p>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Retros</h4>
+        <p>Designed exactly for this. Bring proposals, not just frustrations. Action items should have owners &mdash; volunteer to be one.</p>
+      </div>
+      <div class="card">
+        <h4>Huddles &amp; dev syncs</h4>
+        <p>Great for technical proposals. Short, crisp: name problem, name cause, name action, offer to try.</p>
+      </div>
+      <div class="card">
+        <h4>Slack (the right channel)</h4>
+        <p>Async, traceable, and invites others in. Best for proposals that need more than a minute to explain or consider.</p>
+      </div>
+      <div class="card">
+        <h4>One-to-ones</h4>
+        <p>For sensitive or people-adjacent proposals. &ldquo;I&rsquo;ve noticed X and I&rsquo;d like to try Y &mdash; what do you think?&rdquo;</p>
+      </div>
+      <div class="card">
+        <h4>The MR itself</h4>
+        <p>&ldquo;While I was in here I noticed Z &mdash; I didn&rsquo;t change it in this MR but I&rsquo;d be happy to open a follow-up.&rdquo; Low-friction, highly visible.</p>
+      </div>
+      <div class="card">
+        <h4>A short doc</h4>
+        <p>For bigger proposals: a one-pager is better than a long Slack thread. &ldquo;Problem, options, recommendation, next step.&rdquo; People can read and react.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Why this matters:</strong> every team has complainers. Every team has a small number of people who move things. The only difference &mdash; literally the only difference &mdash; is that the second group proposes and then does. At your stage, nothing compounds faster than becoming one of them.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Written Questions -->
+  <section class="fade-in" id="written-questions">
+    <span class="section-num">06 &middot; Async</span>
+    <h2>Written Questions Beat Verbal for Async</h2>
+    <p class="section-intro">In a distributed or hybrid team, how you ask matters as much as what you ask. Most &ldquo;quick question&rdquo; DMs waste both of you. A well-written question respects the reader&rsquo;s time, travels across timezones, and leaves a record.</p>
+
+    <h3>The DM tax</h3>
+    <p>A &ldquo;quick call?&rdquo; or &ldquo;got a minute?&rdquo; DM forces the recipient to switch contexts right now, often into a task they weren&rsquo;t prepared for. If the question could be answered async in 30 seconds of reading, the DM is costing more than it&rsquo;s worth.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;Hey, got a sec?&rdquo;</h5>
+        <p>You send this. The other person stops what they&rsquo;re doing, waits, types &ldquo;sure, what&rsquo;s up?&rdquo; &mdash; and now you have to explain context you could have just sent in the first message.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Lead with the question and context</h5>
+        <p>&ldquo;Hey &mdash; quick one when you get a moment. I&rsquo;m looking at X. I see it does Y; I expected Z. Is there a reason? (No rush, happy to wait.)&rdquo; The recipient can answer when they&rsquo;re free, and you&rsquo;ve respected their focus.</p>
+      </div>
+    </div>
+
+    <h3>Public over private, mostly</h3>
+    <p>Most technical questions belong in a public channel, not a DM. Three reasons:</p>
+    <ol>
+      <li>Someone other than your first-pick person might know the answer &mdash; and answer faster.</li>
+      <li>The answer is now searchable for the next person who hits the same thing.</li>
+      <li>It doesn&rsquo;t create a single-person dependency.</li>
+    </ol>
+    <p>The exception: anything sensitive, people-adjacent, or about a mistake you made. Those stay private.</p>
+
+    <div class="framework">
+      <h4>The Async Question Template</h4>
+      <ol>
+        <li><strong>One-line summary</strong> at the top. &ldquo;Question about inventory locking in OrderService.&rdquo;</li>
+        <li><strong>Context:</strong> what you&rsquo;re looking at, with file/link.</li>
+        <li><strong>What you&rsquo;ve tried or noticed:</strong> one or two sentences.</li>
+        <li><strong>Your current hypothesis:</strong> the &ldquo;I think it might be because&hellip;&rdquo;</li>
+        <li><strong>The specific ask:</strong> &ldquo;Am I right?&rdquo; or &ldquo;which file should I look at next?&rdquo; or &ldquo;any chance of 15 min of pairing?&rdquo;</li>
+        <li><strong>Urgency:</strong> if there is any. &ldquo;Blocking tomorrow&rsquo;s ship&rdquo; or &ldquo;no rush, just curious.&rdquo;</li>
+      </ol>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p><strong>Why this compounds:</strong> written questions are the work-product of a curious engineer. Good ones get answered fast and get you a reputation for being a good use of someone&rsquo;s time. Bad ones slowly teach teammates to de-prioritise you.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>&ldquo;How to ask good questions&rdquo;</em> &mdash; Julia Evans (jvns.ca). A canonical short piece.</li>
+      <li><em>Asynchronous communication guide</em> &mdash; GitLab Handbook (public). The rationale and templates for async-first work.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Run the Five Whys on one task you&rsquo;re about to start. See if your approach changes.</li>
+      <li>Before adopting a pattern you see in the codebase, ask a teammate &ldquo;what&rsquo;s the reason for this?&rdquo;</li>
+      <li>Turn one complaint you were going to make into a proposal with the PDC framework.</li>
+      <li>Rewrite one DM question using the Async Question Template.</li>
+      <li>Ask your PM the three business questions about a story you&rsquo;re working on.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

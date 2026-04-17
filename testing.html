@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testing Basics &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="testing.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Testing Basics</h1>
+    <p class="subtitle">Tests are not homework. They&rsquo;re how you move fast without fear. Why we test, what to test, where to test, and why &ldquo;I&rsquo;ll add tests later&rdquo; is almost never honoured.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#why">1. Why We Test</a></li>
+      <li><a href="#what">2. What to Test &mdash; The Pyramid</a></li>
+      <li><a href="#testable-code">3. Writing Testable Code</a></li>
+      <li><a href="#no-skip">4. &ldquo;I&rsquo;ll Add Tests Later&rdquo; &mdash; The Lie You Tell Yourself</a></li>
+      <li><a href="#tdd">5. TDD When It Helps</a></li>
+      <li><a href="#edges">6. Testing the Edges, Not Just the Happy Path</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Why -->
+  <section class="fade-in" id="why">
+    <span class="section-num">01 &middot; Motivation</span>
+    <h2>Why We Test</h2>
+    <p class="section-intro">Every engineer who&rsquo;s been burned badly enough writes tests automatically afterwards. The good news: you don&rsquo;t have to get burned. You just have to understand <em>why</em> tests exist, and then writing them becomes the obvious default.</p>
+
+    <h3>Tests are not for today</h3>
+    <p>When you write tests for code you just wrote, they feel redundant. You know it works &mdash; you literally just wrote it. This is the moment most engineers skip tests. It&rsquo;s also the moment they shouldn&rsquo;t.</p>
+    <p>Tests aren&rsquo;t for today&rsquo;s you. They&rsquo;re for next month&rsquo;s someone. Including you, after you&rsquo;ve forgotten the details.</p>
+
+    <div class="framework">
+      <h4>What tests actually buy you</h4>
+      <ol>
+        <li><strong>Confidence to change code.</strong> Without tests, every change is scary. With tests, refactoring is routine.</li>
+        <li><strong>Documentation of behaviour.</strong> The test suite describes what the system does, in executable form. It doesn&rsquo;t rot like comments.</li>
+        <li><strong>A fast feedback loop.</strong> Tests tell you in seconds what manual QA takes hours to confirm.</li>
+        <li><strong>Design pressure.</strong> Untestable code is usually badly-designed code. Writing tests exposes the design problems early.</li>
+        <li><strong>Protection against regressions.</strong> The bug you fix today doesn&rsquo;t come back next quarter &mdash; because a test now guards it.</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The cost of tests is paid upfront, in the two hours it takes to write them. The payoff is paid in every subsequent change that doesn&rsquo;t break something. The ratio is almost always in favour of writing them &mdash; which is why the engineers you admire do, and the ones who got burned enough times do.</p>
+    </div>
+
+    <h3>The speed paradox</h3>
+    <p>It feels like not writing tests will let you ship faster. For the first week, it does. By month three, you&rsquo;re shipping slower &mdash; because every change touches code you can&rsquo;t safely change, and every bug requires a full manual retest. Teams that write tests ship faster over any time horizon longer than a month. This is not an opinion &mdash; it&rsquo;s repeatedly measured.</p>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Working Effectively with Legacy Code</em> &mdash; Michael Feathers. &ldquo;Legacy code is code without tests&rdquo; &mdash; a definition that changes how you see the world.</li>
+      <li><em>Accelerate</em> &mdash; Forsgren, Humble, Kim. The research on why high-performing teams test.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Pyramid -->
+  <section class="fade-in" id="what">
+    <span class="section-num">02 &middot; Strategy</span>
+    <h2>What to Test &mdash; The Pyramid</h2>
+    <p class="section-intro">Not all tests are equal. They cost different amounts to write, run, and maintain. The testing pyramid is the simple mental model that tells you how much of each kind to write. Get the shape roughly right and your test suite is an asset. Get it wrong and it becomes a millstone.</p>
+
+    <h3>The pyramid</h3>
+    <div class="framework">
+      <h4>The Three Layers</h4>
+      <ol>
+        <li><strong>Unit tests (wide base).</strong> Fast, narrow, many. A single function, class, or small unit. Run in milliseconds. You should have lots.</li>
+        <li><strong>Integration tests (middle).</strong> A few components together. Maybe talking to a real DB in a test container. Slower, fewer. One per meaningful component interaction.</li>
+        <li><strong>End-to-end tests (tiny top).</strong> Full system, click-through-the-UI, or hit-the-real-API. Slow, brittle, expensive. Only the handful of critical user flows.</li>
+      </ol>
+      <p style="margin-top:12px;">The shape matters: many fast unit tests, fewer integration tests, very few e2e tests. Inverted pyramids (lots of e2e, few unit) are the #1 thing that turns a test suite into a maintenance nightmare.</p>
+    </div>
+
+    <h3>What to test at each layer</h3>
+    <table class="comparison">
+      <tr><th>Layer</th><th>What belongs here</th><th>What doesn&rsquo;t</th></tr>
+      <tr><td>Unit</td><td>Pure logic, calculations, validators, mappers, small algorithms</td><td>Anything that needs a real DB, network, file system</td></tr>
+      <tr><td>Integration</td><td>A service + its repository + a real DB; API + framework routing; message producer/consumer wiring</td><td>&ldquo;Just duplicate the unit test with a real DB because it feels safer&rdquo;</td></tr>
+      <tr><td>E2E</td><td>Critical user journeys: login, checkout, main product flow</td><td>Every permutation of the UI &mdash; that&rsquo;s what unit/integration covers</td></tr>
+    </table>
+
+    <h3>Scenario: the wrong-layer test</h3>
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p>You want to check that the pricing calculator applies a 10% discount to orders over &#8377;1000. You write an end-to-end test: it spins up the whole system, logs in a test user, creates an order, checks the total. The test takes 45 seconds. It flakes twice a week.</p>
+        <p><strong>Better move:</strong> the pricing rule is pure logic. Write a unit test: call <code>calculateDiscount(order)</code>, assert the result. Runs in 2 milliseconds. Never flakes. Covers the behaviour better because you can easily test five edge cases. The e2e test, if it exists at all, confirms the happy path of the whole checkout &mdash; not the discount math.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Integration testing everything</h5>
+        <p>Every test spins up the full app, hits the DB, sends real emails. 1000 tests, 20-minute test run, flaky, expensive. Nobody wants to run them locally.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Push logic down the pyramid</h5>
+        <p>Isolate the logic. Test it as a unit. Reserve integration tests for actual integration concerns: the repository actually hits the DB correctly, the middleware actually runs.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Testing the framework</h5>
+        <p>You write a test that checks &ldquo;if I send a POST, the framework routes it to my controller.&rdquo; The framework&rsquo;s job. Don&rsquo;t test it.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Test your logic, trust the framework</h5>
+        <p>Test the controller&rsquo;s behaviour given a request, not that the framework delivered the request. Framework maintainers already tested that.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Testable Code -->
+  <section class="fade-in" id="testable-code">
+    <span class="section-num">03 &middot; Design</span>
+    <h2>Writing Testable Code</h2>
+    <p class="section-intro">&ldquo;This is hard to test&rdquo; is almost always a design problem disguised as a testing problem. Testable code is usually just well-designed code. Learning to write it will improve your designs even when you never run the tests.</p>
+
+    <h3>The two biggest levers</h3>
+    <div class="framework">
+      <h4>Testability Moves</h4>
+      <ol>
+        <li><strong>Pure functions where possible.</strong> Given the same input, always the same output. No global state, no side effects. Trivially testable.</li>
+        <li><strong>Dependency injection for I/O.</strong> Don&rsquo;t <code>new Clock()</code> inside your method &mdash; take a clock parameter. Don&rsquo;t fetch from the DB inside your logic &mdash; take the data in. Tests pass fakes; production passes the real thing.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: the untestable class</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p>You&rsquo;re writing an order-processing class:</p>
+        <pre style="background:var(--bg-alt);padding:12px;border-radius:6px;font-size:0.82rem;overflow-x:auto;">class OrderProcessor {
+  public void process(Order order) {
+    if (LocalDateTime.now().isAfter(order.getDeadline())) {
+      new EmailClient().send(order.getEmail(), &quot;Late&quot;);
+    }
+    new OrderRepository().save(order);
+  }
+}</pre>
+        <p>To test this, you have to mock the clock, mock the email client, mock the repository &mdash; all of which are newed up inside the method. Your test becomes a stack of reflection/library tricks.</p>
+        <p><strong>The testable version:</strong></p>
+        <pre style="background:var(--bg-alt);padding:12px;border-radius:6px;font-size:0.82rem;overflow-x:auto;">class OrderProcessor {
+  private final Clock clock;
+  private final EmailClient emailClient;
+  private final OrderRepository orderRepository;
+
+  OrderProcessor(Clock clock, EmailClient e, OrderRepository r) {
+    this.clock = clock;
+    this.emailClient = e;
+    this.orderRepository = r;
+  }
+
+  public void process(Order order) {
+    if (clock.now().isAfter(order.getDeadline())) {
+      emailClient.send(order.getEmail(), &quot;Late&quot;);
+    }
+    orderRepository.save(order);
+  }
+}</pre>
+        <p>Now tests pass fakes. Production passes real ones. The class is no more complex &mdash; it&rsquo;s clearer about what it depends on. This is DI in its simplest form.</p>
+      </div>
+    </div>
+
+    <h3>Pure functions are a superpower</h3>
+    <p>If a function takes inputs and returns outputs without touching anything else, testing it is two lines: call, assert. That&rsquo;s it. Maximise the amount of your logic that lives in pure functions. Push I/O and side effects to the edges of your program, and keep the core pure. This pattern &mdash; &ldquo;functional core, imperative shell&rdquo; &mdash; is widely used by engineers you admire, for exactly this reason.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Logic tangled with I/O</h5>
+        <p>The pricing rules are mixed in with the DB calls and the email sending. To test one rule, you have to mock the database.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Separate logic from I/O</h5>
+        <p>A pure <code>calculatePricing(order, rules)</code> function. A separate boundary layer that reads the DB, calls pricing, sends email. Logic is testable as a unit. Boundary is testable as integration.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Heavy mocking</h5>
+        <p>Your test is 80% mock setup. When the code changes, 20 mocks break. The mocks don&rsquo;t reflect real behaviour anyway.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Simple fakes or real objects</h5>
+        <p>An in-memory repository is simpler than 50 lines of Mockito. A real domain object is simpler than a mock of it. Mock only things that are genuinely external and expensive.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. I'll do it later -->
+  <section class="fade-in" id="no-skip">
+    <span class="section-num">04 &middot; Discipline</span>
+    <h2>&ldquo;I&rsquo;ll Add Tests Later&rdquo; &mdash; The Lie You Tell Yourself</h2>
+    <p class="section-intro">You won&rsquo;t. Nobody does. &ldquo;I&rsquo;ll add tests later&rdquo; is the single most-broken promise in engineering. Once you understand this about yourself, you can choose differently: either accept you&rsquo;re shipping without tests (and its consequences), or write them now.</p>
+
+    <h3>Why &ldquo;later&rdquo; doesn&rsquo;t happen</h3>
+    <ul>
+      <li><strong>The code is already merged.</strong> Nothing&rsquo;s broken. Why are you writing tests for working code?</li>
+      <li><strong>You&rsquo;ve context-switched.</strong> Next sprint, the details you needed for the test are gone.</li>
+      <li><strong>There&rsquo;s always a next story.</strong> The backlog never runs out.</li>
+      <li><strong>The code is already structured in a hard-to-test way</strong> &mdash; the time to think about testability was before, not after.</li>
+      <li><strong>Nobody is measuring.</strong> Once it&rsquo;s shipped, the social pressure disappears.</li>
+    </ul>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The test you don&rsquo;t write today is not a test you&rsquo;ll write next week. It&rsquo;s a test that will never exist. Plan accordingly &mdash; either write it now, or accept that this code will be harder to change forever.</p>
+    </div>
+
+    <h3>The case for writing tests <em>with</em> the code</h3>
+    <p>Tests written alongside the code are cheap. You&rsquo;re already loaded with context: the inputs, the edge cases, the gotchas. Writing two tests takes ten minutes. Writing the same two tests three weeks later &mdash; when you&rsquo;ve forgotten all of that &mdash; takes forty minutes and they&rsquo;ll be worse tests because you&rsquo;ll only remember the happy path.</p>
+
+    <div class="framework">
+      <h4>The Minimum Test Rule</h4>
+      <ol>
+        <li><strong>Every MR ships with tests</strong> for the new behaviour.</li>
+        <li><strong>Every bug fix ships with a regression test</strong> &mdash; the test that would have caught the bug.</li>
+        <li><strong>No &ldquo;tests coming in a follow-up&rdquo;</strong> &mdash; unless there&rsquo;s an explicit, scheduled ticket AND a test for the new behaviour is actually present.</li>
+      </ol>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>The honest alternative:</strong> if you genuinely can&rsquo;t write tests (legacy code, time pressure, whatever), say so out loud. &ldquo;This MR has no tests because X. I&rsquo;ll open a follow-up ticket for test coverage.&rdquo; Then actually do the follow-up. Silently shipping untested code is the failure mode &mdash; not the decision to occasionally do it with good reason.</p>
+      </div>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Write a test with the code that needs it</td><td>Write code, ship, &ldquo;tests next sprint&rdquo;</td></tr>
+      <tr><td>When a bug is fixed, write the test that would have caught it</td><td>Fix the bug, move on, leave the regression possibility wide open</td></tr>
+      <tr><td>If you skip tests, say so in the MR description &mdash; explicitly</td><td>Quietly ship untested code</td></tr>
+      <tr><td>Treat tests as part of &ldquo;done&rdquo;, not a bonus</td><td>Treat tests as homework to do if time allows</td></tr>
+    </table>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. TDD -->
+  <section class="fade-in" id="tdd">
+    <span class="section-num">05 &middot; Technique</span>
+    <h2>TDD When It Helps</h2>
+    <p class="section-intro">Test-Driven Development isn&rsquo;t dogma and isn&rsquo;t a religion. It&rsquo;s a technique: write a failing test, write the minimum code to pass, refactor, repeat. For some kinds of work it&rsquo;s tremendously helpful. For others, it&rsquo;s overkill. Knowing when to use it is part of the skill.</p>
+
+    <h3>When TDD genuinely helps</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Pure logic with clear rules</h4>
+        <p>Calculators, validators, parsers, state machines. The inputs and outputs are knowable. TDD gives you steady forward progress.</p>
+      </div>
+      <div class="card">
+        <h4>Bug reproduction</h4>
+        <p>Write a failing test that captures the bug. Now you have a concrete target. Fix until green. You now also have a regression test &mdash; free.</p>
+      </div>
+      <div class="card">
+        <h4>Legacy code you&rsquo;re afraid to change</h4>
+        <p>Add characterisation tests first &mdash; tests that capture existing behaviour. Now you can refactor with confidence.</p>
+      </div>
+    </div>
+
+    <h3>When TDD is not the right tool</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Exploratory / spike work</h4>
+        <p>You don&rsquo;t know what you&rsquo;re building yet. Tests calcify decisions you haven&rsquo;t made. Spike first; add tests after you know the shape.</p>
+      </div>
+      <div class="card">
+        <h4>UI-heavy work</h4>
+        <p>Visual, interactive, design-iterative work. TDD for the logic underneath; dogfood and e2e test for the surface.</p>
+      </div>
+      <div class="card">
+        <h4>Integration glue</h4>
+        <p>Wiring framework components together. The &ldquo;test&rdquo; is often the integration test itself; unit TDD doesn&rsquo;t add much.</p>
+      </div>
+    </div>
+
+    <div class="framework">
+      <h4>The TDD Cycle (when you use it)</h4>
+      <ol>
+        <li><strong>Red:</strong> write the simplest failing test for the next tiny bit of behaviour you want.</li>
+        <li><strong>Green:</strong> write the simplest code that passes. Not clean &mdash; just passing.</li>
+        <li><strong>Refactor:</strong> clean up both test and code, with the safety net of the test still passing.</li>
+        <li><strong>Repeat.</strong> Small cycles. One assertion at a time.</li>
+      </ol>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p>You don&rsquo;t have to TDD everything to get 80% of the benefit. Try it for your next pure-logic task &mdash; a function that maps inputs to outputs. You&rsquo;ll feel the value immediately. You&rsquo;ll also learn why people who swear by TDD sound like they&rsquo;re in a cult: when the fit is right, the flow is unreasonably nice.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Test-Driven Development: By Example</em> &mdash; Kent Beck. The canonical book; short and practical.</li>
+      <li><em>Growing Object-Oriented Software, Guided by Tests</em> &mdash; Freeman &amp; Pryce. The deeper book on how tests shape design.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Edges -->
+  <section class="fade-in" id="edges">
+    <span class="section-num">06 &middot; Coverage</span>
+    <h2>Testing the Edges, Not Just the Happy Path</h2>
+    <p class="section-intro">A test suite that covers only the happy path is a test suite that ships bugs. The bugs you care about almost always live at the edges &mdash; empty inputs, boundary values, unexpected types, failure modes. Thinking through the edges is often where the best part of writing tests happens.</p>
+
+    <h3>The edges to think about</h3>
+    <div class="framework">
+      <h4>The Edge Checklist</h4>
+      <ol>
+        <li><strong>Empty.</strong> Empty list, empty string, empty map, null/None/nil.</li>
+        <li><strong>One.</strong> Collections of size one &mdash; often break algorithms designed for &ldquo;many.&rdquo;</li>
+        <li><strong>Many.</strong> Large inputs &mdash; performance edges, off-by-ones in pagination, memory.</li>
+        <li><strong>Boundary values.</strong> Just below, at, just above a threshold. The classic bug site.</li>
+        <li><strong>Invalid input.</strong> Wrong type, malformed, impossible combination.</li>
+        <li><strong>Failure modes.</strong> DB down, network timeout, third-party 500. What does your code do?</li>
+        <li><strong>Concurrent access.</strong> Two requests hit the same resource at once. Race conditions.</li>
+        <li><strong>Time boundaries.</strong> Timezone edges, daylight-savings, leap days, year rollover.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: the day-one pagination bug</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p>You ship pagination. Happy path test: 100 items, 10 per page &mdash; 10 pages. Works. Ship.</p>
+        <p>Production: someone has 0 items. Your code divides by something that becomes 0. Or returns a blank page with &ldquo;Page 1 of 0.&rdquo; Or worse, throws.</p>
+        <p><strong>Edges you should have tested:</strong> 0 items, 1 item, exactly N items (the page boundary), N+1 items (one over), a fractional page (<code>113 items, 10/page = 11.3 pages</code>). Each is one extra test. Each catches a different real bug.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; One happy-path test per story</h5>
+        <p>You wrote a test. You feel done. The test covers the path you manually clicked through. No edges.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; At least one happy path, one boundary, one failure</h5>
+        <p>Three tests minimum, usually. It takes ten extra minutes. The edges are where the bugs hide.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Only testing &ldquo;success returns&rdquo;</h5>
+        <p>You verify the function returns the right thing on success. You never check what it does when something goes wrong. Production finds out for you.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Test the failure paths</h5>
+        <p>What does the code do when the DB is down, the third party returns 500, input is malformed? That&rsquo;s often where the actual bug is.</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Five happy-path tests cover less ground than one happy-path plus four edge tests. When you finish writing a test, pause and ask: &ldquo;what&rsquo;s the weirdest input this could get?&rdquo; Write one more test.</p>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Unit Testing Principles, Practices and Patterns</em> &mdash; Vladimir Khorikov. The book on testable design after you know the basics.</li>
+      <li><em>The Art of Unit Testing</em> &mdash; Roy Osherove. Approachable introduction with real examples.</li>
+      <li>Martin Fowler on testing (martinfowler.com) &mdash; particularly his pieces on the testing pyramid and test doubles.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>For your next story, write the tests before calling it done &mdash; not in a follow-up.</li>
+      <li>For your next bug fix, write the regression test first.</li>
+      <li>On your next test, add one edge case you wouldn&rsquo;t normally think of.</li>
+      <li>Try TDD on one small pure-logic task. See how it feels.</li>
+      <li>Refactor one function to take its dependencies as parameters instead of constructing them internally.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observability &amp; Errors &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="observability.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Observability &amp; Errors</h1>
+    <p class="subtitle">Code that runs in production is a black box until you teach it to talk. Logs, metrics, traces, and error handling aren&rsquo;t something you bolt on during incidents &mdash; they&rsquo;re something you design into every commit. This chapter is about making your systems legible from the outside.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#three-pillars">1. The Three Pillars (And Why)</a></li>
+      <li><a href="#logging">2. Logging That Actually Helps</a></li>
+      <li><a href="#what-not-to-log">3. What Not to Log (And Why)</a></li>
+      <li><a href="#metrics">4. Metrics: The Shape of the System</a></li>
+      <li><a href="#tracing">5. Tracing: Following One Request</a></li>
+      <li><a href="#error-handling">6. Error Handling Philosophy</a></li>
+      <li><a href="#fail-loud">7. Fail Loud vs Fail Soft</a></li>
+      <li><a href="#alert-quality">8. Alerts That Earn Their Ring</a></li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="fade-in" id="three-pillars">
+    <span class="section-num">01 &middot; Basics</span>
+    <h2>The Three Pillars (And Why)</h2>
+    <p class="section-intro">Observability is usually broken into three pillars: <strong>logs</strong>, <strong>metrics</strong>, and <strong>traces</strong>. They answer different questions. Your job is to know which tool answers which question and not to use one when another would be better.</p>
+
+    <table class="comparison">
+      <tr><th>Pillar</th><th>Answers</th><th>Shape</th></tr>
+      <tr><td>Logs</td><td>What happened in this specific event?</td><td>Unbounded, detailed, text-heavy. Expensive at scale.</td></tr>
+      <tr><td>Metrics</td><td>What&rsquo;s the rate, shape, and trend?</td><td>Numeric, aggregated, cheap. Cardinality-limited.</td></tr>
+      <tr><td>Traces</td><td>What was the path of this request across services?</td><td>Structured, per-request, expensive raw but sample-able.</td></tr>
+    </table>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Metrics tell you <em>something is wrong</em>. Logs tell you <em>why it&rsquo;s wrong for this case</em>. Traces tell you <em>where in the chain it went wrong</em>. Use all three; don&rsquo;t try to make any one do the others&rsquo; jobs.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2 -->
+  <section class="fade-in" id="logging">
+    <span class="section-num">02 &middot; Logs</span>
+    <h2>Logging That Actually Helps</h2>
+    <p class="section-intro">Most logs are noise. The engineer who writes useful logs is the engineer whose 2am incident takes 20 minutes instead of 4 hours. Useful logs have a specific shape.</p>
+
+    <div class="framework">
+      <h4>The Useful-Log Rules</h4>
+      <ol>
+        <li><strong>Use structured logging.</strong> Log lines should be parseable &mdash; JSON, key-value, whatever the platform expects. Text blobs don&rsquo;t scale.</li>
+        <li><strong>Include context.</strong> Request ID, user ID (not PII), tenant, operation name, and the values that let you re-run the failure in your head.</li>
+        <li><strong>Log at boundaries, not everywhere.</strong> Entry to a service, exit to a downstream call, decisions that affect flow. Logging every line adds noise and cost.</li>
+        <li><strong>Use levels deliberately.</strong> ERROR for real failure, WARN for recoverable, INFO for normal flow, DEBUG for devs. Production runs at INFO; DEBUG is for local and short investigations.</li>
+        <li><strong>Correlate.</strong> Include a correlation ID that follows a request across services. Without it, debugging a distributed call chain is guesswork.</li>
+        <li><strong>Log the cause, not just the symptom.</strong> &ldquo;DB connection refused&rdquo; beats &ldquo;save failed.&rdquo; Log the original exception when you re-throw.</li>
+      </ol>
+    </div>
+
+    <h3>A scenario: the silent save</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128270;</span>
+      <div>
+        <p>Users complain their updates sometimes don&rsquo;t save. Your logs say: <code>INFO: Save attempted. INFO: Save complete.</code> For every request. Every one &ldquo;succeeded.&rdquo; No error logs. You can&rsquo;t reproduce. You&rsquo;re stuck.</p>
+        <p><strong>What useful logs would have said:</strong> <code>INFO: Save attempted. user_id=123, tenant=acme, op=update_profile, fields=[name, email]. WARN: Optimistic lock version mismatch &mdash; retrying. INFO: Save succeeded on retry. retry_count=1.</code> Now you see the real story: retries are masking a race condition, and some attempts are exhausting retries without alerting.</p>
+      </div>
+    </div>
+
+    <h3>Patterns &amp; anti-patterns</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Log-and-swallow</h5>
+        <p><code>catch (e) { log(&quot;oops&quot;); }</code>. The log is useless (no exception), the failure is invisible, and execution continues as if nothing happened.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Log with the exception and re-throw (or handle explicitly)</h5>
+        <p>If you swallow, you own the silence. Log the exception with context, re-throw it, or handle it with a documented decision. Never both log and silently continue.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Logging giant objects</h5>
+        <p>You log the whole request body &ldquo;just in case.&rdquo; Now your log storage is a full mirror of every request, your search is slow, and PII is everywhere.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Log the fields that matter</h5>
+        <p>The IDs, the decision branches, the error-relevant values. Not the password. Not the full payload.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Everything at ERROR</h5>
+        <p>Expected failures (user typed a bad password) log as ERROR. Real errors drown in noise. Your on-call mutes the alert.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; ERROR is for things we&rsquo;d page on</h5>
+        <p>User error = INFO or WARN. System error we can&rsquo;t handle = ERROR. Keep ERROR rare and real &mdash; it&rsquo;s a signal, not a volume control.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3 -->
+  <section class="fade-in" id="what-not-to-log">
+    <span class="section-num">03 &middot; Redaction</span>
+    <h2>What Not to Log (And Why)</h2>
+    <p class="section-intro">A log file is the most common accidental data leak. The moment data hits your logs, it hits your log index, your backup, possibly your SIEM, possibly a third-party log processor. If it&rsquo;s sensitive, it&rsquo;s now everywhere sensitive data shouldn&rsquo;t be.</p>
+
+    <div class="framework">
+      <h4>The Never-Log List</h4>
+      <ul>
+        <li>Passwords. Plain, hashed, encrypted &mdash; doesn&rsquo;t matter. Not in logs.</li>
+        <li>Auth tokens, API keys, session cookies.</li>
+        <li>Credit card numbers, full or partial beyond last-4 when legally required.</li>
+        <li>Full PII in free text &mdash; addresses, phone numbers, government IDs.</li>
+        <li>Personal health data, financial data subject to regulation.</li>
+        <li>Request bodies and response bodies, unsanitised.</li>
+        <li>Full exception objects that might contain the above.</li>
+      </ul>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>Build redaction into your logging framework, not into every call site.</strong> A helper that logs a user: <code>logger.info(&quot;user action&quot;, user=user)</code> should already know to log only <code>id, tenant, role</code>. Relying on every engineer to remember to sanitise is how leaks happen. Centralise the policy; every call site gets it for free.</p>
+      </div>
+    </div>
+
+    <h3>A habit: log review as part of review</h3>
+    <p>When you review a teammate&rsquo;s MR, add this to your mental checklist: &ldquo;What will this log, and is any of it sensitive?&rdquo; Most leaks come from someone wiring a new logging call without realising what it prints. A 10-second check in review catches almost all of them.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4 -->
+  <section class="fade-in" id="metrics">
+    <span class="section-num">04 &middot; Metrics</span>
+    <h2>Metrics: The Shape of the System</h2>
+    <p class="section-intro">Metrics are where you see trends, thresholds, and saturation. They&rsquo;re cheap, always-on, and the first place to look when something feels off. Good metrics answer specific questions; bad metrics are a dashboard graveyard nobody reads.</p>
+
+    <h3>The four golden signals</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Latency</h4>
+        <p>How long did the thing take? Track p50, p95, p99 &mdash; averages hide the tail that hurts users.</p>
+      </div>
+      <div class="card">
+        <h4>Traffic</h4>
+        <p>How many requests, transactions, events? You need to know baseline to know when abnormal.</p>
+      </div>
+      <div class="card">
+        <h4>Errors</h4>
+        <p>What fraction failed? Error rate vs absolute count &mdash; both matter. A 0.1% rate at 1M requests is a lot.</p>
+      </div>
+      <div class="card">
+        <h4>Saturation</h4>
+        <p>How full are the resources? CPU, memory, connections, queue depth. The leading indicator of the next incident.</p>
+      </div>
+    </div>
+
+    <p>Track these four for every service you own. Plot them on one dashboard. Look at them before you claim something is healthy.</p>
+
+    <h3>Cardinality: the trap</h3>
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Don&rsquo;t put user IDs, request IDs, or unique identifiers in metric labels.</strong> Metrics are pre-aggregated; each unique label combination is a time series. Add user_id as a label, create one series per user, watch your monitoring bill explode. Labels are for low-cardinality dimensions: endpoint, region, status code, tenant (if small).</p>
+      </div>
+    </div>
+
+    <h3>Business metrics, not just technical ones</h3>
+    <p>Technical metrics (latency, errors) tell you the system is up. Business metrics (orders per minute, signups per hour, successful checkouts) tell you it&rsquo;s <em>working</em>. A system can have 0% error rate and a broken business outcome &mdash; a silent fallback, a wrong feature flag, a misconfigured routing rule. Track the things that matter to the product, not just to the servers.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5 -->
+  <section class="fade-in" id="tracing">
+    <span class="section-num">05 &middot; Tracing</span>
+    <h2>Tracing: Following One Request</h2>
+    <p class="section-intro">In a system with more than one service, tracing is what lets you follow a single request across hops. &ldquo;API took 2 seconds&rdquo; becomes &ldquo;API took 2 seconds because the auth call took 1.8 and most of that was DNS.&rdquo; Without traces, you&rsquo;re guessing which link in the chain is slow.</p>
+
+    <div class="framework">
+      <h4>The Tracing Habits</h4>
+      <ol>
+        <li><strong>Generate a trace ID at the entry point</strong> and propagate it through every downstream call &mdash; HTTP headers, queue messages, background jobs.</li>
+        <li><strong>Include it in your logs.</strong> One ID ties logs across services together. An investigator can follow one request end-to-end.</li>
+        <li><strong>Instrument the calls you actually care about:</strong> outbound HTTP, DB queries, cache lookups, queue publishes. Libraries usually auto-instrument the common ones.</li>
+        <li><strong>Sample sensibly.</strong> Full tracing is expensive. Sample representative traffic plus 100% of errors. That gives you the detail where it matters and low cost on the happy path.</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127793;</span>
+      <div>
+        <p><strong>Worth the one-time cost:</strong> setting up distributed tracing is a multi-day project on a team that doesn&rsquo;t have it. The day after it&rsquo;s working, a bug that took a week to find takes 10 minutes. The investment compounds &mdash; every incident after that is faster.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6 -->
+  <section class="fade-in" id="error-handling">
+    <span class="section-num">06 &middot; Errors</span>
+    <h2>Error Handling Philosophy</h2>
+    <p class="section-intro">Most bugs in production aren&rsquo;t in the code that runs when things go right &mdash; they&rsquo;re in the code that runs when things go wrong. Error handling isn&rsquo;t a chore; it&rsquo;s half your job. Treat it as a design concern, not an afterthought.</p>
+
+    <h3>The questions to ask for every error</h3>
+    <div class="framework">
+      <h4>The Error Triage</h4>
+      <ol>
+        <li><strong>Is this expected or unexpected?</strong> User typed a bad password: expected. Database connection refused: unexpected. They&rsquo;re handled differently.</li>
+        <li><strong>Is this recoverable?</strong> Can we retry, fall back, or degrade gracefully? Or do we have to stop?</li>
+        <li><strong>Where is this best handled?</strong> At the point it happened, or at a higher boundary where there&rsquo;s enough context to make a real decision?</li>
+        <li><strong>What does the caller need to know?</strong> An end user needs a friendly message; an internal service needs a structured error; a developer needs the full stack.</li>
+        <li><strong>What does the system need to know?</strong> Metric? Log? Alert? All three? None?</li>
+      </ol>
+    </div>
+
+    <h3>The three places to handle errors</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>At the source</h4>
+        <p>When you have enough information to make the decision now. Retry a transient DB blip. Default a missing config. Handle and move on.</p>
+      </div>
+      <div class="card">
+        <h4>At a boundary</h4>
+        <p>Request handlers, message consumers, scheduled jobs. The place where you can translate &ldquo;something broke&rdquo; into the right response &mdash; error to the user, failure metric, message for retry, whatever fits.</p>
+      </div>
+      <div class="card">
+        <h4>Nowhere (let it crash)</h4>
+        <p>Sometimes the right thing is to fail, let the process die, and let your platform restart it. Erlang made this famous. For long-running pipelines it&rsquo;s often the cleanest answer.</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The worst error handling is the middle of the stack catching something it can&rsquo;t really handle, logging a message, and returning a default. The error is invisible to the caller, the logs accumulate, the system appears to work. Either handle it with a real decision or don&rsquo;t catch it &mdash; passing the problem up is better than hiding it.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7 -->
+  <section class="fade-in" id="fail-loud">
+    <span class="section-num">07 &middot; Fail Loud</span>
+    <h2>Fail Loud vs Fail Soft</h2>
+    <p class="section-intro">A failure that screams is a failure you can fix. A failure that whispers is a failure that sits in production for months, corrupting data, disappointing users, until someone notices. Default to loud &mdash; especially for engineers still building their instincts.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The silent default</h5>
+        <p><code>let x = parseInput(input) ?? 0;</code>. When parsing fails, x is 0. Math proceeds. Reports look &ldquo;fine.&rdquo; Three months later someone notices totals are wrong.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Default with intent, or throw</h5>
+        <p>If 0 is a meaningful answer for bad input, fine &mdash; but decide on purpose and log the substitution. If it isn&rsquo;t, throw. Invisible defaults are how data corrupts quietly.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; try/catch for flow control</h5>
+        <p>You use exceptions to drive normal logic. Now &ldquo;caught&rdquo; and &ldquo;never happened&rdquo; look the same in the logs.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Exceptions for exceptional</h5>
+        <p>Expected results (&ldquo;user not found&rdquo;) are return values, optionals, or result types. Exceptions are for things you don&rsquo;t know how to handle &mdash; loud by default.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Empty catch</h5>
+        <p><code>catch (Exception e) { /* ignore */ }</code>. The worst line of code in the history of software.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Every catch has intent</h5>
+        <p>If you&rsquo;re catching it, you have a reason &mdash; write a comment naming the reason, log it, and make a real decision. If you can&rsquo;t articulate why you&rsquo;re catching it, don&rsquo;t.</p>
+      </div>
+    </div>
+
+    <h3>When &ldquo;soft&rdquo; is right</h3>
+    <p>There are cases where failing soft is correct: optional features, analytics, non-critical enrichment, UI degradation. The rule: <em>soft failures must be explicit and visible</em>. A metric counter, a log line at WARN, a degraded badge on the dashboard. Silent soft failure is still silent &mdash; and silent is the problem, not soft.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8 -->
+  <section class="fade-in" id="alert-quality">
+    <span class="section-num">08 &middot; Alerts</span>
+    <h2>Alerts That Earn Their Ring</h2>
+    <p class="section-intro">An alert that wakes someone up at 3am should be worth waking them up for. If it isn&rsquo;t, the alert is the problem, not the engineer who slept through it. Alert quality is a design concern.</p>
+
+    <div class="framework">
+      <h4>The Alert Quality Rules</h4>
+      <ol>
+        <li><strong>Alert on symptoms, not causes.</strong> &ldquo;User-facing error rate &gt; 5%&rdquo; is a symptom. &ldquo;CPU &gt; 80%&rdquo; is a cause that may or may not matter. Alert on the thing users experience.</li>
+        <li><strong>Every alert has a runbook.</strong> If an alert fires and there&rsquo;s no runbook, write one. If you can&rsquo;t write a runbook, the alert isn&rsquo;t actionable &mdash; delete it.</li>
+        <li><strong>Every alert has an owner.</strong> &ldquo;The team&rdquo; is not an owner. A specific on-call or rotation.</li>
+        <li><strong>Alerts that fire routinely without action get tuned or deleted.</strong> Alert fatigue isn&rsquo;t a personality flaw; it&rsquo;s a design flaw.</li>
+        <li><strong>Page only for things a human must do something about now.</strong> Everything else is a ticket, a dashboard, or an email.</li>
+      </ol>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Log structured, with correlation IDs and context</td><td>Log plain text blobs without context</td></tr>
+      <tr><td>Track the four golden signals for every service</td><td>Collect metrics you never look at</td></tr>
+      <tr><td>Redact sensitive fields in a central logging helper</td><td>Rely on each call site to sanitise</td></tr>
+      <tr><td>Fail loud by default; make soft failure explicit</td><td>Swallow exceptions with an empty catch</td></tr>
+      <tr><td>Alert on user-visible symptoms with runbooks</td><td>Alert on every metric crossing a round number</td></tr>
+      <tr><td>Sample tracing smartly: representative + all errors</td><td>Trace 100% and pay for it forever, or 0% and debug blind</td></tr>
+      <tr><td>Include a trace ID in every log line</td><td>Store logs and traces in disconnected tools</td></tr>
+    </table>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128302;</span>
+      <div>
+        <p><strong>The compounding payoff:</strong> good observability is invisible when everything works and invaluable when anything breaks. The engineer who built it in early moves through incidents in minutes while others are still asking &ldquo;wait, why didn&rsquo;t this log anything?&rdquo; An hour spent on observability at the start pays back a hundredfold the first time production misbehaves.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Site Reliability Engineering</em> (Google SRE Book) &mdash; the chapters on monitoring and SLOs define the modern vocabulary. Free online.</li>
+      <li><em>Observability Engineering</em> (Majors, Fong-Jones, Miranda) &mdash; the current reference. Strong on why three pillars aren&rsquo;t enough and what replaces them.</li>
+      <li>Charity Majors&rsquo; writing (charity.wtf) &mdash; opinionated, sharp, about ten years ahead of most teams.</li>
+      <li><em>Distributed Systems Observability</em> (Cindy Sridharan) &mdash; short, free, excellent introduction.</li>
+      <li>OpenTelemetry docs (opentelemetry.io) &mdash; the practical instrumentation reference.</li>
+      <li>Baron Schwartz&rsquo;s blog &mdash; deep, practical writing on metrics and performance.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Open the last log line your code wrote. Does it include a correlation ID? If not, add one.</li>
+      <li>Find one <code>catch</code> in your code that swallows silently. Fix it &mdash; log with context and re-throw, or make the handling explicit.</li>
+      <li>Check one production metric dashboard. If it&rsquo;s not tracking p95/p99 latency and error rate, add them.</li>
+      <li>Pick one alert that fires without anyone acting on it. Tune it, route it to a non-page channel, or delete it.</li>
+      <li>Grep your logs for obvious PII (emails, full names, tokens). Add filtering at the logging layer for anything you find.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

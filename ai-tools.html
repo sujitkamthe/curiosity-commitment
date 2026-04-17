@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Using AI Tools &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="ai-tools.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Using AI Tools Well</h1>
+    <p class="subtitle">AI assistants have changed how code gets written. They&rsquo;ll also change whether you actually grow &mdash; for better or for worse. Used well, they amplify a curious engineer. Used badly, they quietly hollow one out. This chapter is about staying on the right side of that line.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#why-it-matters">1. Why This Matters Now</a></li>
+      <li><a href="#curiosity-tax">2. The Curiosity Tax</a></li>
+      <li><a href="#accept-verify-reject">3. Accept, Verify, or Reject</a></li>
+      <li><a href="#prompting">4. Prompting Is a Craft Skill</a></li>
+      <li><a href="#verify">5. The Verification Habit</a></li>
+      <li><a href="#where-it-helps">6. Where AI Helps, Where It Quietly Hurts</a></li>
+      <li><a href="#guard-growth">7. Guarding Your Own Growth</a></li>
+      <li><a href="#team">8. AI on a Team, Not Just on You</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Why it matters -->
+  <section class="fade-in" id="why-it-matters">
+    <span class="section-num">01 &middot; Context</span>
+    <h2>Why This Matters Now</h2>
+    <p class="section-intro">AI coding assistants &mdash; Copilot, Cursor, Claude Code, ChatGPT, the next one &mdash; are now part of the daily loop for most engineers. This isn&rsquo;t a trend you can opt out of and still be effective. It also isn&rsquo;t a cheat code. The engineers who thrive with these tools do something specific with them; the ones who don&rsquo;t slowly lose the habits that made them capable in the first place.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>AI will produce code that compiles, passes local checks, and looks reasonable &mdash; even when it&rsquo;s subtly wrong. Your job hasn&rsquo;t changed: you are still responsible for the code you commit. The tools changed. The accountability didn&rsquo;t.</p>
+    </div>
+
+    <h3>What changes, what doesn&rsquo;t</h3>
+    <table class="comparison">
+      <tr><th>Changes</th><th>Doesn&rsquo;t change</th></tr>
+      <tr><td>How fast you produce a first draft</td><td>Whether you understand what you&rsquo;re shipping</td></tr>
+      <tr><td>How quickly you scaffold boilerplate</td><td>Whether the design is right for the problem</td></tr>
+      <tr><td>How easily you try three approaches</td><td>Whether you can defend the one you kept</td></tr>
+      <tr><td>How much syntax you have to remember</td><td>Whether you can debug when it goes wrong</td></tr>
+      <tr><td>How quickly you explore an unfamiliar API</td><td>Whether you built a mental model you can reuse</td></tr>
+    </table>
+
+    <p>The right column is where your craft lives. If the left column expands but the right doesn&rsquo;t, you&rsquo;re getting faster at producing code you can&rsquo;t own.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Curiosity Tax -->
+  <section class="fade-in" id="curiosity-tax">
+    <span class="section-num">02 &middot; The Trap</span>
+    <h2>The Curiosity Tax</h2>
+    <p class="section-intro">Every time you accept AI-generated code without understanding it, you pay a small tax on your future ability to think about that code. One instance is harmless. A year of it is career-shaping &mdash; and not in the direction you want.</p>
+
+    <h3>How it happens</h3>
+    <p>You&rsquo;re tired. The story is due. The AI produces something that works. You ship it. Tomorrow the same thing, in a different file. A month later you&rsquo;re touching a part of the code the AI wrote and you don&rsquo;t recognise any of it. You can&rsquo;t change it without asking the AI again. You haven&rsquo;t been writing code &mdash; you&rsquo;ve been approving it.</p>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>The slow erosion:</strong> an engineer with the curiosity tax paid for a year looks fine in calm weeks. They slow down the moment something unusual happens &mdash; a novel bug, a library they can&rsquo;t look up, a production incident at 2am, a design discussion that asks <em>why</em> the code does what it does. Those are the weeks that define a career. Those are the weeks where the tax comes due.</p>
+      </div>
+    </div>
+
+    <h3>The compounding happens both ways</h3>
+    <p>The good news: the inverse also compounds. Every time you treat the AI&rsquo;s output as a starting point &mdash; to question, learn from, verify, refine &mdash; you build the exact muscles you would have built writing it yourself, with a <em>faster</em> loop. The tool is the same. The stance is what changes the outcome.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Approver engineer</h5>
+        <p>Read AI output quickly. Skim for red flags. Commit. Repeat. A year later you&rsquo;re as fast as anyone &mdash; and stuck the moment you&rsquo;re off the tool.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Author engineer using AI</h5>
+        <p>The AI drafts. You still author. You read every line, ask &ldquo;why this over X?&rdquo;, reshape for your codebase&rsquo;s style, and add the test you&rsquo;d have written regardless. Your growth doesn&rsquo;t pause when the model does.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Accept / Verify / Reject -->
+  <section class="fade-in" id="accept-verify-reject">
+    <span class="section-num">03 &middot; Triage</span>
+    <h2>Accept, Verify, or Reject</h2>
+    <p class="section-intro">For every chunk of AI output, you&rsquo;re making one of three decisions. Most engineers only notice the &ldquo;accept&rdquo; decision &mdash; and that&rsquo;s the one that silently hurts them. Make the triage conscious.</p>
+
+    <div class="framework">
+      <h4>The AVR Triage (Accept / Verify / Reject)</h4>
+      <ol>
+        <li><strong>Read every line</strong> the AI wrote. No skimming. You can read faster than you can write, but not faster than the AI can make mistakes.</li>
+        <li><strong>Ask: do I understand what each line does, and why?</strong> If yes &mdash; it&rsquo;s a candidate for <strong>Accept</strong>.</li>
+        <li><strong>If any line is unclear</strong> &mdash; either ask the AI to explain it, or look it up in the real docs. <strong>Verify</strong> until you understand it. Don&rsquo;t commit what you can&rsquo;t explain.</li>
+        <li><strong>Ask: does it fit this codebase?</strong> Match style, match idioms, use the existing helpers. If not &mdash; <strong>Reject</strong> or reshape. &ldquo;Works&rdquo; is not enough.</li>
+        <li><strong>Ask: would I have written it this way?</strong> Not because your instinct is always right &mdash; but because this is the moment to compare and learn. &ldquo;The AI did X; I&rsquo;d have done Y; which is better here?&rdquo; is the question that builds you.</li>
+        <li><strong>Add what&rsquo;s missing.</strong> The AI is bad at boundaries: the edge case, the error path, the obvious test. That&rsquo;s your layer.</li>
+      </ol>
+    </div>
+
+    <h3>A scenario: the plausible wrong function</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128270;</span>
+      <div>
+        <p>You ask the AI for a function to chunk a list into batches of <code>n</code>. It produces a clean-looking 8-line function. You accept it. Three weeks later a batch job silently drops the last partial batch when the list length isn&rsquo;t divisible by <code>n</code>. The bug sits in production for a month.</p>
+        <p><strong>What AVR catches:</strong> in step 2 you&rsquo;d have asked &ldquo;what happens when length isn&rsquo;t a multiple of <code>n</code>?&rdquo;. In step 6 you&rsquo;d have added a test for that exact case. Neither step takes more than two minutes. Both would have prevented the bug.</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The AI will confidently produce code that is subtly wrong far more often than code that obviously is. Your verification energy should match: generous on the &ldquo;looks fine&rdquo; output, not just the &ldquo;looks weird&rdquo; output.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Prompting -->
+  <section class="fade-in" id="prompting">
+    <span class="section-num">04 &middot; Prompting</span>
+    <h2>Prompting Is a Craft Skill</h2>
+    <p class="section-intro">How you ask shapes what you get. A sloppy prompt produces sloppy code &mdash; confidently. A precise prompt produces something you can actually use. Prompting isn&rsquo;t mystical; it&rsquo;s specification, and specification is already a skill engineers respect.</p>
+
+    <div class="framework">
+      <h4>The CCEE Prompt Pattern (Context, Constraint, Example, Exit)</h4>
+      <ol>
+        <li><strong>Context.</strong> What is this code part of? Language, framework, style conventions, existing helpers. &ldquo;We&rsquo;re in a Spring Boot 3.4 service, using JUnit 5 and AssertJ. Records are the norm for DTOs.&rdquo;</li>
+        <li><strong>Constraint.</strong> What must the answer satisfy? &ldquo;Pure function, no I/O, handles empty input by returning an empty list, handles null by throwing IllegalArgumentException.&rdquo;</li>
+        <li><strong>Example.</strong> If there&rsquo;s a similar function in the codebase, paste it. The model pattern-matches; give it the right pattern.</li>
+        <li><strong>Exit.</strong> How will you know it&rsquo;s right? &ldquo;Here are the cases I care about: empty, one element, many, exact multiple of batch size, non-multiple.&rdquo;</li>
+      </ol>
+    </div>
+
+    <h3>Why this beats &ldquo;write me a function that&hellip;&rdquo;</h3>
+    <p>A bare &ldquo;write me a function that batches a list&rdquo; is under-specified. The AI will fill in the blanks &mdash; with a reasonable-looking guess that may not match your codebase, may miss your edge cases, and may use a different convention than the file next to it. Every line of context you add narrows the space the AI invents in. That narrowing is the craft.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The one-liner prompt</h5>
+        <p>&ldquo;Write a function that sorts users by last activity.&rdquo; No idea of the data shape, no idea of null handling, no idea of the codebase&rsquo;s sort conventions. You get something generic and spend 20 minutes reshaping it.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The specified prompt</h5>
+        <p>&ldquo;Given a <code>List&lt;User&gt;</code> (see attached record), return a new list sorted by <code>lastActivityAt</code> descending, nulls last, stable sort. We use <code>List.copyOf</code> and streams; no external libraries.&rdquo; You get something you can actually use.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Accepting the first answer</h5>
+        <p>The model offered something. You take it. You don&rsquo;t realise there were three better designs it would have suggested if you&rsquo;d asked.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Ask for alternatives, then choose</h5>
+        <p>&ldquo;Show me three different approaches to this, with the tradeoffs.&rdquo; Now you&rsquo;re designing, not accepting. You also learn &mdash; the tradeoff list is free education.</p>
+      </div>
+    </div>
+
+    <h3>Prompting to learn, not just to produce</h3>
+    <p>The most underused mode: &ldquo;explain this code to me, line by line, assuming I know Java but don&rsquo;t know this library.&rdquo; &ldquo;What would a senior engineer have pushed back on in this diff?&rdquo; &ldquo;What&rsquo;s the design decision I&rsquo;m not seeing?&rdquo; Treat the AI as a tutor you can keep interrupting. That&rsquo;s a learning loop that didn&rsquo;t exist five years ago.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Verification -->
+  <section class="fade-in" id="verify">
+    <span class="section-num">05 &middot; Verification</span>
+    <h2>The Verification Habit</h2>
+    <p class="section-intro">Read AI code the way you&rsquo;d read a stranger&rsquo;s pull request &mdash; not your own. You wrote none of it. You owe it every question you&rsquo;d owe any unfamiliar code.</p>
+
+    <div class="framework">
+      <h4>The Five Reads</h4>
+      <ol>
+        <li><strong>Intent read.</strong> Does this actually solve the problem you asked for, or a slightly different one?</li>
+        <li><strong>Correctness read.</strong> Are the logical branches right? Off-by-one, null handling, edge cases, error paths.</li>
+        <li><strong>Fit read.</strong> Does it match the codebase&rsquo;s style, use existing helpers, respect the module&rsquo;s conventions?</li>
+        <li><strong>Security read.</strong> Any user input going somewhere unsafe? Any secret, token, or PII in logs or error messages? Any obvious injection surface?</li>
+        <li><strong>Test read.</strong> If I delete this and re-run the tests, would the tests tell me?</li>
+      </ol>
+    </div>
+
+    <h3>A quiet rule: write the test yourself</h3>
+    <p>Let the AI draft the implementation. Write the tests yourself &mdash; at least some of them. Why: the AI tends to write tests that pass because it wrote them for its own implementation. Tests you design from the requirement, independent of the code, are the ones that catch the AI being subtly wrong.</p>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>A good split:</strong> AI drafts the code. You write at least one &ldquo;hostile&rdquo; test &mdash; empty input, malformed input, concurrent use, boundary &mdash; before you ask it for more tests. That one test catches more bugs than the five the AI adds for you.</p>
+      </div>
+    </div>
+
+    <h3>Hallucinations to watch for</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Imaginary APIs</h5>
+        <p>The AI invents a method that doesn&rsquo;t exist on the library you&rsquo;re using &mdash; often a plausibly-named one. Check the real docs.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Stale patterns</h5>
+        <p>The model was trained on years of code. It sometimes writes 2018-style patterns instead of what&rsquo;s idiomatic today. Cross-check with your codebase&rsquo;s newer code.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Silent fallbacks</h5>
+        <p>It catches exceptions and returns a default without telling you. Failures become invisible. Read the catch blocks carefully.</p>
+      </div>
+      <div class="pitfall">
+        <h5>&ldquo;Works on the happy path&rdquo; tests</h5>
+        <p>AI-generated tests lean toward the happy path. The test file looks thorough &mdash; it tests what the code already does right. It rarely tests what it&rsquo;s likely to get wrong.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Where it helps -->
+  <section class="fade-in" id="where-it-helps">
+    <span class="section-num">06 &middot; Patterns</span>
+    <h2>Where AI Helps, Where It Quietly Hurts</h2>
+    <p class="section-intro">The tool is the same in every situation; the outcomes aren&rsquo;t. Building an honest map of where AI helps you and where it hurts you is the difference between using it well and pretending it always works.</p>
+
+    <h3>Where AI genuinely helps</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Boilerplate &amp; scaffolding</h4>
+        <p>DTOs, repetitive CRUD, config files, parser shells. Work you&rsquo;ve done before and don&rsquo;t learn from repeating.</p>
+      </div>
+      <div class="card">
+        <h4>Exploring an unfamiliar API</h4>
+        <p>&ldquo;Show me three ways to use this library.&rdquo; Faster than reading three tutorials. Verify the one you pick against the real docs.</p>
+      </div>
+      <div class="card">
+        <h4>Test data and fixtures</h4>
+        <p>Generating realistic test data, edge cases, parameter sets. Often faster and more thorough than writing them by hand.</p>
+      </div>
+      <div class="card">
+        <h4>Writing comments / docs</h4>
+        <p>You already know what the code does; the AI can phrase it. Always re-read &mdash; it will sometimes describe what it <em>thinks</em> the code does rather than what it actually does.</p>
+      </div>
+      <div class="card">
+        <h4>Rubber-ducking at 2am</h4>
+        <p>Explaining a bug to the AI is a disciplined rubber-duck exercise. Often you solve it during the explanation. The AI&rsquo;s answer is a bonus.</p>
+      </div>
+      <div class="card">
+        <h4>Translating between languages</h4>
+        <p>Porting a small piece of logic, converting tests between frameworks, bridging code and SQL. Faster than manual translation, easier to verify.</p>
+      </div>
+    </div>
+
+    <h3>Where AI quietly hurts</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Learning the language or framework you use every day</h4>
+        <p>If you never read the real docs, you never build the mental model. AI lets you skate along without deepening &mdash; which is fine for one-offs and disastrous for your core stack.</p>
+      </div>
+      <div class="card">
+        <h4>Debugging a real production issue</h4>
+        <p>Complex bugs require theory, evidence, and a mental model of the running system. AI can suggest; it can&rsquo;t investigate. The disciplined debugger in your team is the one who owns the incident.</p>
+      </div>
+      <div class="card">
+        <h4>Design decisions</h4>
+        <p>&ldquo;Should we use a queue or a cron job?&rdquo; depends on context the AI doesn&rsquo;t have: team size, ops capacity, existing infrastructure, failure modes that matter. Use AI to enumerate options; make the decision yourself.</p>
+      </div>
+      <div class="card">
+        <h4>Code review of others&rsquo; MRs</h4>
+        <p>If you outsource your review thinking to the AI, you stop noticing the team&rsquo;s patterns, stop catching the real trade-offs, and deliver review comments that feel generic. Your teammates notice.</p>
+      </div>
+      <div class="card">
+        <h4>Sensitive code paths</h4>
+        <p>Auth, billing, migrations, anything touching PII. Confident AI output in these paths is the most dangerous shape it takes. Treat AI suggestions here as the <em>first</em> draft, not the final one.</p>
+      </div>
+      <div class="card">
+        <h4>Anything you can&rsquo;t explain in the review</h4>
+        <p>If a reviewer asks &ldquo;why this approach?&rdquo; and your honest answer is &ldquo;that&rsquo;s what it gave me,&rdquo; you shouldn&rsquo;t have committed it.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 7. Guarding growth -->
+  <section class="fade-in" id="guard-growth">
+    <span class="section-num">07 &middot; Growth</span>
+    <h2>Guarding Your Own Growth</h2>
+    <p class="section-intro">The biggest career risk of AI tools isn&rsquo;t that they&rsquo;ll replace you. It&rsquo;s that they&rsquo;ll make you feel productive while quietly pausing your growth. Set the guardrails yourself &mdash; nobody else will set them for you.</p>
+
+    <div class="framework">
+      <h4>The Growth Guardrails</h4>
+      <ol>
+        <li><strong>One deep thing per week without the AI.</strong> Pick one task &mdash; a bug, a feature, a refactor &mdash; and do it fully yourself. No autocomplete, no prompt. You&rsquo;re practising the craft.</li>
+        <li><strong>Read docs before asking.</strong> When you need a new library or API, spend ten minutes in the real docs first. Then compare what the AI gives you.</li>
+        <li><strong>Explain what you shipped.</strong> At the end of the day, could you walk a teammate through every line of what you committed? If no, you committed too early.</li>
+        <li><strong>Teach it back.</strong> Once a month, write a short note or demo to the team explaining something you used AI to build. Teaching surfaces what you actually understood.</li>
+        <li><strong>Track your &ldquo;stuck without it&rdquo; moments.</strong> If the AI is down or slow and you freeze, that&rsquo;s a skill gap the tool was hiding. Write it down. It&rsquo;s your curriculum.</li>
+      </ol>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The goal is not to use less AI. The goal is to use AI without outsourcing the thinking. Those are different things. One makes you faster; the other makes you replaceable.</p>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127793;</span>
+      <div>
+        <p><strong>Why this compounds:</strong> engineers who use AI tools as amplifiers keep growing. Engineers who use them as substitutes hit a ceiling they can&rsquo;t see. Sustained practice as an amplifier beats equivalent practice as an approver &mdash; and the difference shows the first week the tool is unavailable, or the first production incident that needs a real investigator.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 8. Team -->
+  <section class="fade-in" id="team">
+    <span class="section-num">08 &middot; Team</span>
+    <h2>AI on a Team, Not Just on You</h2>
+    <p class="section-intro">How you use AI affects your teammates &mdash; in review, in incidents, in pairing, in the codebase they&rsquo;ll maintain. The individual habits above are necessary. So are the team habits below.</p>
+
+    <h3>Patterns &amp; anti-patterns</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Silent AI use in review</h5>
+        <p>You shipped AI-generated code. The reviewer doesn&rsquo;t know. They assume you can explain every choice. You can&rsquo;t. The review stalls or drifts into confusion.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Flag where it matters</h5>
+        <p>In the MR description: &ldquo;The batch retry logic was drafted with AI; I&rsquo;ve verified cases X, Y, Z &mdash; please pay extra attention to the error path.&rdquo; Doesn&rsquo;t mean apologising for using the tool &mdash; it means pointing reviewers at the parts most likely to hide a mistake.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Secrets or private code in prompts</h5>
+        <p>Pasting real API keys, customer data, or proprietary code into tools without checking the org&rsquo;s policy. Once pasted, it&rsquo;s out.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Follow the policy, sanitise by default</h5>
+        <p>Know your org&rsquo;s AI policy. Use company-approved tools for sensitive code. Sanitise prompts of secrets, PII, and customer identifiers &mdash; the same way you&rsquo;d sanitise a public gist.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Review by AI</h5>
+        <p>You paste a teammate&rsquo;s MR into the AI and post its comments as your review. The comments feel generic because they are. Your teammate learns nothing specific about their code.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; AI as a second pair of eyes, you as the reviewer</h5>
+        <p>Use the AI to surface questions you might have missed. Then do your own review &mdash; with the context you have that the AI doesn&rsquo;t.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The &ldquo;it works on my machine&rdquo; trap, AI edition</h5>
+        <p>The AI produced code that passed in your environment. You didn&rsquo;t check why it might not elsewhere. Prod surfaces the difference.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Run it where it will run</h5>
+        <p>Test in an environment that matches production: same versions, same data shape, same configuration. The AI can&rsquo;t do this for you.</p>
+      </div>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Read every line the AI wrote before committing</td><td>Skim for obvious red flags and ship</td></tr>
+      <tr><td>Provide context, constraints, and examples in your prompt</td><td>Expect the one-liner to produce what you need</td></tr>
+      <tr><td>Write at least one hostile test yourself</td><td>Accept the AI&rsquo;s test suite as sufficient</td></tr>
+      <tr><td>Pick one task a week to do without AI assistance</td><td>Let autocomplete become your default typing tool</td></tr>
+      <tr><td>Flag AI-drafted sections in MR descriptions</td><td>Let reviewers assume you wrote every line yourself</td></tr>
+      <tr><td>Treat AI as a tutor &mdash; ask for explanations, alternatives, critiques</td><td>Treat it as an oracle whose output you approve</td></tr>
+    </table>
+
+    <div class="tip purple-tip">
+      <span class="tip-icon">&#128302;</span>
+      <div>
+        <p><strong>Why this matters:</strong> the team&rsquo;s code is a shared artifact. The AI doesn&rsquo;t know your team&rsquo;s conventions, disagreements, or scars. You do. What you commit is what your teammates will maintain at 2am in six months. Own it like you wrote it &mdash; because as far as the codebase is concerned, you did.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>The Pragmatic Programmer</em> (20th anniversary ed.) &mdash; Hunt &amp; Thomas. The chapters on tool mastery and deliberate practice apply directly to how you hold an AI assistant.</li>
+      <li>Simon Willison&rsquo;s blog (simonwillison.net) &mdash; one of the clearest, most honest ongoing writeups of what AI tools can and can&rsquo;t do, updated weekly.</li>
+      <li>Addy Osmani &mdash; writing on AI-assisted engineering workflows. Good on habits, honest about failure modes.</li>
+      <li>Anthropic&rsquo;s &ldquo;Building effective agents&rdquo; &mdash; worth reading once to understand how these tools actually construct answers.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Pick one task and do it entirely without AI help. Notice what feels harder &mdash; that&rsquo;s your growth edge.</li>
+      <li>Next time you reach for an AI prompt, write the Context/Constraint/Example/Exit version instead of the one-liner.</li>
+      <li>Before you commit AI-drafted code, write one hostile test yourself that the AI didn&rsquo;t suggest.</li>
+      <li>In your next MR that used AI, flag the AI-drafted sections in the description so reviewers know where to look hardest.</li>
+      <li>Use the AI as a tutor once: paste a piece of code you didn&rsquo;t write and ask &ldquo;explain this, and what would a senior engineer push back on?&rdquo;</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

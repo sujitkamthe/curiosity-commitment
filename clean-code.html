@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Code Habits &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="clean-code.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Clean Code Habits</h1>
+    <p class="subtitle">Readability first. Naming as a design decision. Refactor-as-you-go. The modern features of your language. The anti-patterns that quietly drag codebases down. And the six-month test for all of it.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#readability">1. Readability First</a></li>
+      <li><a href="#naming">2. Naming as a Design Decision</a></li>
+      <li><a href="#refactor">3. Refactor-as-You-Go</a></li>
+      <li><a href="#modern-features">4. Using Modern Language Features</a></li>
+      <li><a href="#anti-patterns">5. Common Anti-Patterns (and What to Do Instead)</a></li>
+      <li><a href="#six-month-test">6. The Six-Month Test</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Readability First -->
+  <section class="fade-in" id="readability">
+    <span class="section-num">01 &middot; Readability</span>
+    <h2>Readability First</h2>
+    <p class="section-intro">Code is read far more than it is written. Every line you write will be read &mdash; by a teammate, a reviewer, a future-you &mdash; dozens of times over its life. Optimising for the writer is cheap at the keyboard and expensive forever after.</p>
+
+    <h3>Why readability beats cleverness</h3>
+    <p>A clever one-liner feels satisfying. It also costs every subsequent reader 30 seconds of &ldquo;wait, what is this doing?&rdquo; Over a codebase&rsquo;s life, that adds up to hours. The boring, obvious version costs you zero to write and zero to read.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The primary audience of your code is the next engineer who reads it &mdash; not the compiler, and not you at the moment of writing. Optimise for them.</p>
+    </div>
+
+    <h3>The readability moves</h3>
+    <div class="framework">
+      <h4>The Readability Checklist</h4>
+      <ol>
+        <li><strong>Short functions.</strong> If it doesn&rsquo;t fit on one screen, it&rsquo;s probably doing more than one thing.</li>
+        <li><strong>Meaningful names.</strong> <code>calculateTax</code> beats <code>calc</code>. <code>isEligibleForRefund</code> beats <code>flag</code>.</li>
+        <li><strong>One level of abstraction per function.</strong> Either high-level (orchestration) or low-level (details) &mdash; not both mixed.</li>
+        <li><strong>Early returns over deep nesting.</strong> Three levels of <code>if</code> is a code smell.</li>
+        <li><strong>Comments explain <em>why</em>, not <em>what</em>.</strong> The code shows what. Only write a comment if the reason isn&rsquo;t obvious from the code.</li>
+        <li><strong>Dead code deleted.</strong> Commented-out code is confusion. Git remembers; your file doesn&rsquo;t have to.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: the clever filter</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128270;</span>
+      <div>
+        <p>You&rsquo;re reviewing a PR. You hit:</p>
+        <p><code>const result = users.filter(u =&gt; u.r?.a || (u.r?.p &amp;&amp; new Date(u.r.p) &gt; new Date())).map(u =&gt; u.e);</code></p>
+        <p>You stop. You read it three times. What&rsquo;s <code>r</code>? What does <code>a</code> mean? Is <code>p</code> a date or a boolean? You scroll up to find the type. You scroll back. Thirty seconds gone &mdash; on one line.</p>
+        <p>The readable version:</p>
+        <pre style="background:var(--bg-alt);padding:12px;border-radius:6px;font-size:0.82rem;overflow-x:auto;">const activeEmails = users
+  .filter(user =&gt; hasActiveRole(user))
+  .map(user =&gt; user.email);
+
+function hasActiveRole(user) {
+  if (!user.role) return false;
+  if (user.role.isAdmin) return true;
+  return user.role.permissionsValidUntil &amp;&amp;
+         new Date(user.role.permissionsValidUntil) &gt; new Date();
+}</pre>
+        <p>Same behaviour. Reads like English. Multiply by every reader forever &mdash; that&rsquo;s the return on the extra five lines.</p>
+      </div>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Extract confusing expressions into named variables or functions</td><td>Write expressions that require comments to understand</td></tr>
+      <tr><td>Use early returns to flatten nesting</td><td>Write pyramid-of-doom <code>if</code> chains</td></tr>
+      <tr><td>Write code a teammate could understand without you</td><td>Write code only you can maintain</td></tr>
+      <tr><td>Delete dead code now, not &ldquo;later&rdquo;</td><td>Leave commented-out blocks &ldquo;just in case&rdquo;</td></tr>
+      <tr><td>Break a 40-line function into three 12-line ones</td><td>Keep adding &ldquo;just one more case&rdquo; to a long function</td></tr>
+    </table>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Naming -->
+  <section class="fade-in" id="naming">
+    <span class="section-num">02 &middot; Naming</span>
+    <h2>Naming as a Design Decision</h2>
+    <p class="section-intro">Naming is not labelling. A good name is a design decision &mdash; it encodes intent, signals shape, and prevents confusion. A bad name makes the reader scroll, the reviewer ask, and the bug hide. If you only build one habit from this chapter, build this one.</p>
+
+    <h3>Why naming is design</h3>
+    <p>Consider a function called <code>process(data)</code>. What does it do? You have to read the body to know. The name has given you nothing. Now consider <code>redactPiiFromPayload(payload)</code>. You know what goes in, what comes out, and why. You can review the call site without reading the function. The name <em>is</em> the interface.</p>
+
+    <div class="framework">
+      <h4>The Naming Moves</h4>
+      <ol>
+        <li><strong>Name for intent, not implementation.</strong> <code>findEligibleOrders()</code> beats <code>queryOrdersTableWithJoin()</code>.</li>
+        <li><strong>Use the domain language.</strong> If the business calls it &ldquo;customer&rdquo;, don&rsquo;t call it <code>user</code> in code. Align vocab.</li>
+        <li><strong>Say what it is, not what it isn&rsquo;t.</strong> <code>isActive</code> beats <code>isNotDisabled</code>.</li>
+        <li><strong>Match pairs.</strong> <code>open/close</code>, <code>start/stop</code>, <code>create/delete</code>. Not <code>open/destroy</code>.</li>
+        <li><strong>Avoid vague words.</strong> <code>data</code>, <code>info</code>, <code>manager</code>, <code>util</code>, <code>helper</code>, <code>handle</code> &mdash; all signs you haven&rsquo;t thought of the actual thing.</li>
+        <li><strong>Length proportional to scope.</strong> A loop counter can be <code>i</code>. A module-level constant shouldn&rsquo;t.</li>
+      </ol>
+    </div>
+
+    <h3>The named-argument trick</h3>
+    <p>You&rsquo;re reading:</p>
+    <p><code>createUser(&quot;alice@example.com&quot;, true, true, false);</code></p>
+    <p>What do the booleans mean? You have to read the signature. Every reader does. Forever.</p>
+    <p>Languages that support named args (Kotlin, Python, Swift, C#) let you write:</p>
+    <p><code>createUser(email = &quot;alice@example.com&quot;, isAdmin = true, sendWelcome = true, forceSync = false);</code></p>
+    <p>In languages that don&rsquo;t (Java pre-records, JS without objects), pass an options object or split the function. The cost is a few characters; the benefit is every reader understands the call without scrolling.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Generic wrapper names</h5>
+        <p><code>DataManager</code>, <code>UserHelper</code>, <code>OrderUtils</code>. The names signal &ldquo;I couldn&rsquo;t think of what this actually does.&rdquo; The classes accumulate unrelated functions.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Specific, intent-led names</h5>
+        <p><code>OrderPricingCalculator</code>, <code>UserInvitationSender</code>, <code>OrderCsvExporter</code>. Each name constrains what belongs inside, preventing the catch-all problem.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Cryptic abbreviations</h5>
+        <p><code>usrOrdCnt</code>. You saved two keystrokes. Every reader pays mental cost forever.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Spell it out</h5>
+        <p><code>userOrderCount</code>. Autocomplete makes the keystroke cost zero. The clarity is permanent.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Negative names</h5>
+        <p><code>if (!isNotEmpty)</code>. The double negative is a tripwire. Readers have to mentally flip it.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Positive names</h5>
+        <p><code>if (isEmpty)</code>, <code>if (!isEmpty)</code>. Your brain can parse the second instantly.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Inconsistent vocabulary</h5>
+        <p>Some files say <code>user</code>, others say <code>account</code>, others say <code>customer</code> &mdash; all referring to the same thing. Readers have to translate on the fly.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; One term per concept, applied everywhere</h5>
+        <p>Pick one: <code>customer</code>. Use it in models, services, API responses, UI copy. The whole system speaks one language.</p>
+      </div>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Why this matters:</strong> of all the micro-decisions in a codebase, naming has the highest leverage. One good name saves every future reader seconds. One bad name costs them &mdash; quietly, every time they read it. There is no other habit in coding where small effort compounds as fast.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Refactor -->
+  <section class="fade-in" id="refactor">
+    <span class="section-num">03 &middot; Refactoring</span>
+    <h2>Refactor-as-You-Go</h2>
+    <p class="section-intro">Refactoring is not a separate ticket you do later. It&rsquo;s something you do <em>inside</em> the ticket you&rsquo;re already on, to leave the code better than you found it. Boy Scout rule: always leave the campsite cleaner than you found it.</p>
+
+    <h3>Small, continuous, in-the-moment</h3>
+    <p>Big-bang refactors rarely happen. They get scheduled, then descoped, then forgotten. Small refactors happen because they cost nothing: you&rsquo;re already reading the code, already editing it, already testing it. Rename this variable. Extract that block. Delete this dead branch. Ten minutes inside each story compounds into a codebase that gets better instead of worse.</p>
+
+    <div class="framework">
+      <h4>Refactor-as-You-Go Moves</h4>
+      <ol>
+        <li><strong>Rename when you spot a bad name.</strong> Your IDE does it safely in two seconds.</li>
+        <li><strong>Extract a function when a block is doing its own thing.</strong> Especially if it has a clear name waiting to be given.</li>
+        <li><strong>Delete when you&rsquo;re sure.</strong> Dead branches, dead variables, dead comments. Git remembers.</li>
+        <li><strong>Split when a file grew past &ldquo;I can&rsquo;t find things easily.&rdquo;</strong> Cohesion over convenience.</li>
+        <li><strong>Only touch what you&rsquo;re there for</strong> &mdash; resist scope creep. Small PRs.</li>
+      </ol>
+    </div>
+
+    <h3>The &ldquo;while I was here&rdquo; trap</h3>
+    <p>The opposite failure mode: you open a file to change one line, and end up refactoring the whole class. Now your MR is 600 lines long, the reviewer can&rsquo;t tell the bug fix from the cleanup, and the cleanup introduces its own small bug. Two hours of your time and two hours of the reviewer&rsquo;s, for no good reason.</p>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>The rule:</strong> refactors you can do in 5 minutes and explain in one line &mdash; do them in the same MR. Refactors bigger than that &mdash; open a follow-up ticket, mention it in the current MR (&ldquo;I noticed X, tracked as TICK-xyz&rdquo;), and keep your current MR scoped.</p>
+      </div>
+    </div>
+
+    <h3>When NOT to refactor</h3>
+    <p>Refactor-as-you-go doesn&rsquo;t mean refactor-always. Skip it when:</p>
+    <ul>
+      <li><strong>There are no tests.</strong> Add tests first (or accept the risk consciously).</li>
+      <li><strong>You&rsquo;re mid-incident.</strong> Fix the bug, ship, clean up tomorrow.</li>
+      <li><strong>The code is about to be deleted.</strong> Don&rsquo;t polish what&rsquo;s leaving.</li>
+      <li><strong>You don&rsquo;t fully understand it.</strong> Read first; refactor only when you can predict the behaviour you&rsquo;re preserving.</li>
+    </ul>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Never refactoring</h5>
+        <p>&ldquo;Not my ticket.&rdquo; Every month the codebase gets a little worse. Nobody notices the day it tipped from manageable to painful.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Small improvements inside every ticket</h5>
+        <p>One rename, one extraction, one delete. Ten minutes. Ship. Next ticket, same thing. Compounds over years.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The giant rewrite MR</h5>
+        <p>&ldquo;I noticed X and cleaned it up.&rdquo; 900 lines. Reviewer sighs. Gets stuck in review for a week.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Follow-up ticket with a scoped MR</h5>
+        <p>Open it separately. Small, focused, reviewable. Often mergeable in hours.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Modern Features -->
+  <section class="fade-in" id="modern-features">
+    <span class="section-num">04 &middot; Language Fluency</span>
+    <h2>Using Modern Language Features</h2>
+    <p class="section-intro">Your language has been evolving. If you&rsquo;re still writing it the way the tutorial you learned on showed you, you&rsquo;re writing 2015-era code in 2026. This isn&rsquo;t about being trendy &mdash; modern features exist because they solve real problems. Learning them is part of the job.</p>
+
+    <h3>Why this matters</h3>
+    <p>Modern language features tend to make code safer, shorter, and clearer. Null safety avoids whole classes of bugs. Pattern matching replaces fragile if/else chains. Records/data classes eliminate boilerplate that used to hide bugs. When you write the verbose old-style equivalent, you&rsquo;re choosing the worse option on purpose &mdash; usually without realising it.</p>
+
+    <h3>What to keep an eye on</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Java</h4>
+        <p>Records, sealed classes, pattern matching for switch/instanceof, text blocks, <code>var</code>, enhanced <code>Optional</code>, streams and collectors, virtual threads (21+).</p>
+      </div>
+      <div class="card">
+        <h4>TypeScript</h4>
+        <p>Discriminated unions, <code>satisfies</code>, template literal types, <code>const</code> type parameters, proper <code>never</code> usage, strict null checks.</p>
+      </div>
+      <div class="card">
+        <h4>Python</h4>
+        <p>Type hints (<code>typing</code>, <code>pydantic</code>), dataclasses, pattern matching (<code>match</code>), f-strings, <code>pathlib</code>, walrus operator where it reads well.</p>
+      </div>
+      <div class="card">
+        <h4>JavaScript</h4>
+        <p>Optional chaining, nullish coalescing, array/object destructuring, <code>async/await</code>, proper <code>Promise.allSettled</code>, ES modules, top-level <code>await</code>.</p>
+      </div>
+      <div class="card">
+        <h4>Kotlin / Swift / Go / Rust</h4>
+        <p>Each has its own idioms that shape what &ldquo;good&rdquo; looks like. The standard library is your first teacher &mdash; then style guides and patterns blog posts.</p>
+      </div>
+      <div class="card">
+        <h4>SQL</h4>
+        <p>Window functions, CTEs, <code>ON CONFLICT</code> / upserts, JSON operations if your DB supports them. Stop writing application-side loops for things SQL can do in one statement.</p>
+      </div>
+    </div>
+
+    <h3>Scenario: the verbose null check</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p>Old Java:</p>
+        <pre style="background:var(--bg-alt);padding:12px;border-radius:6px;font-size:0.82rem;overflow-x:auto;">if (order != null) {
+  if (order.getCustomer() != null) {
+    if (order.getCustomer().getAddress() != null) {
+      return order.getCustomer().getAddress().getCity();
+    }
+  }
+}
+return null;</pre>
+        <p>Modern, Optional-aware Java (or equivalent in any language with null-safe navigation):</p>
+        <pre style="background:var(--bg-alt);padding:12px;border-radius:6px;font-size:0.82rem;overflow-x:auto;">return Optional.ofNullable(order)
+    .map(Order::getCustomer)
+    .map(Customer::getAddress)
+    .map(Address::getCity)
+    .orElse(null);</pre>
+        <p>Same behaviour, half the lines, half the mental load, impossible to accidentally call through a null. The older code isn&rsquo;t &ldquo;more explicit&rdquo; &mdash; it&rsquo;s just older.</p>
+      </div>
+    </div>
+
+    <h3>How to learn them &mdash; without boiling the ocean</h3>
+    <div class="framework">
+      <h4>The Feature Learning Loop</h4>
+      <ol>
+        <li><strong>Once a quarter,</strong> skim the release notes for the language versions your team uses.</li>
+        <li><strong>Pick one feature</strong> that looks relevant to what you write.</li>
+        <li><strong>Find three places in your codebase</strong> where it would help. Use them in your next MR.</li>
+        <li><strong>Share what you learned.</strong> A short Slack note, a lunch &amp; learn, a PR description that shows off the feature. Your team learns with you.</li>
+      </ol>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Writing 2015-style code in 2026</h5>
+        <p>Verbose null checks where null-safe navigation exists. Raw for-loops where streams/list comprehensions exist. <code>getX()</code> chains where records exist.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Use what the language gives you</h5>
+        <p>Not dogmatically, not trendily &mdash; just: when the modern idiom is clearer and safer, choose it. Your reviewer shouldn&rsquo;t have to suggest the obvious modern replacement.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Hiding behind &ldquo;that&rsquo;s our style&rdquo;</h5>
+        <p>&ldquo;We don&rsquo;t use Optional here.&rdquo; Why not? If the reason is &ldquo;because we didn&rsquo;t&rdquo;, that&rsquo;s drift, not a style choice.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Question the convention, propose the upgrade</h5>
+        <p>See <a href="questioning.html#challenge-kindly">Questioning &amp; Proposing &mdash; Challenging Anti-Patterns Kindly</a>. Ask. Propose. Show an example of the cleaner approach in a small PR.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Anti-patterns -->
+  <section class="fade-in" id="anti-patterns">
+    <span class="section-num">05 &middot; Smells</span>
+    <h2>Common Anti-Patterns (and What to Do Instead)</h2>
+    <p class="section-intro">These are the smells that show up in almost every codebase, usually written by people who didn&rsquo;t know they were smells. Recognise them, name them, and know the cleaner alternative. You&rsquo;ll see all of these in your codebase this month &mdash; some of them in your own code.</p>
+
+    <div class="card-grid two-col">
+      <div class="card">
+        <h4>Copy-paste programming</h4>
+        <p><strong>Smell:</strong> the same five lines repeated in four places. Change one, forget the others, introduce a bug.</p>
+        <p><strong>Fix:</strong> extract a function. Even if it&rsquo;s called once today, two months from now it&rsquo;ll save you.</p>
+      </div>
+      <div class="card">
+        <h4>Magic numbers</h4>
+        <p><strong>Smell:</strong> <code>if (age &gt; 65)</code> with no explanation. What&rsquo;s 65? Retirement? Legal? A typo?</p>
+        <p><strong>Fix:</strong> name it. <code>RETIREMENT_AGE_THRESHOLD = 65</code>. Now the reader knows.</p>
+      </div>
+      <div class="card">
+        <h4>God functions</h4>
+        <p><strong>Smell:</strong> a 300-line function doing requirements validation, data fetching, transformation, and output formatting.</p>
+        <p><strong>Fix:</strong> one level of abstraction per function. Orchestrator calls four 30-line helpers.</p>
+      </div>
+      <div class="card">
+        <h4>Primitive obsession</h4>
+        <p><strong>Smell:</strong> passing a phone number as a <code>String</code>, a price as a <code>double</code>, a user ID as a raw <code>int</code>. Easy to mix up.</p>
+        <p><strong>Fix:</strong> wrap primitives in small value types (<code>PhoneNumber</code>, <code>Money</code>, <code>UserId</code>). The compiler now catches mix-ups.</p>
+      </div>
+      <div class="card">
+        <h4>Boolean parameters</h4>
+        <p><strong>Smell:</strong> <code>createUser(name, email, true)</code>. What does <code>true</code> mean at the call site?</p>
+        <p><strong>Fix:</strong> named args, enums (<code>Role.ADMIN</code>), or two distinct methods (<code>createAdmin</code>, <code>createStandardUser</code>).</p>
+      </div>
+      <div class="card">
+        <h4>Deep nesting</h4>
+        <p><strong>Smell:</strong> <code>if { if { if { if { &hellip; } } } }</code>. Each level costs reader attention.</p>
+        <p><strong>Fix:</strong> early returns / guard clauses. Flatten the happy path down the left edge of the file.</p>
+      </div>
+      <div class="card">
+        <h4>Silent catches</h4>
+        <p><strong>Smell:</strong> <code>try { &hellip; } catch (Exception e) { /* ignore */ }</code>. A bug waiting to never be noticed.</p>
+        <p><strong>Fix:</strong> at minimum log with context. Usually: let it bubble, handle at the boundary, or convert to a domain-meaningful exception.</p>
+      </div>
+      <div class="card">
+        <h4>Shotgun changes</h4>
+        <p><strong>Smell:</strong> adding a new field means editing 12 files in slightly different ways.</p>
+        <p><strong>Fix:</strong> the related logic should live together. If a change always touches the same N places, those N places want to be one.</p>
+      </div>
+      <div class="card">
+        <h4>Comments that repeat the code</h4>
+        <p><strong>Smell:</strong> <code>// increment counter</code> above <code>counter++</code>. Adds nothing, rots independently.</p>
+        <p><strong>Fix:</strong> delete. Comments explain <em>why</em>, not what. If the code needs a &ldquo;what&rdquo; comment, rename.</p>
+      </div>
+      <div class="card">
+        <h4>God class / god config</h4>
+        <p><strong>Smell:</strong> one class or config file knows everything, changed by everyone, merge conflicts every week.</p>
+        <p><strong>Fix:</strong> split by cohesion. Things that change together stay together; things that change separately should live separately.</p>
+      </div>
+      <div class="card">
+        <h4>Abbreviated names</h4>
+        <p><strong>Smell:</strong> <code>usr</code>, <code>tmp</code>, <code>proc</code>, <code>mgr</code>. Keystrokes saved, clarity lost forever.</p>
+        <p><strong>Fix:</strong> spell it out. <code>user</code>, <code>temporaryFile</code>, <code>processOrder</code>, <code>userAccountManager</code>.</p>
+      </div>
+      <div class="card">
+        <h4>Commented-out code</h4>
+        <p><strong>Smell:</strong> 20 lines commented out &ldquo;in case we need them later.&rdquo; You won&rsquo;t. Nobody will trust the code around them.</p>
+        <p><strong>Fix:</strong> delete. If you genuinely need it, it&rsquo;s in git history. Trust git.</p>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Recognising an anti-pattern is half the skill. Having a handful of well-known alternatives ready &mdash; so you can propose the fix in review or refactor in passing &mdash; is the other half. Both come from the <em>naming</em>: once you can name it (&ldquo;that&rsquo;s primitive obsession&rdquo;), the fix is obvious.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Six Month Test -->
+  <section class="fade-in" id="six-month-test">
+    <span class="section-num">06 &middot; Perspective</span>
+    <h2>The Six-Month Test</h2>
+    <p class="section-intro">Before you merge anything, run it through a simple imaginative check: &ldquo;Six months from now, a teammate is debugging a production issue at 10pm and they land on this code. Will they understand it?&rdquo; If the honest answer is no, the code is not done yet.</p>
+
+    <h3>Why &ldquo;six months&rdquo;</h3>
+    <p>Six months is long enough that you won&rsquo;t remember the context you had today. The clever shortcut that feels obvious now will feel opaque to future-you (and anyone else). Six months is also short enough that the code is still current &mdash; you&rsquo;re not designing for some hypothetical &ldquo;when the team changes&rdquo; &mdash; you&rsquo;re designing for <em>next week</em>, slightly fogged.</p>
+
+    <div class="framework">
+      <h4>The Six-Month Questions</h4>
+      <ol>
+        <li><strong>Can a reader tell <em>what</em> this does from the names alone?</strong></li>
+        <li><strong>Can a reader tell <em>why</em> this does it, either from the code or one good comment?</strong></li>
+        <li><strong>If something goes wrong, will the error or log message help them?</strong></li>
+        <li><strong>Are there tests that document the behaviour?</strong></li>
+        <li><strong>If a reader wants to change one thing, is it obvious where to make the change?</strong></li>
+      </ol>
+      <p style="margin-top:12px;">If all five are &ldquo;yes&rdquo;, the code is ready. If not, you have a small pre-merge to-do list.</p>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Why this matters:</strong> code that passes the six-month test ages gracefully. Code that doesn&rsquo;t becomes the &ldquo;nobody touches that module&rdquo; module three years later &mdash; and teams lose weeks working around it. The small investment you make today at merge time is the interest-free loan that keeps paying back forever.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Clean Code</em> &mdash; Robert C. Martin. Controversial in parts but foundational; chapters on naming, functions, and comments alone are worth the read.</li>
+      <li><em>A Philosophy of Software Design</em> &mdash; John Ousterhout. Short, sharp, deeply practical on complexity.</li>
+      <li><em>Refactoring</em> &mdash; Martin Fowler. The catalogue of refactors and when to apply them.</li>
+      <li>Kevlin Henney&rsquo;s talks on readability (on YouTube) &mdash; entertaining and changes how you look at code.</li>
+      <li>Sandi Metz, <em>Practical Object-Oriented Design in Ruby</em> &mdash; language-specific on the cover, universal in the lessons.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Rename one poorly-named variable or function in the next MR you open.</li>
+      <li>Find one anti-pattern from section 5 in your codebase. Either fix it or open a ticket.</li>
+      <li>Replace one verbose old-style idiom with a modern language feature in your next story.</li>
+      <li>Run the Six-Month Test on your next MR before asking for review.</li>
+      <li>Refactor inside a ticket &mdash; one small thing, 10 minutes max, in the same MR.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

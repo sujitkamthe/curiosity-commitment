@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debugging &amp; Reading &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="debugging-reading.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Debugging &amp; Reading</h1>
+    <p class="subtitle">Bugs are a practice, not a talent. The scientific method beats intuition; reproduction beats guessing; reading the stack trace beats staring at the code. And before you can debug a codebase, you have to be able to read it.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#method">1. The Scientific Method for Bugs</a></li>
+      <li><a href="#reproduce">2. Reproduce Before You Fix</a></li>
+      <li><a href="#stack-traces">3. Reading Stack Traces Properly</a></li>
+      <li><a href="#debugger">4. Using the Debugger (Not print())</a></li>
+      <li><a href="#ramp-up">5. Ramping Up on an Unfamiliar Codebase</a></li>
+      <li><a href="#production">6. Production Investigation Basics</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Method -->
+  <section class="fade-in" id="method">
+    <span class="section-num">01 &middot; Method</span>
+    <h2>The Scientific Method for Bugs</h2>
+    <p class="section-intro">Debugging is not a personality trait. It&rsquo;s a process you can learn and run deliberately. The engineers who seem to debug &ldquo;fast&rdquo; are almost never faster thinkers &mdash; they just follow the method more disciplined. The method is the scientific method, applied to code.</p>
+
+    <h3>The flow</h3>
+    <div class="framework">
+      <h4>The Debug Loop</h4>
+      <ol>
+        <li><strong>Observe.</strong> What is actually happening? Exact inputs, exact outputs, exact error. Not &ldquo;it&rsquo;s broken&rdquo; &mdash; &ldquo;when X happens, the response returns 500 with message Y.&rdquo;</li>
+        <li><strong>Hypothesise.</strong> What could cause this? Pick the most likely candidate. Write it down.</li>
+        <li><strong>Predict.</strong> If the hypothesis is correct, what should I see when I check Z? Make the prediction before looking.</li>
+        <li><strong>Experiment.</strong> Check Z. Either the prediction holds or it doesn&rsquo;t.</li>
+        <li><strong>Narrow.</strong> If the prediction held, you&rsquo;re closer. If it didn&rsquo;t, you&rsquo;ve eliminated a hypothesis. Go back to step 2.</li>
+      </ol>
+    </div>
+
+    <h3>Why &ldquo;fast&rdquo; engineers are actually disciplined</h3>
+    <p>When you watch a senior engineer debug, it often looks like intuition. They tried this one thing, and it was it. What&rsquo;s actually happening: they&rsquo;ve run the loop many times, and their hypotheses start closer to correct because they&rsquo;ve seen the shape of this bug before. You don&rsquo;t have their pattern library yet. You will &mdash; by running the method explicitly for a year and building the library one bug at a time.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The engineer who guesses fast usually debugs slow. Random guesses feel productive and rarely are. Fifteen minutes of disciplined hypothesis testing beats two hours of &ldquo;what if I try this?&rdquo;</p>
+    </div>
+
+    <h3>Scenario: the vanishing field</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128270;</span>
+      <div>
+        <p>A user reports: &ldquo;my address doesn&rsquo;t show up in the invoice.&rdquo; You look at the code. It looks right. You spend 20 minutes staring at the invoice generator.</p>
+        <p><strong>With the method:</strong></p>
+        <ul>
+          <li><strong>Observe:</strong> specifically, which user? When? What did the invoice actually look like? Get the real invoice open in front of you.</li>
+          <li><strong>Hypothesise:</strong> either (a) the data wasn&rsquo;t saved, (b) it was saved but not fetched, (c) it was fetched but not rendered.</li>
+          <li><strong>Predict:</strong> if (a), the DB has no address for this user. If (b), DB has it but the fetch query filters it out. If (c), logs would show the value being passed to the template.</li>
+          <li><strong>Experiment:</strong> query the DB directly. Address is there. Hypothesis (a) eliminated.</li>
+          <li><strong>Narrow:</strong> now it&rsquo;s (b) or (c). Log the fetched data. Is the address there? If yes &mdash; it&rsquo;s (c), a rendering bug. If no &mdash; it&rsquo;s (b), a fetch bug.</li>
+        </ul>
+        <p>In ten minutes you&rsquo;ve localised the bug to one layer. Then you can stare at <em>that</em> code.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Guessing without predictions</h5>
+        <p>&ldquo;Let me try changing this.&rdquo; You make five changes in ten minutes without knowing what each should prove. Half-fix at best; lost track of state at worst.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; One hypothesis, one experiment</h5>
+        <p>State the hypothesis. State what you expect to see. <em>Then</em> run the experiment. Even if you&rsquo;re wrong, you eliminated something.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Staring at the code</h5>
+        <p>You re-read the same function six times hoping something jumps out. Nothing does. An hour gone.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Prove what&rsquo;s actually happening</h5>
+        <p>Run it. Log it. Inspect it. Real observations beat re-readings. Static staring is for code review, not debugging.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Reproduce -->
+  <section class="fade-in" id="reproduce">
+    <span class="section-num">02 &middot; Reproduction</span>
+    <h2>Reproduce Before You Fix</h2>
+    <p class="section-intro">A bug you can&rsquo;t reproduce is a bug you can&rsquo;t fix. You can only &ldquo;fix&rdquo; it in theory &mdash; and the next production occurrence proves you didn&rsquo;t. Reproduction is the foundation of all real debugging.</p>
+
+    <h3>Why reproduction first</h3>
+    <p>If you can reproduce the bug, you can:</p>
+    <ul>
+      <li>Verify your hypothesis (does fixing X make the bug go away?)</li>
+      <li>Confirm the fix actually works</li>
+      <li>Write a regression test</li>
+      <li>Show the bug to others without waiting for production</li>
+    </ul>
+    <p>If you can&rsquo;t reproduce, you&rsquo;re flying blind. Every &ldquo;fix&rdquo; is a guess, and you won&rsquo;t know if it worked until the bug either happens again (fix didn&rsquo;t work) or doesn&rsquo;t (might&rsquo;ve been coincidence).</p>
+
+    <div class="framework">
+      <h4>The Reproduction Ladder</h4>
+      <ol>
+        <li><strong>Local reproduction with real data.</strong> The gold standard.</li>
+        <li><strong>Local reproduction with synthetic data.</strong> Works when real data is sensitive or huge.</li>
+        <li><strong>Staging reproduction.</strong> When the bug depends on infra you don&rsquo;t have locally.</li>
+        <li><strong>Capture-from-production reproduction.</strong> A failing request recorded in logs, replayed against staging.</li>
+        <li><strong>Theoretical reasoning only</strong> &mdash; last resort. Accept that the fix may not work.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: the &ldquo;works on my machine&rdquo; bug</h3>
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p>A user reports a date is showing one day off. You can&rsquo;t reproduce it. &ldquo;Works on your machine&rdquo; meets &ldquo;doesn&rsquo;t work on theirs.&rdquo;</p>
+        <p><strong>The reproduction path:</strong> get the user&rsquo;s timezone. Get their browser/OS. Get the exact date they saw wrong. Set your local machine to their timezone (change OS timezone or run the browser with a TZ env var). Try the same input.</p>
+        <p>Often this reproduces instantly. The bug wasn&rsquo;t &ldquo;sometimes&rdquo; &mdash; it was timezone-dependent, and your timezone happened to be on the side of the boundary that doesn&rsquo;t trigger it.</p>
+        <p>If you didn&rsquo;t chase reproduction, you&rsquo;d &ldquo;fix&rdquo; the bug by adjusting a format string, ship it, and the bug would silently persist for another user in another timezone.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Fixing without reproducing</h5>
+        <p>You read the bug report, have a theory, push a fix. Maybe it works. Maybe it doesn&rsquo;t. You won&rsquo;t know for sure.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Reproduce first, fix second</h5>
+        <p>Even an extra 30 minutes to reproduce pays back in certainty. The fix becomes provable.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Giving up when it doesn&rsquo;t reproduce easily</h5>
+        <p>&ldquo;I can&rsquo;t reproduce.&rdquo; You close the ticket or mark it as flaky. The bug reappears in a week.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Climb the ladder</h5>
+        <p>Try different data. Try different inputs. Try their exact environment. Record a failing request and replay it. The more edge-case-y the bug, the further up the ladder you may need to go &mdash; but most bugs are reachable with effort.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Stack traces -->
+  <section class="fade-in" id="stack-traces">
+    <span class="section-num">03 &middot; Reading</span>
+    <h2>Reading Stack Traces Properly</h2>
+    <p class="section-intro">A stack trace is a map. Most engineers glance at the top and close it. The full value of the trace is in reading it like a story &mdash; top to bottom, then filtering for your own code, then opening the right frame.</p>
+
+    <h3>What a stack trace tells you</h3>
+    <p>A stack trace tells you, in order: what broke, and the sequence of function calls that got there. The top of the trace is where the exception was raised. The bottom is usually where the program started. Your own code is somewhere in between &mdash; often sandwiched between framework frames and library frames.</p>
+
+    <div class="framework">
+      <h4>How to Read a Trace</h4>
+      <ol>
+        <li><strong>Read the top line.</strong> The exception type and message. &ldquo;NullPointerException&rdquo; tells you one thing, &ldquo;IllegalArgumentException: size cannot be negative&rdquo; tells you a very different thing.</li>
+        <li><strong>Scan down for your code.</strong> The first frame that&rsquo;s in <em>your</em> package/namespace. That&rsquo;s the nearest point in your code to the exception.</li>
+        <li><strong>Note the line number.</strong> Look at that line.</li>
+        <li><strong>If the code looks fine, look at the frame above it.</strong> What did it pass in? What state was it in?</li>
+        <li><strong>Read the whole call chain at least once.</strong> Sometimes the bug is not at the top of the trace &mdash; it&rsquo;s that the code even got to this call.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: the misleading top frame</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p>Your stack trace shows an NPE in <code>String.substring(beginIndex, endIndex)</code>. You stare at the String class. That&rsquo;s definitely not where the bug is &mdash; it&rsquo;s in the JDK.</p>
+        <p><strong>Read down:</strong> <code>substring</code> was called by <code>OrderFormatter.truncateId</code> at line 42. There, you see <code>order.getId().substring(0, 8)</code>. So <code>order.getId()</code> is null. Back up one more: <code>truncateId</code> was called from <code>OrderFormatter.format</code>, which handles any order.</p>
+        <p>The bug: a newly created order doesn&rsquo;t have an ID yet when it&rsquo;s passed to <code>format</code> &mdash; the ID is assigned later. The fix: either handle null, or don&rsquo;t call <code>format</code> on unsaved orders.</p>
+        <p>The top of the trace (<code>String.substring</code>) told you nothing. The third frame down told you everything.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Glancing at the top line only</h5>
+        <p>&ldquo;Null pointer exception.&rdquo; Okay. Now you open the file and stare at the top of it.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Find your frame</h5>
+        <p>Scroll to the first frame in your own code. Note the line. Look at the call. That&rsquo;s almost always where you start.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Ignoring the exception message</h5>
+        <p>The message often tells you the specific thing that went wrong &mdash; &ldquo;index 5 out of range for length 3.&rdquo; People skip past it.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Read the message word by word</h5>
+        <p>&ldquo;Index 5 out of range for length 3&rdquo; is a gift &mdash; it narrows the bug to an off-by-one in the indexing of a 3-element thing. Don&rsquo;t skim.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Trusting the filename blindly</h5>
+        <p>The trace says <code>OrderService.java:42</code>. You open <em>your</em> OrderService.java &mdash; but that&rsquo;s a different OrderService in a different package. Wrong file, wrong answer.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Check the full package path</h5>
+        <p>Jump-to-file features use the full path. Use them. Don&rsquo;t hand-search by filename.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Debugger -->
+  <section class="fade-in" id="debugger">
+    <span class="section-num">04 &middot; Tools</span>
+    <h2>Using the Debugger (Not print())</h2>
+    <p class="section-intro">Every IDE has a debugger. Most engineers use it rarely. If you debug with <code>print</code>/<code>console.log</code>/<code>System.out.println</code> as your default, you&rsquo;re probably spending 3&ndash;5x longer on bugs than you need to. The debugger is one of those skills where a weekend of practice pays for itself forever.</p>
+
+    <h3>What the debugger actually gives you</h3>
+    <div class="framework">
+      <h4>Debugger Superpowers</h4>
+      <ol>
+        <li><strong>Breakpoints.</strong> Pause execution exactly where you want.</li>
+        <li><strong>Conditional breakpoints.</strong> Only pause when a condition is true. &ldquo;Stop only when userId == 'alice'.&rdquo; Game-changer.</li>
+        <li><strong>Step over / step into / step out.</strong> Walk through code at the level of detail you need.</li>
+        <li><strong>Watch expressions.</strong> See the value of any variable or expression live.</li>
+        <li><strong>Evaluate in the current frame.</strong> Try any expression in the running context. No recompile.</li>
+        <li><strong>Stack inspection.</strong> See every call above you and the variables at each level.</li>
+      </ol>
+    </div>
+
+    <h3>When print() is actually fine</h3>
+    <p>Don&rsquo;t be dogmatic. <code>print</code>-debugging is fine for:</p>
+    <ul>
+      <li>Quick sanity checks (&ldquo;is this function even getting called?&rdquo;)</li>
+      <li>Debugging async / concurrency, where stopping the world changes the behaviour</li>
+      <li>Observability gaps you&rsquo;re about to fix by adding real logs anyway</li>
+    </ul>
+    <p>But the moment you&rsquo;ve added three print statements and are re-running, stop: you&rsquo;ve passed the break-even point where the debugger would be faster.</p>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Why this matters:</strong> debuggers let you explore state instead of reason about it. Reasoning is wrong often &mdash; you assume a variable is X when it&rsquo;s actually Y. The debugger shows you the Y directly. Hours saved.</p>
+      </div>
+    </div>
+
+    <h3>A weekend of practice</h3>
+    <p>Sit down once, with a cup of coffee, and walk through your debugger&rsquo;s features on a real bug. Set a breakpoint. Step through. Set a conditional breakpoint. Evaluate an expression mid-execution. Inspect the stack.</p>
+    <p>Most people never spend this two hours. It&rsquo;s the highest-ROI two hours you&rsquo;ll spend on tools this year.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Print-debug loops</h5>
+        <p>Add a print. Run. Add two more. Run. Add three more. Run. Remove them all. Put some back. Lose track of what you&rsquo;ve added where.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Breakpoint-driven debugging</h5>
+        <p>One breakpoint. Inspect. Step. Iterate live. No clutter in the code. No forgotten <code>console.log</code> making it to production.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Ramp Up -->
+  <section class="fade-in" id="ramp-up">
+    <span class="section-num">05 &middot; Reading</span>
+    <h2>Ramping Up on an Unfamiliar Codebase</h2>
+    <p class="section-intro">You&rsquo;ll join a new team, own a new service, or inherit a feature you&rsquo;ve never seen. The ability to orient yourself fast in an unfamiliar codebase is a learned skill &mdash; a process, not a talent. The process beats the talented guesser every time.</p>
+
+    <h3>Don&rsquo;t start by reading all the code</h3>
+    <p>The beginner&rsquo;s instinct: open the repo, browse the folder tree, skim the files. After 30 minutes you feel lost. This is normal &mdash; random skimming is the worst way to learn a codebase.</p>
+
+    <div class="framework">
+      <h4>The Ramp-Up Process</h4>
+      <ol>
+        <li><strong>Read the README first.</strong> If it&rsquo;s useless, that&rsquo;s your first proposal later.</li>
+        <li><strong>Run it.</strong> Get it building, booting, passing tests, serving requests &mdash; before you read any code. This teaches you the infra, the config, the setup.</li>
+        <li><strong>Pick one user-facing flow.</strong> Signup, search, checkout &mdash; whatever&rsquo;s central. Trace it end-to-end from entry point to DB and back. This is your narrow tunnel into the architecture.</li>
+        <li><strong>Draw the flow</strong> on paper or a whiteboard. Three boxes, arrows. You&rsquo;re building the mental model.</li>
+        <li><strong>Extend the tunnel</strong> to the adjacent flow. Then the next. Over a week, the tunnels merge into a map.</li>
+        <li><strong>Pick small tickets.</strong> Actual bugs or features in the area you&rsquo;ve tunnelled. You learn fastest by doing, not by reading.</li>
+      </ol>
+    </div>
+
+    <h3>Scenario: ramping up on a service</h3>
+    <div class="tip">
+      <span class="tip-icon">&#128736;</span>
+      <div>
+        <p>You inherit an order service. 80 files. You&rsquo;ve never seen it.</p>
+        <p><strong>Don&rsquo;t:</strong> start reading files alphabetically.</p>
+        <p><strong>Do:</strong></p>
+        <ul>
+          <li>Get it running locally, even if setup takes a day.</li>
+          <li>Send a request that creates an order. Watch the logs.</li>
+          <li>Trace: controller &rarr; service &rarr; repository &rarr; DB. Five files, ten minutes.</li>
+          <li>Now send a request that fetches an order. Same tunnel.</li>
+          <li>Now send a request that cancels one. Now you know cancel paths.</li>
+          <li>After a week of narrow tunnels, you understand the service&rsquo;s shape &mdash; and you read at most 15 of the 80 files. The rest you&rsquo;ll learn as needed.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Broad reading, no anchor</h5>
+        <p>You open 20 files, nothing sticks because nothing&rsquo;s connected yet. You feel overwhelmed and shut the laptop.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; One tunnel, end-to-end</h5>
+        <p>Pick one flow. Trace it through every layer. Connections build a model. A single tunnel teaches you more than a week of browsing.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Reading code you can&rsquo;t run</h5>
+        <p>You study code statically. Your mental model is wrong in subtle ways that only running it would reveal.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Get it running first</h5>
+        <p>Even if setup is painful. The act of making it boot forces you to encounter the config, the dependencies, the wiring &mdash; things you&rsquo;d otherwise ignore.</p>
+      </div>
+    </div>
+
+    <h3>The &ldquo;ask a tourist&rdquo; move</h3>
+    <p>Find a teammate who&rsquo;s been on the team one-to-two years. Not a founder, not a newcomer. Ask for 30 minutes of a walkthrough: &ldquo;show me how X actually works.&rdquo; Two years is the sweet spot &mdash; they know the code and they still remember what was confusing. They&rsquo;ll cut your ramp-up in half.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Production -->
+  <section class="fade-in" id="production">
+    <span class="section-num">06 &middot; Prod</span>
+    <h2>Production Investigation Basics</h2>
+    <p class="section-intro">Sooner or later you&rsquo;ll be asked to investigate something in production. Your instinct might be to panic. Don&rsquo;t &mdash; it&rsquo;s the same scientific method, with a handful of extra tools: logs, metrics, traces, and deploy history.</p>
+
+    <h3>The four places to look</h3>
+    <div class="framework">
+      <h4>The Prod Investigation Sources</h4>
+      <ol>
+        <li><strong>Logs.</strong> Search for the error, the user ID, the request ID. Read a window &mdash; 30 seconds before and after the incident.</li>
+        <li><strong>Metrics / dashboards.</strong> Did error rate spike? Latency? CPU? Memory? Match the spike time to any known event.</li>
+        <li><strong>Deploy history.</strong> &ldquo;Did anything deploy just before the incident started?&rdquo; is the single most valuable question in production debugging.</li>
+        <li><strong>Traces (if you have them).</strong> A single request&rsquo;s full journey through services. Incredibly powerful when present.</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>The deploy-history question:</strong> a disproportionate share of production incidents correlate with a recent deploy. &ldquo;What changed?&rdquo; is the first question, not the last. If something deployed in the 15 minutes before the incident started, that&rsquo;s your prime suspect.</p>
+      </div>
+    </div>
+
+    <h3>The &ldquo;correlation is not causation&rdquo; trap</h3>
+    <p>You&rsquo;ll find a metric that spiked. It might be the cause &mdash; or the effect. A spike in 500 responses could cause a spike in retries (one driving the other). Know the direction of causation before you act. Usually: the first thing that moved is the cause; everything that moved after is downstream.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Searching logs with no time boundary</h5>
+        <p>&ldquo;Grep for errors.&rdquo; You get 10,000 hits across three days.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Narrow by time and context</h5>
+        <p>&ldquo;Between 14:30 and 14:45, errors for user X, in service Y.&rdquo; Now you get 20 hits you can read.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Assuming your service is the cause</h5>
+        <p>Your service is erroring. Must be your bug. But actually the database is under pressure, or an upstream is flaking.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Check upstream and downstream</h5>
+        <p>What do my dependencies look like right now? Is the DB fine? Is the upstream service healthy? Often the bug isn&rsquo;t in the code that looks broken &mdash; it&rsquo;s in what that code depends on.</p>
+      </div>
+    </div>
+
+    <h3>The runbook shortcut</h3>
+    <p>If your service has a runbook, read it first. It&rsquo;s the accumulated wisdom of every previous incident. If your service doesn&rsquo;t have a runbook, write the first entry after you resolve this one. &ldquo;Symptom: X. Likely cause: Y. Checks: Z.&rdquo; Three lines save the next person an hour.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Production calm comes from practice, not talent. The first few prod investigations feel like panic; the tenth feels like a routine. Run through them with the method, contribute to the runbook, and over a year you become the person others want on the call.</p>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Debugging</em> &mdash; David Agans. Short, canonical, nine rules that cover 95% of debugging problems.</li>
+      <li><em>Site Reliability Engineering</em> (Google SRE Book, free online). Specifically the chapters on monitoring, incidents, and postmortems.</li>
+      <li>Julia Evans&rsquo; zines &mdash; <em>Help! I have a bug!</em> and <em>How Containers Work</em> are especially good at this layer.</li>
+      <li>Brendan Gregg&rsquo;s blog (brendangregg.com) &mdash; the reference for performance debugging on Linux.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>On your next bug, write down the hypothesis before you test it.</li>
+      <li>Spend an hour in your debugger on a real bug; use a conditional breakpoint.</li>
+      <li>When you join a new area of code, pick one user flow and trace it end-to-end.</li>
+      <li>When you hit a stack trace, read every frame at least once before opening a file.</li>
+      <li>Ask &ldquo;what changed recently?&rdquo; at the start of your next prod investigation.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

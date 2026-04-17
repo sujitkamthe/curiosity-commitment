@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speaking Up &amp; Feedback &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="speaking-up.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Speaking Up &amp; Feedback</h1>
+    <p class="subtitle">Your voice in huddles, your opinions in reviews, feedback given and received and actively asked for. Silence is not neutral &mdash; it&rsquo;s absence. This chapter is about being present in the conversation.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#voice">1. Your Voice in the Room</a></li>
+      <li><a href="#opinions">2. Having Opinions</a></li>
+      <li><a href="#give-feedback">3. Giving Feedback to Peers</a></li>
+      <li><a href="#receive">4. Receiving Feedback Without Defence</a></li>
+      <li><a href="#ask-feedback">5. Actively Asking for Feedback</a></li>
+      <li><a href="#disagree-commit">6. Disagreeing Well, Then Committing</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Voice -->
+  <section class="fade-in" id="voice">
+    <span class="section-num">01 &middot; Presence</span>
+    <h2>Your Voice in the Room</h2>
+    <p class="section-intro">Every huddle, standup, and design discussion has two kinds of attendees: the ones who shape the outcome and the ones who watch it happen. At this stage, most people default to the second. The shift into the first is a <em>habit</em> you build, not a personality trait you&rsquo;re born with.</p>
+
+    <h3>Why silence is not neutral</h3>
+    <p>It feels safe to listen quietly. You&rsquo;re not saying anything wrong. You&rsquo;re learning. The senior people will drive.</p>
+    <p>The problem: the team is making decisions without your input. If your input would have been valuable, you&rsquo;ve cost the team. If your input would have been wrong, you&rsquo;ve missed the chance to have it corrected cheaply. Either way, silence is not the low-risk move you think it is.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Your colleagues are not magical. They don&rsquo;t know what you know. The question you&rsquo;re too nervous to ask is often the question the room needs. The observation you&rsquo;re sitting on is often the one nobody else noticed. Saying nothing deprives the team of you.</p>
+    </div>
+
+    <h3>The minimum-viable-voice rule</h3>
+    <p>If you struggle to speak up, don&rsquo;t aim for eloquent. Aim for <em>at least one thing</em> per meeting.</p>
+    <div class="framework">
+      <h4>The &ldquo;One Thing&rdquo; Rule</h4>
+      <ol>
+        <li><strong>Before the meeting:</strong> know one thing you&rsquo;ll contribute. A question, an observation, an update, a concern.</li>
+        <li><strong>In the meeting:</strong> say it in the first 10 minutes. Not the last two. The earlier you speak, the easier it gets.</li>
+        <li><strong>If you missed it:</strong> follow up async afterwards. &ldquo;One thing I meant to say in the huddle &mdash; &hellip;&rdquo; Better than nothing.</li>
+      </ol>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p>What counts as a contribution? Almost anything:</p>
+        <ul>
+          <li>&ldquo;Quick clarification &mdash; when you say X, do you mean A or B?&rdquo;</li>
+          <li>&ldquo;I ran into something related yesterday &mdash; might be relevant here.&rdquo;</li>
+          <li>&ldquo;Before we move on, should we confirm who owns Y?&rdquo;</li>
+          <li>&ldquo;I&rsquo;m not sure I follow &mdash; could someone walk me through the trade-off?&rdquo;</li>
+          <li>&ldquo;I can pick that up.&rdquo;</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Scenario: the tech design review</h3>
+    <p>A senior engineer is walking through a proposed design. Twenty minutes in, you notice something: the caching approach assumes the upstream service returns idempotent results, but last week you saw it return different responses for the same input. You&rsquo;re pretty sure. Not 100%. You don&rsquo;t say anything.</p>
+    <p>Two weeks later, that assumption is exactly why production pages at 2am.</p>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Silent version &mdash; what you told yourself</h5>
+        <p>&ldquo;I&rsquo;m not sure enough. Someone more senior would&rsquo;ve noticed if it was real. I&rsquo;ll look weird raising it.&rdquo;</p>
+      </div>
+      <div class="better">
+        <h5>Voice version &mdash; what to actually say</h5>
+        <p>&ldquo;Sorry to interrupt &mdash; I might be wrong, but I thought I saw the upstream service return different values for the same input last week. If that&rsquo;s still true, does the caching approach hold up?&rdquo;</p>
+        <p>You&rsquo;re signalling uncertainty (&ldquo;I might be wrong&rdquo;) while still raising the observation. If you&rsquo;re wrong, someone explains and you learn. If you&rsquo;re right, you just saved a 2am page.</p>
+      </div>
+    </div>
+
+    <h3>Dos &amp; Don&rsquo;ts</h3>
+    <table class="comparison">
+      <tr><th>Do</th><th>Don&rsquo;t</th></tr>
+      <tr><td>Speak in the first third of the meeting &mdash; it gets easier</td><td>Wait until the end when momentum has set</td></tr>
+      <tr><td>Signal uncertainty (&ldquo;I might be off&rdquo;) without letting it silence you</td><td>Hedge so much that nobody hears the point</td></tr>
+      <tr><td>Follow up async if you missed the moment</td><td>Save it for never</td></tr>
+      <tr><td>Ask the question you&rsquo;re pretty sure is &ldquo;dumb&rdquo; &mdash; others usually have it too</td><td>Fake understanding to look experienced</td></tr>
+      <tr><td>Offer to own things (&ldquo;I can take that&rdquo;)</td><td>Wait to be volunteered</td></tr>
+    </table>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Opinions -->
+  <section class="fade-in" id="opinions">
+    <span class="section-num">02 &middot; Conviction</span>
+    <h2>Having Opinions</h2>
+    <p class="section-intro">You are allowed to have technical opinions. You are expected to. &ldquo;I don&rsquo;t know&rdquo; is fine. &ldquo;I have no preference&rdquo; for the thousandth time is not &mdash; it signals that you aren&rsquo;t paying enough attention to form one.</p>
+
+    <h3>Why the everything-is-fine engineer slows teams down</h3>
+    <p>Teams need friction to converge on good decisions. If every engineer says &ldquo;sounds good&rdquo; to every proposal, no proposal ever gets stress-tested. The one person who says &ldquo;hmm, what about X?&rdquo; is doing the whole team&rsquo;s critical thinking. You want to be that person &mdash; occasionally, not exhaustingly, but consistently.</p>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>Why this matters:</strong> the senior engineers you admire aren&rsquo;t seniors because they know more syntax. They&rsquo;re seniors because they consistently had a considered view and were willing to share it. That habit starts at two years, not at ten.</p>
+      </div>
+    </div>
+
+    <h3>How to form an opinion &mdash; fast</h3>
+    <p>You don&rsquo;t need five hours of research. You need a minute of thinking.</p>
+    <div class="framework">
+      <h4>The 90-Second Opinion</h4>
+      <ol>
+        <li><strong>What&rsquo;s being proposed, in one sentence.</strong></li>
+        <li><strong>What&rsquo;s the alternative?</strong> (There&rsquo;s always at least one. Sometimes it&rsquo;s &ldquo;don&rsquo;t do it.&rdquo;)</li>
+        <li><strong>What do I think is the main trade-off?</strong> Cost vs speed, safety vs velocity, simplicity vs flexibility.</li>
+        <li><strong>Which side do I lean, and why &mdash; in one sentence?</strong></li>
+      </ol>
+      <p style="margin-top:12px;">That&rsquo;s an opinion. Not a thesis. You can hold it lightly. But it&rsquo;s a starting point for a real conversation.</p>
+    </div>
+
+    <h3>Hold opinions loosely, but hold them</h3>
+    <p>A strong opinion isn&rsquo;t the same as an entrenched one. The shape you&rsquo;re aiming for: &ldquo;I think we should do X because Y. But I haven&rsquo;t considered Z &mdash; convince me.&rdquo; That&rsquo;s an engineer who&rsquo;s thinking and listening at the same time.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The &ldquo;no preference&rdquo; default</h5>
+        <p>&ldquo;Either works for me.&rdquo; &ldquo;Whatever you think.&rdquo; &ldquo;Up to you.&rdquo; If you say this to every technical question, people stop asking you technical questions.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Pick one, say why, leave room</h5>
+        <p>&ldquo;I&rsquo;d lean toward X because it&rsquo;s easier to test &mdash; but I&rsquo;d happily switch if Y has an advantage I&rsquo;m missing.&rdquo; Now the team has something to push against.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Sandbagging (&ldquo;I&rsquo;m new, I shouldn&rsquo;t weigh in&rdquo;)</h5>
+        <p>You&rsquo;ve been here long enough to have seen the code. You have an opinion. Withholding it &ldquo;because you haven&rsquo;t earned the floor&rdquo; is a disservice to the room.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Flag the uncertainty, then share the view</h5>
+        <p>&ldquo;I might be missing context, but based on what I&rsquo;ve seen in this area, I&rsquo;d go with X for reason Y. Does that track?&rdquo; You&rsquo;ve contributed and invited correction.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The performance of certainty</h5>
+        <p>Over-confident opinions delivered with no humility. Teammates read this as posturing, not thinking.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Confident about the reasoning, open about the conclusion</h5>
+        <p>&ldquo;Here&rsquo;s how I got to X&hellip;&rdquo; beats &ldquo;X is obviously right.&rdquo; Show the work; let the conclusion be discussable.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Giving Feedback -->
+  <section class="fade-in" id="give-feedback">
+    <span class="section-num">03 &middot; Giving</span>
+    <h2>Giving Feedback to Peers</h2>
+    <p class="section-intro">Feedback is not only your lead&rsquo;s job. If you see a peer doing something that&rsquo;s hurting the team &mdash; or doing something remarkably well &mdash; it&rsquo;s your job to say it. Kindly, specifically, in the moment.</p>
+
+    <h3>Why peer feedback matters</h3>
+    <p>Your peers see things your lead doesn&rsquo;t. You&rsquo;re in the MR reviews, the pairing sessions, the Slack side-chats. You have signal that nobody else has. If you don&rsquo;t share it, nobody else can.</p>
+    <p>Feedback from a peer also lands differently. It&rsquo;s horizontal, not evaluative. It feels like help, not like a performance review &mdash; which means it&rsquo;s often easier to act on.</p>
+
+    <div class="framework">
+      <h4>SBI &mdash; Situation, Behaviour, Impact</h4>
+      <ol>
+        <li><strong>Situation:</strong> when and where. &ldquo;In yesterday&rsquo;s design review, when we were talking about caching&hellip;&rdquo;</li>
+        <li><strong>Behaviour:</strong> what you observed, specific and factual. No interpretation. &ldquo;&hellip;you interrupted Priya twice before she finished her point.&rdquo;</li>
+        <li><strong>Impact:</strong> what it caused. Ideally on you or on the work. &ldquo;I noticed she stopped contributing after that, and I think we missed her perspective on the approach.&rdquo;</li>
+      </ol>
+      <p style="margin-top:12px;">End with an invitation, not a conclusion. &ldquo;Just flagging &mdash; I wasn&rsquo;t sure if you noticed.&rdquo; Or: &ldquo;Next time, maybe let her finish first?&rdquo;</p>
+    </div>
+
+    <h3>Positive feedback matters more than you think</h3>
+    <p>Most feedback given at work is corrective. Positive feedback is rare enough that when it&rsquo;s specific, it lands powerfully. &ldquo;Hey, your MR description yesterday was unusually good &mdash; the way you explained the trade-off helped me review twice as fast.&rdquo; This is a 15-second message. It changes behaviour more reliably than a corrective one.</p>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Why this matters:</strong> specific positive feedback reinforces exactly the behaviour you want to see more of. Vague praise (&ldquo;nice job!&rdquo;) doesn&rsquo;t. Notice a <em>specific</em> good thing; say it <em>specifically</em>. It takes one sentence.</p>
+      </div>
+    </div>
+
+    <h3>Timing: the fresher, the better</h3>
+    <p>Feedback from two weeks ago is a verdict. Feedback from yesterday is help. Say the thing soon &mdash; within 48 hours if possible. If you save it for &ldquo;the right moment,&rdquo; the moment will never come, and the person will keep doing the thing.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The criticism sandwich</h5>
+        <p>&ldquo;Nice MR! One thing though&hellip; and you&rsquo;re doing great!&rdquo; The praise-bread is obviously fake. The criticism is muffled. Nobody&rsquo;s served.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Direct, kind, specific</h5>
+        <p>&ldquo;Hey &mdash; quick one on your MR. The logic was great; the commit history was hard to follow. Would you be open to squashing before merge next time?&rdquo; Direct. Kind. Actionable.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Saving it for the retro</h5>
+        <p>You hold feedback for weeks because &ldquo;that&rsquo;s when we talk about these things.&rdquo; By then it&rsquo;s out of date, and the behaviour has repeated five more times.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Same day or next day</h5>
+        <p>Slack DM or a brief chat. Five minutes. &ldquo;Hey, I wanted to flag something from today&rsquo;s huddle while it&rsquo;s fresh.&rdquo;</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Interpreted, not observed</h5>
+        <p>&ldquo;You&rsquo;re being dismissive.&rdquo; What does &ldquo;dismissive&rdquo; look like? They don&rsquo;t know. You&rsquo;ve skipped the observation and gone straight to a label.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Observed, specific, neutral</h5>
+        <p>&ldquo;In the huddle, when I suggested the Redis approach, you said &lsquo;that won&rsquo;t work&rsquo; and moved on. It would help me if you could say <em>why</em> it won&rsquo;t &mdash; I&rsquo;d learn from it.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Receiving -->
+  <section class="fade-in" id="receive">
+    <span class="section-num">04 &middot; Receiving</span>
+    <h2>Receiving Feedback Without Defence</h2>
+    <p class="section-intro">This is the hardest skill on this page. Everyone&rsquo;s first instinct when hearing criticism is to explain, defend, contextualise. Every single instinct is wrong. Mastering the pause is what separates engineers who keep getting feedback from ones who silently stop receiving it.</p>
+
+    <h3>What your brain wants to do, and why it&rsquo;s wrong</h3>
+    <p>Someone says &ldquo;your MRs have been really large lately.&rdquo; Your brain lights up with three simultaneous reactions:</p>
+    <ol>
+      <li><strong>Explain:</strong> &ldquo;It&rsquo;s because the refactor couldn&rsquo;t be split.&rdquo;</li>
+      <li><strong>Deflect:</strong> &ldquo;Arun&rsquo;s MRs are bigger than mine.&rdquo;</li>
+      <li><strong>Minimise:</strong> &ldquo;It was only two of them.&rdquo;</li>
+    </ol>
+    <p>All three feel justified. All three are defensive. All three train the other person to stop giving you feedback &mdash; because it&rsquo;s tiring to deliver a message that&rsquo;s immediately argued with.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>Defensive reactions are the single biggest killer of your feedback loop. You feel justified; the giver feels punished for being honest. Next time, they won&rsquo;t bother. And you&rsquo;ll think you&rsquo;re doing great &mdash; because nobody&rsquo;s correcting you anymore.</p>
+    </div>
+
+    <div class="framework">
+      <h4>The 24-Hour Rule</h4>
+      <ol>
+        <li><strong>In the moment:</strong> &ldquo;Thank you &mdash; let me sit with that.&rdquo; Nothing else. No &ldquo;yes, but&rdquo;, no context, no explanation. Just receive.</li>
+        <li><strong>Ask one clarifying question if needed.</strong> &ldquo;Could you give me an example?&rdquo; is fine. &ldquo;Wait, what about X?&rdquo; is not.</li>
+        <li><strong>Within 24 hours:</strong> think about it. Is it true? What behaviour prompted it? What&rsquo;s the smallest change that addresses it?</li>
+        <li><strong>Within a week:</strong> close the loop. &ldquo;I thought about what you said &mdash; you&rsquo;re right, I&rsquo;ve been too broad in my MRs. I&rsquo;m trying to keep them under 300 lines. Let me know if you see it land.&rdquo;</li>
+      </ol>
+    </div>
+
+    <h3>When the feedback is wrong</h3>
+    <p>It sometimes is. Not all feedback is accurate, fair, or useful. That&rsquo;s fine &mdash; but don&rsquo;t argue in the moment. Take the same 24 hours. If after thinking about it you genuinely disagree, you can come back:</p>
+    <p>&ldquo;I thought about what you said. I see the concern, but I actually think in this case the MR size was necessary because X. Here&rsquo;s how I&rsquo;d approach the next one differently&hellip;&rdquo; That&rsquo;s not defensiveness. That&rsquo;s a considered response after reflection. It lands completely differently.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The immediate &ldquo;yes, but&rdquo;</h5>
+        <p>Within three seconds of feedback landing, you&rsquo;re explaining why it&rsquo;s not fair. You feel heard. The other person feels unheard. They won&rsquo;t do this again.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The pause, then the return</h5>
+        <p>Silence. Acknowledgement. Think. Respond days later with action or disagreement.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; The silent absorb</h5>
+        <p>You take it without reaction and never mention it again. The giver doesn&rsquo;t know if it landed. They stop giving.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The visible return</h5>
+        <p>&ldquo;You flagged X last week. I&rsquo;ve been trying Y. Does it feel different to you?&rdquo; You&rsquo;ve just earned yourself more feedback forever.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Filtering by who said it</h5>
+        <p>You dismiss feedback from people you think &ldquo;don&rsquo;t get it.&rdquo; Even if they&rsquo;re 80% wrong, they&rsquo;re often 20% right. You miss the 20%.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; The kernel check</h5>
+        <p>&ldquo;What&rsquo;s the kernel of truth in this, even if most of it doesn&rsquo;t land for me?&rdquo; That kernel is usually the thing worth keeping.</p>
+      </div>
+    </div>
+
+    <h3>Three sentences that save you</h3>
+    <ul>
+      <li><strong>&ldquo;Thank you &mdash; let me sit with that.&rdquo;</strong> Buys you the pause.</li>
+      <li><strong>&ldquo;Could you give me a specific example?&rdquo;</strong> Converts vague feedback into actionable.</li>
+      <li><strong>&ldquo;I thought about what you said and here&rsquo;s what I&rsquo;m trying differently.&rdquo;</strong> Closes the loop.</li>
+    </ul>
+
+    <div class="tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p>Practise these sentences out loud when nobody&rsquo;s watching. The first two words &mdash; &ldquo;thank you&rdquo; &mdash; have to be automatic, because your defensive brain is going to try to talk first. Muscle memory wins over impulse.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Asking -->
+  <section class="fade-in" id="ask-feedback">
+    <span class="section-num">05 &middot; Asking</span>
+    <h2>Actively Asking for Feedback</h2>
+    <p class="section-intro">The feedback you get unprompted is a tiny fraction of the feedback that exists. Most people don&rsquo;t give feedback unless asked &mdash; it&rsquo;s awkward, it feels intrusive, and they assume someone else will. If you want to grow fast, make asking a habit.</p>
+
+    <h3>The questions that actually work</h3>
+    <p>&ldquo;Any feedback?&rdquo; gets &ldquo;no, looks good!&rdquo;. The question is too open. Better questions have scaffolding:</p>
+    <ul>
+      <li><strong>&ldquo;What&rsquo;s one thing you&rsquo;d want me to do differently next time?&rdquo;</strong> Specific, forward-looking, asks for one thing.</li>
+      <li><strong>&ldquo;If you were reviewing my MRs for the last month, what pattern would you see me repeating?&rdquo;</strong> Specific domain, invites honest observation.</li>
+      <li><strong>&ldquo;Is there a habit I&rsquo;m missing that would unlock something for me?&rdquo;</strong> Surfaces blind spots.</li>
+      <li><strong>&ldquo;Where did I slow the team down this sprint?&rdquo;</strong> Uncomfortable, specific, and valuable.</li>
+      <li><strong>&ldquo;If I was joining the team tomorrow, what&rsquo;s one piece of advice you&rsquo;d give me?&rdquo;</strong> Invites a mentor-mode response.</li>
+    </ul>
+
+    <div class="framework">
+      <h4>The Feedback Monthly</h4>
+      <ol>
+        <li><strong>Once a month,</strong> DM two or three peers and your lead.</li>
+        <li>Ask one of the questions above. Different one each time.</li>
+        <li>Say &ldquo;thank you&rdquo; to whatever comes back. Don&rsquo;t argue.</li>
+        <li>Write it in a private log. Look for patterns across voices.</li>
+        <li>Pick one thing to try differently. Tell them you&rsquo;re doing it.</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Why this matters:</strong> three months of monthly feedback is more signal than an annual performance cycle. And you own it &mdash; you don&rsquo;t wait for someone to decide to give it to you.</p>
+      </div>
+    </div>
+
+    <h3>Who to ask</h3>
+    <ul>
+      <li><strong>Your lead</strong> &mdash; they see your work at a different altitude.</li>
+      <li><strong>A peer you work with closely</strong> &mdash; they see your day-to-day.</li>
+      <li><strong>A peer you work with occasionally</strong> &mdash; they see a version of you you don&rsquo;t see.</li>
+      <li><strong>Someone newer to the team</strong> &mdash; they see how you show up when you don&rsquo;t have to try.</li>
+      <li><strong>Cross-functional partner (PM, designer, QA)</strong> &mdash; they see different signal entirely.</li>
+    </ul>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Asking only your lead</h5>
+        <p>Their view is valuable but partial. If you only ever ask them, you&rsquo;re triangulating from one point.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Ask three people, find the overlap</h5>
+        <p>Three people telling you the same thing is signal, not opinion. Three people telling you different things is also signal &mdash; about your complexity.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Disagree and Commit -->
+  <section class="fade-in" id="disagree-commit">
+    <span class="section-num">06 &middot; Closure</span>
+    <h2>Disagreeing Well, Then Committing</h2>
+    <p class="section-intro">You&rsquo;ll sometimes disagree with a technical decision the team is about to make. You should say so. You should also know when the discussion is over and it&rsquo;s time to commit &mdash; even to the decision you disagreed with.</p>
+
+    <h3>The two moves</h3>
+    <div class="framework">
+      <h4>Disagree-and-Commit</h4>
+      <ol>
+        <li><strong>Disagree:</strong> while the decision is being made, share your view clearly. The trade-off you see. The risk you&rsquo;re worried about. The alternative you&rsquo;d prefer. This is the moment.</li>
+        <li><strong>Hear the response:</strong> the other side&rsquo;s reasoning. The constraints you didn&rsquo;t know. The considerations they&rsquo;ve already weighed.</li>
+        <li><strong>If the team still lands on the other side:</strong> commit. Not sulking, not undermining, not &ldquo;I told you so&rdquo; later. You committed to the decision the team made, even the one you disagreed with.</li>
+        <li><strong>Still watch:</strong> if the decision turns out wrong later, raise it <em>factually</em> &mdash; not to gloat. &ldquo;The approach is hitting the problem I was worried about. Can we revisit?&rdquo;</li>
+      </ol>
+    </div>
+
+    <h3>Why this matters</h3>
+    <p>Teams that can&rsquo;t disagree well produce bad decisions. Teams that disagree forever never decide. The art is doing both: full voice in the discussion, full support after.</p>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128172;</span>
+      <div>
+        <p><strong>The subtle skill:</strong> committing after disagreement. A surprising number of engineers quietly sabotage decisions they disagreed with &mdash; dragging feet, nitpicking the implementation, badmouthing it later. That&rsquo;s the failure mode. Your job is to be the engineer who said their piece clearly and then backed the team&rsquo;s call.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Disagreeing <em>after</em> the decision</h5>
+        <p>You stayed quiet in the meeting and then tell a peer in the kitchen that you thought it was wrong. You get the comfort of being right without the cost of having said it. The team pays.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Disagree in the room, commit after</h5>
+        <p>Your concern on the table, not in the corridor. Then you back the outcome even when it&rsquo;s not yours.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Committing without disagreeing</h5>
+        <p>You never said the thing. You &ldquo;went along.&rdquo; The decision was worse for your silence.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Full voice, then full support</h5>
+        <p>Say the thing. Lose sometimes. Back the decision anyway. Repeat.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>Radical Candor</em> &mdash; Kim Scott. On direct feedback delivered with care.</li>
+      <li><em>Thanks for the Feedback</em> &mdash; Stone &amp; Heen. The book on receiving feedback without defending.</li>
+      <li><em>Difficult Conversations</em> &mdash; Stone, Patton, Heen. For the harder cases.</li>
+      <li>Jeff Bezos&rsquo; &ldquo;Disagree and Commit&rdquo; memo &mdash; the canonical one-page explainer.</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Contribute at least one thing in every meeting this week &mdash; a question counts.</li>
+      <li>Share a 90-second opinion on a technical decision someone&rsquo;s about to make.</li>
+      <li>Give one piece of specific positive feedback to a peer today.</li>
+      <li>When the next piece of critical feedback lands, practise saying only &ldquo;thank you &mdash; let me sit with that.&rdquo;</li>
+      <li>Ask one peer the &ldquo;one thing I could do differently&rdquo; question this month.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

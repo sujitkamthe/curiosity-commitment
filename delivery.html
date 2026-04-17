@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery &amp; Completion &mdash; Curiosity &amp; Commitment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-current-page="delivery.html">
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Curiosity &amp; Commitment</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Start Here</button>
+          <div class="nav-dropdown-menu">
+            <a href="foundations.html">Foundations</a>
+            <a href="questioning.html">Questioning &amp; Proposing</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Craft</button>
+          <div class="nav-dropdown-menu">
+            <a href="clean-code.html">Clean Code Habits</a>
+            <a href="depth.html">Depth in Your Stack</a>
+            <a href="debugging-reading.html">Debugging &amp; Reading</a>
+            <a href="testing.html">Testing Basics</a>
+            <a href="git-reviews.html">Git, MRs &amp; Review</a>
+            <a href="ai-tools.html">Using AI Tools</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Production</button>
+          <div class="nav-dropdown-menu">
+            <a href="security.html">Security Hygiene</a>
+            <a href="observability.html">Observability &amp; Errors</a>
+            <a href="shipping-safely.html">Shipping Safely</a>
+            <a href="incidents.html">Incidents &amp; On-Call</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle">Delivery</button>
+          <div class="nav-dropdown-menu">
+            <a href="delivery.html">Delivery &amp; Completion</a>
+            <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+            <a href="team-citizenship.html">Team Citizenship</a>
+            <a href="collaboration.html">Working With Others</a>
+          </div>
+        </div>
+        <a href="resources.html">Resources</a>
+        <a href="self-assessment.html">Self-Assessment</a>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">&#127769;</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Delivery &amp; Completion</h1>
+    <p class="subtitle">Estimate honestly. Finish what you started. Don&rsquo;t overcommit. Run your feature yourself before calling it done. Get unstuck without immediately asking. The discipline half of the engineering craft.</p>
+  </div>
+
+  <section class="page-toc">
+    <h4>On This Page</h4>
+    <ul>
+      <li><a href="#estimation">1. Estimation Basics</a></li>
+      <li><a href="#finish">2. Finishing What You Started</a></li>
+      <li><a href="#overcommit">3. The Overcommitment Trap</a></li>
+      <li><a href="#velocity">4. Velocity Is a Trailing Indicator</a></li>
+      <li><a href="#dogfood">5. Dogfooding Before You Call It Done</a></li>
+      <li><a href="#unstuck">6. Getting Unstuck &mdash; The 15&ndash;30 Minute Rule</a></li>
+    </ul>
+  </section>
+
+  <!-- 1. Estimation -->
+  <section class="fade-in" id="estimation">
+    <span class="section-num">01 &middot; Estimation</span>
+    <h2>Estimation Basics</h2>
+    <p class="section-intro">Estimation is not a party trick and not a punishment. It&rsquo;s the tool the team uses to plan the next sprint, set expectations with the business, and catch surprises early. At this stage, you don&rsquo;t need to be a forecasting savant &mdash; you need to be honest, calibrated, and quick to flag when reality shifts.</p>
+
+    <h3>Why estimates exist</h3>
+    <p>An estimate is not a promise. It is a current best guess, made with the information available now, used to <em>coordinate</em> with other people who have their own plans. The PM needs a rough shape so they can tell stakeholders. The team needs a rough shape so they can plan the sprint. The person doing the work needs a rough shape so they know when to ask for help.</p>
+    <p>If you treat estimates as promises, you either (a) pad them to safety, which destroys planning, or (b) hit them at any cost, which destroys quality. Neither serves the team. Estimates are collaborative guesses, updated as reality comes in.</p>
+
+    <div class="framework">
+      <h4>The Three Questions Before You Estimate</h4>
+      <ol>
+        <li><strong>Have I done something like this before?</strong> Your anchor is a similar past story. &ldquo;Last month&rsquo;s auth refactor took four days &mdash; this is similar but smaller.&rdquo;</li>
+        <li><strong>What are the unknowns?</strong> List them. Every unknown is risk. &ldquo;I don&rsquo;t know how the legacy API handles concurrent writes.&rdquo;</li>
+        <li><strong>What would break my estimate?</strong> Say it out loud. &ldquo;This estimate assumes the DB migration doesn&rsquo;t need a backfill. If it does, add two days.&rdquo;</li>
+      </ol>
+    </div>
+
+    <h3>The honest &ldquo;I don&rsquo;t know yet&rdquo;</h3>
+    <p>Sometimes the most truthful estimate is &ldquo;I can&rsquo;t estimate this usefully until I&rsquo;ve spent two hours looking.&rdquo; That&rsquo;s a <strong>spike</strong> &mdash; a timeboxed investigation. Ask for two hours, come back with a real estimate. Almost every team will take this over a padded guess.</p>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128161;</span>
+      <div>
+        <p><strong>Why this matters:</strong> a confident wrong estimate costs the team a week. An honest &ldquo;let me spike it&rdquo; costs two hours and delivers an estimate that&rsquo;s closer to reality. The second is always the better trade.</p>
+      </div>
+    </div>
+
+    <h3>Padding and its hidden cost</h3>
+    <p>You learn fast that padding protects you &mdash; if you estimate three days instead of two, you&rsquo;ll rarely miss. But consistent padding does something worse than occasional misses: it destroys planning accuracy team-wide. The PM plans the roadmap off your padded numbers. The business promises customers based on that roadmap. When everyone pads, slack compounds until the team can&rsquo;t deliver anything on the schedule anyone agreed to.</p>
+    <p>The move is: estimate honestly, miss sometimes, flag early. The team adjusts. That&rsquo;s the deal.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Estimating without reading the ticket</h5>
+        <p>Someone asks in the sprint meeting: &ldquo;how long for TICK-412?&rdquo; You haven&rsquo;t looked. You say &ldquo;three days.&rdquo; Week later, you discover it touches a service you&rsquo;ve never used.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; &ldquo;Let me look and come back in an hour&rdquo;</h5>
+        <p>Read the story. Skim the area of code. Then estimate. An hour of thought saves a week of surprise.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Estimating only &ldquo;coding time&rdquo;</h5>
+        <p>Your three days counts the happy-path implementation. You forgot: edge cases, tests, review turnaround, QA, the dev-env setup you&rsquo;ll need to do first, the meeting on Thursday.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Estimate the whole loop</h5>
+        <p>Coding + tests + review cycles + QA + any follow-up + meetings eating your time. The number nearly doubles &mdash; but it&rsquo;s honest.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Silent padding</h5>
+        <p>You think it&rsquo;s two days and you say five, because you&rsquo;ve been burned before. Now the team plans on five. Now you have slack time you use badly.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Estimate the median, flag the risk</h5>
+        <p>&ldquo;Median two days. Could stretch to four if the legacy service is as bad as I remember.&rdquo; Team plans with open eyes.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 2. Finish -->
+  <section class="fade-in" id="finish">
+    <span class="section-num">02 &middot; Completion</span>
+    <h2>Finishing What You Started</h2>
+    <p class="section-intro">Of all the habits on this page, this is the one that separates reliable engineers from unreliable ones most visibly. Two engineers can ship the same amount in a month and land completely differently, because one finished everything they touched and the other left five things at 80%.</p>
+
+    <h3>The 80% trap</h3>
+    <p>Work at 80% is not 80% of the value of work at 100%. It&rsquo;s often 0%. A feature that&rsquo;s 80% done doesn&rsquo;t ship. A test suite that&rsquo;s 80% done doesn&rsquo;t catch bugs. A refactor that&rsquo;s 80% done leaves the codebase worse than before you started, because now it&rsquo;s half old pattern and half new.</p>
+    <p>The last 20% is often the hardest: the edge cases, the integration hiccups, the production config, the rollout plan, the docs, the dogfooding, the cleanup. You&rsquo;re tired by that point. Your brain wants a new problem. That&rsquo;s the moment you earn or lose your reliability.</p>
+
+    <div class="key-insight">
+      <h4>Key Insight</h4>
+      <p>The engineer who ships five stories fully beats the engineer who starts ten and finishes four. It&rsquo;s not close. Leaves of half-done work pile up behind you as a debt &mdash; to the team, to the next person who touches the area, and to your own credibility.</p>
+    </div>
+
+    <h3>What &ldquo;done&rdquo; means</h3>
+    <div class="framework">
+      <h4>The Done Checklist</h4>
+      <ol>
+        <li><strong>Implementation works</strong> on the happy path and the edges you thought of.</li>
+        <li><strong>Tests pass,</strong> including new ones for the new behaviour.</li>
+        <li><strong>Self-review&rsquo;d</strong> &mdash; you&rsquo;ve read your own MR top to bottom.</li>
+        <li><strong>Reviewed</strong> by a teammate, feedback addressed.</li>
+        <li><strong>Merged</strong> to the right branch.</li>
+        <li><strong>Deployed</strong> (if the team&rsquo;s flow continues to prod).</li>
+        <li><strong>Dogfooded</strong> &mdash; you clicked through it yourself in a real environment.</li>
+        <li><strong>Observed</strong> &mdash; you glanced at the logs/metrics after rollout.</li>
+        <li><strong>Closed</strong> &mdash; ticket updated, loop closed.</li>
+      </ol>
+      <p style="margin-top:12px;">&ldquo;Code is merged&rdquo; is step 5. If you call it done at step 5, you&rsquo;ve stopped at 55%.</p>
+    </div>
+
+    <h3>The abandonment anti-pattern</h3>
+    <p>You picked up a tech-debt task. You got to 60%. Then a shiny new story landed and you drifted to it. Three weeks later, nobody knows the state of the old task, including you. The half-done branch rots. Someone else will have to redo half of it when the work is eventually picked up.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Silent drift</h5>
+        <p>You move on from the old task without saying. It&rsquo;s still assigned to you in Jira. Three sprints later it appears in a report of &ldquo;stale work.&rdquo;</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Finish or hand off visibly</h5>
+        <p>Either: commit to finishing (block two days next sprint, do it). Or: explicit handoff &mdash; &ldquo;I&rsquo;m moving on from this. Here&rsquo;s where I left it. Here&rsquo;s what&rsquo;s left to do. Happy for someone else to pick it up.&rdquo; Say it in standup, not DMs.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;Merged&rdquo; = &ldquo;done&rdquo;</h5>
+        <p>You merge the MR, close the ticket, move on. You never actually ran the feature. Two weeks later the PM asks &ldquo;does it work?&rdquo; and you don&rsquo;t know.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Run it yourself</h5>
+        <p>Before closing the ticket, open the feature as a user would. Click through it. Hit one edge case on purpose. <em>Then</em> close it.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Not telling anyone it&rsquo;s done</h5>
+        <p>You finished, you&rsquo;re relieved, you move on. Your PM and QA have to discover it. The handoff is messy.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Close the loop out loud</h5>
+        <p>One line in the ticket, one in #team channel. &ldquo;Finished X. Deployed to staging, happy path works, edge case Y is covered. Ready for QA.&rdquo; Fifteen seconds. Huge difference in how it lands.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 3. Overcommit -->
+  <section class="fade-in" id="overcommit">
+    <span class="section-num">03 &middot; Capacity</span>
+    <h2>The Overcommitment Trap</h2>
+    <p class="section-intro">The easiest way to break your commitments is to make too many. Overcommitment doesn&rsquo;t feel like failure in the moment &mdash; it feels like helpfulness, eagerness, being a good teammate. It lands, a week later, as unreliability.</p>
+
+    <h3>How it happens</h3>
+    <p>Someone asks. You say yes because saying no feels ungenerous. A day later, someone else asks. You say yes because you said yes to the first person. By Friday you have six things in flight, you&rsquo;re making visible progress on two, and the four others are silently slipping. Nobody told you to overcommit. It was all little yeses.</p>
+
+    <div class="framework">
+      <h4>The Capacity Answer</h4>
+      <ol>
+        <li><strong>Check what you&rsquo;re already on.</strong> Not vaguely &mdash; specifically. Two stories? Three? A review backlog? A meeting-heavy week?</li>
+        <li><strong>Estimate the new ask</strong> like a real piece of work, even if it&rsquo;s informal.</li>
+        <li><strong>Say one of three things:</strong> yes with a specific date; yes but we need to drop X; or no with a clear alternative (&ldquo;I can&rsquo;t take it but Y might&rdquo;).</li>
+        <li><strong>Never say &ldquo;I&rsquo;ll try&rdquo;</strong> as a standalone answer. It&rsquo;s not a commitment or a refusal &mdash; it&rsquo;s a time bomb.</li>
+      </ol>
+    </div>
+
+    <h3>Saying no is a skill</h3>
+    <p>Saying no feels rude, so you hedge (&ldquo;I&rsquo;ll see if I have time&rdquo;). The hedge is worse than the no. It leaves them thinking you might &mdash; and when you don&rsquo;t, they feel let down.</p>
+    <p>A clean no with an alternative is kinder than a vague yes. Examples:</p>
+    <ul>
+      <li>&ldquo;I can&rsquo;t take this on this week &mdash; I&rsquo;m committed to X. Would next week work, or should we find someone else?&rdquo;</li>
+      <li>&ldquo;I&rsquo;d love to help but I wouldn&rsquo;t get to it until Friday. If you need it sooner, Amit might be a better fit.&rdquo;</li>
+      <li>&ldquo;Not this sprint &mdash; can we put it on the backlog?&rdquo;</li>
+    </ul>
+
+    <div class="tip">
+      <span class="tip-icon">&#128581;</span>
+      <div>
+        <p><strong>Why this matters:</strong> every &ldquo;maybe I&rsquo;ll try&rdquo; you give is a small hit to the other person&rsquo;s ability to plan. They either plan around you and you flake, or they have to ask a second person &ldquo;just in case.&rdquo; Direct no&rsquo;s feel harsh for one second and save everyone time for days.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Yes to every informal ask</h5>
+        <p>Every &ldquo;hey can you help with X?&rdquo; gets a yes because you&rsquo;re &ldquo;not doing much right now.&rdquo; You are. You just forgot.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Check your plate before saying yes</h5>
+        <p>&ldquo;Let me check what I&rsquo;m on and come back in an hour.&rdquo; That hour is the difference between reliable and not.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Starting many things; finishing few</h5>
+        <p>You have four branches open with 30&ndash;70% progress. Every day you pick the most interesting one. Nothing ships.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; One primary, one secondary, maximum</h5>
+        <p>Pick one main thing. Keep one fallback. Push every other ask to next week. You&rsquo;ll ship twice as much work in half the calendar time.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4. Velocity -->
+  <section class="fade-in" id="velocity">
+    <span class="section-num">04 &middot; Pace</span>
+    <h2>Velocity Is a Trailing Indicator</h2>
+    <p class="section-intro">&ldquo;Velocity&rdquo; &mdash; how much you ship per sprint &mdash; isn&rsquo;t something you can push on directly. It&rsquo;s the result of habits you build elsewhere: clear estimates, small stories, good focus, completed work. When people flag your velocity as a concern, the answer is almost never &ldquo;work harder.&rdquo; It&rsquo;s almost always &ldquo;fix one of the upstream habits.&rdquo;</p>
+
+    <h3>What actually makes you faster</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Small stories</h4>
+        <p>A 2-day story ships. A 2-week story slips. Break down aggressively &mdash; most stories can be cut in half if you try.</p>
+      </div>
+      <div class="card">
+        <h4>Clear done-criteria</h4>
+        <p>When you don&rsquo;t know what &ldquo;done&rdquo; means, you cycle forever. Pin down acceptance before you start coding.</p>
+      </div>
+      <div class="card">
+        <h4>Protected focus time</h4>
+        <p>See <a href="foundations.html#focus">Foundations &mdash; Time &amp; Focus</a>. Three deep hours beats eight shallow ones on almost every task.</p>
+      </div>
+      <div class="card">
+        <h4>Fast feedback loop</h4>
+        <p>Hot-reload, fast tests, a quick way to poke your code. If your loop is 2 minutes, you&rsquo;ll iterate ten times per story. If it&rsquo;s 15 minutes, twice.</p>
+      </div>
+      <div class="card">
+        <h4>Unblocking fast</h4>
+        <p>A blocker you don&rsquo;t flag is a blocker that sits. Flag at the 30-minute mark, not the end of day.</p>
+      </div>
+      <div class="card">
+        <h4>Reviewing others quickly</h4>
+        <p>The faster you review, the faster you get reviewed. A team that takes 2 days to review any MR has a slow velocity no matter how fast individuals code.</p>
+      </div>
+    </div>
+
+    <div class="tip warning-tip">
+      <span class="tip-icon">&#9888;</span>
+      <div>
+        <p><strong>Why velocity flags are actually habit flags:</strong> if your velocity feels low, look for which upstream habit is leaking. Overcommitted? Stories too big? Focus fragmented? Stuck too long? The fix is never &ldquo;stay up later.&rdquo; Staying up later usually makes the next day worse.</p>
+      </div>
+    </div>
+
+    <h3>The rework tax</h3>
+    <p>One thing that silently kills velocity: doing work that has to be redone. Rework comes from unclear requirements, missing tests, hasty reviews, skipped dogfooding. Every re-work cycle costs 2&ndash;3x the original work &mdash; because you also have to re-understand what you did, debug what went wrong, and explain it.</p>
+    <p>Five minutes more on requirements or testing at the start of a story often saves two days of rework. That&rsquo;s where velocity comes from.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Rushing past requirements to &ldquo;start coding&rdquo;</h5>
+        <p>It feels faster to dive in. Three days later you&rsquo;ve built the wrong thing and have to redo half of it.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Thirty minutes of clarification upfront</h5>
+        <p>Read, ask, confirm. Write down your understanding. Share it with the PM for a &ldquo;yes that&rsquo;s right.&rdquo; Then code.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 5. Dogfood -->
+  <section class="fade-in" id="dogfood">
+    <span class="section-num">05 &middot; Verification</span>
+    <h2>Dogfooding Before You Call It Done</h2>
+    <p class="section-intro">You wrote the code. Tests pass. MR merged. Deployed. Now &mdash; <em>before</em> you call it done &mdash; actually run the feature yourself, the way a user would. Fifteen minutes. Maybe thirty. This one habit catches a surprising proportion of bugs.</p>
+
+    <h3>Why tests aren&rsquo;t enough</h3>
+    <p>Tests verify the behaviour you thought of. Dogfooding catches the behaviour you <em>didn&rsquo;t</em> think of. Misaligned button. Confusing error message. A required field with no label. A 3-second lag you didn&rsquo;t realise was there. Tests don&rsquo;t catch these because they weren&rsquo;t written to.</p>
+
+    <div class="framework">
+      <h4>The Dogfood Pass</h4>
+      <ol>
+        <li><strong>Fresh state.</strong> Either a clean test account or staging &mdash; not your dev env with cached data.</li>
+        <li><strong>The happy path,</strong> click for click. Time yourself. Does it feel right?</li>
+        <li><strong>One edge case you didn&rsquo;t write a test for.</strong> Empty input. A slow network. A duplicate submission.</li>
+        <li><strong>The error path.</strong> Force one. Does the user understand what to do next?</li>
+        <li><strong>Read the text.</strong> Is anything wrong? Typos? Placeholder copy that wasn&rsquo;t supposed to ship?</li>
+      </ol>
+    </div>
+
+    <div class="tip success-tip">
+      <span class="tip-icon">&#127919;</span>
+      <div>
+        <p><strong>Why this matters:</strong> the QA who finds a typo in the first five minutes has lost faith in you for this feature. The PM who sees the wrong error text in the demo has lost faith in you for the next one. These are cheap bugs that cost you credibility. A 15-minute dogfood pass catches them.</p>
+      </div>
+    </div>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;QA will catch it&rdquo;</h5>
+        <p>You ship without running it yourself. QA finds an issue you&rsquo;d have caught in 30 seconds. Cycles wasted; confidence dented.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; You&rsquo;re the first user</h5>
+        <p>QA&rsquo;s job is to find the hard edge cases. Your job is to catch the easy ones before they ever see them. Every time QA files something trivial against your feature, you lost a small amount of trust.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 6. Unstuck -->
+  <section class="fade-in" id="unstuck">
+    <span class="section-num">06 &middot; Persistence</span>
+    <h2>Getting Unstuck &mdash; The 15&ndash;30 Minute Rule</h2>
+    <p class="section-intro">At some point every day, you&rsquo;ll hit a wall. Something doesn&rsquo;t work. An error you&rsquo;ve never seen. A concept you don&rsquo;t understand. The instinct is to either ask immediately or bang your head against it for four hours. Neither is right. The rule: <strong>try for 15&ndash;30 minutes, then ask &mdash; with structure.</strong></p>
+
+    <h3>The two failure modes</h3>
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Ask too fast</h5>
+        <p>You hit an error. You DM a senior. They spend 10 minutes helping. Two hours later, same class of error, different detail &mdash; DM again. You never build the muscle of self-unsticking. Teammates start ducking your DMs.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Don&rsquo;t ask at all</h5>
+        <p>You hit the wall and grind. Four hours later you&rsquo;re more stuck than when you started. End of day: nothing shipped, you&rsquo;re wrecked, and you have to ask anyway &mdash; with less energy and less goodwill.</p>
+      </div>
+    </div>
+
+    <h3>The 15&ndash;30 minute rule</h3>
+    <div class="framework">
+      <h4>The Unstuck Protocol</h4>
+      <ol>
+        <li><strong>Note the time and what you&rsquo;re stuck on.</strong> In a comment or a scratchpad. &ldquo;Stuck 10:15 &mdash; why does the Redis client return nil for this key?&rdquo;</li>
+        <li><strong>Try for 15&ndash;30 minutes.</strong> Read the error. Google it. Rubber-duck it &mdash; explain the problem out loud or in writing. Check the obvious: typos, wrong branch, wrong environment.</li>
+        <li><strong>Write down what you tried.</strong> Three bullet points. What, expected, actual.</li>
+        <li><strong>If still stuck, ask.</strong> With the context you just wrote. Public channel first, DM only if specific to a person.</li>
+        <li><strong>When unstuck, record the answer.</strong> One line in a learning log. &ldquo;Redis returns nil for key when connection pool has been idle for > X seconds; needed to reconfigure.&rdquo;</li>
+      </ol>
+    </div>
+
+    <div class="tip info-tip">
+      <span class="tip-icon">&#128337;</span>
+      <div>
+        <p><strong>Why the time cap matters:</strong> the 15&ndash;30 minute rule isn&rsquo;t about proving you&rsquo;re not lazy. It&rsquo;s about the fact that past 30 minutes on the same wall, returns diminish sharply. The value of a fresh pair of eyes overtakes the value of more grind.</p>
+      </div>
+    </div>
+
+    <h3>Rubber-ducking &mdash; the move that unlocks most blocks</h3>
+    <p>Half of &ldquo;stuck&rdquo; is resolved the moment you try to explain the problem. Write it out, speak it aloud, type it in a DM draft you don&rsquo;t send. The act of stating the problem in complete sentences often reveals what&rsquo;s missing. Try it before asking. You&rsquo;ll be surprised how often you rubber-duck into an answer.</p>
+
+    <div class="pattern-grid">
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; &ldquo;Help, it&rsquo;s broken&rdquo; pings</h5>
+        <p>A DM with zero context. The responder has to extract everything. They come to dread your messages.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; Structured ask with what you tried</h5>
+        <p>&ldquo;Stuck for 25 min on X. Tried A, B, C. Error I&rsquo;m getting: [paste]. Hypothesis: Y. Does that match anything you&rsquo;ve seen?&rdquo; The responder can help in 30 seconds.</p>
+      </div>
+      <div class="pitfall">
+        <h5>Common pitfall &mdash; Not recording answers</h5>
+        <p>You ask the same person similar questions three times in a month because you never wrote the answer down.</p>
+      </div>
+      <div class="better">
+        <h5>Better &mdash; A personal learning log</h5>
+        <p>One markdown file. One line per unstuck. Searchable. Future you will pull from it. Next time you hit it, you&rsquo;ll solve it yourself.</p>
+      </div>
+    </div>
+
+    <h3>Further reading</h3>
+    <ul>
+      <li><em>The Pragmatic Programmer</em>, chapter on debugging.</li>
+      <li><em>Debugging</em> &mdash; David Agans. The canonical nine rules; chapter 2 is the rubber-duck chapter.</li>
+      <li>Julia Evans&rsquo; zines, especially <em>Help! I have a bug!</em></li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="fade-in">
+    <h3>One thing to try this week</h3>
+    <ul>
+      <li>Estimate one task honestly, including tests, review, and meetings. Compare to how long it actually takes.</li>
+      <li>Before closing a ticket, run the dogfood pass yourself.</li>
+      <li>Use the 15&ndash;30 minute rule next time you&rsquo;re stuck. Record the answer.</li>
+      <li>Say a clean no to one request this week that doesn&rsquo;t fit your capacity.</li>
+      <li>Close one piece of half-done work that&rsquo;s been sitting: finish it, or hand it off visibly.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="foundations.html">Foundations</a>
+      <a href="clean-code.html">Clean Code Habits</a>
+      <a href="depth.html">Depth in Your Stack</a>
+      <a href="debugging-reading.html">Debugging &amp; Reading</a>
+      <a href="testing.html">Testing Basics</a>
+      <a href="git-reviews.html">Git, MRs &amp; Review</a>
+      <a href="ai-tools.html">Using AI Tools</a>
+      <a href="security.html">Security Hygiene</a>
+      <a href="observability.html">Observability &amp; Errors</a>
+      <a href="shipping-safely.html">Shipping Safely</a>
+      <a href="incidents.html">Incidents &amp; On-Call</a>
+      <a href="delivery.html">Delivery &amp; Completion</a>
+      <a href="questioning.html">Questioning &amp; Proposing</a>
+      <a href="speaking-up.html">Speaking Up &amp; Feedback</a>
+      <a href="team-citizenship.html">Team Citizenship</a>
+      <a href="collaboration.html">Working With Others</a>
+      <a href="resources.html">Resources</a>
+      <a href="self-assessment.html">Self-Assessment</a>
+    </div>
+    <p>Built for engineers growing into their craft. Two muscles at a time.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -86,7 +86,7 @@
     <p class="section-intro">Estimation is not a party trick and not a punishment. It&rsquo;s the tool the team uses to plan the next sprint, set expectations with the business, and catch surprises early. At this stage, you don&rsquo;t need to be a forecasting savant &mdash; you need to be honest, calibrated, and quick to flag when reality shifts.</p>
 
     <h3>Why estimates exist</h3>
-    <p>An estimate is not a promise. It is a current best guess, made with the information available now, used to <em>coordinate</em> with other people who have their own plans. The PM needs a rough shape so they can tell stakeholders. The team needs a rough shape so they can plan the sprint. The person doing the work needs a rough shape so they know when to ask for help.</p>
+    <p>An estimate is not a promise. It is a current best guess, made with the information available now, used to <em>coordinate</em> with other people who have their own plans. The business needs a rough shape so it can set expectations with stakeholders. The team needs a rough shape so it can plan the sprint. The person doing the work needs a rough shape so they know when to ask for help.</p>
     <p>If you treat estimates as promises, you either (a) pad them to safety, which destroys planning, or (b) hit them at any cost, which destroys quality. Neither serves the team. Estimates are collaborative guesses, updated as reality comes in.</p>
 
     <div class="framework">
@@ -109,7 +109,7 @@
     </div>
 
     <h3>Padding and its hidden cost</h3>
-    <p>You learn fast that padding protects you &mdash; if you estimate three days instead of two, you&rsquo;ll rarely miss. But consistent padding does something worse than occasional misses: it destroys planning accuracy team-wide. The PM plans the roadmap off your padded numbers. The business promises customers based on that roadmap. When everyone pads, slack compounds until the team can&rsquo;t deliver anything on the schedule anyone agreed to.</p>
+    <p>You learn fast that padding protects you &mdash; if you estimate three days instead of two, you&rsquo;ll rarely miss. But consistent padding does something worse than occasional misses: it destroys planning accuracy team-wide. The team plans the roadmap off your padded numbers. The business promises customers based on that roadmap. When everyone pads, slack compounds until the team can&rsquo;t deliver anything on the schedule anyone agreed to.</p>
     <p>The move is: estimate honestly, miss sometimes, flag early. The team adjusts. That&rsquo;s the deal.</p>
 
     <div class="pattern-grid">
@@ -123,11 +123,11 @@
       </div>
       <div class="pitfall">
         <h5>Common pitfall &mdash; Estimating only &ldquo;coding time&rdquo;</h5>
-        <p>Your three days counts the happy-path implementation. You forgot: edge cases, tests, review turnaround, QA, the dev-env setup you&rsquo;ll need to do first, the meeting on Thursday.</p>
+        <p>Your three days counts the happy-path implementation. You forgot: edge cases, tests, review turnaround, manual testing, the dev-env setup you&rsquo;ll need to do first, the meeting on Thursday.</p>
       </div>
       <div class="better">
         <h5>Better &mdash; Estimate the whole loop</h5>
-        <p>Coding + tests + review cycles + QA + any follow-up + meetings eating your time. The number nearly doubles &mdash; but it&rsquo;s honest.</p>
+        <p>Coding + tests + review cycles + manual testing + any follow-up + meetings eating your time. The number nearly doubles &mdash; but it&rsquo;s honest.</p>
       </div>
       <div class="pitfall">
         <h5>Common pitfall &mdash; Silent padding</h5>
@@ -188,7 +188,7 @@
       </div>
       <div class="pitfall">
         <h5>Common pitfall &mdash; &ldquo;Merged&rdquo; = &ldquo;done&rdquo;</h5>
-        <p>You merge the MR, close the ticket, move on. You never actually ran the feature. Two weeks later the PM asks &ldquo;does it work?&rdquo; and you don&rsquo;t know.</p>
+        <p>You merge the MR, close the ticket, move on. You never actually ran the feature. Two weeks later someone asks &ldquo;does it actually work?&rdquo; and you don&rsquo;t know.</p>
       </div>
       <div class="better">
         <h5>Better &mdash; Run it yourself</h5>
@@ -196,11 +196,11 @@
       </div>
       <div class="pitfall">
         <h5>Common pitfall &mdash; Not telling anyone it&rsquo;s done</h5>
-        <p>You finished, you&rsquo;re relieved, you move on. Your PM and QA have to discover it. The handoff is messy.</p>
+        <p>You finished, you&rsquo;re relieved, you move on. Your teammates and the business have to discover it. The handoff is messy.</p>
       </div>
       <div class="better">
         <h5>Better &mdash; Close the loop out loud</h5>
-        <p>One line in the ticket, one in #team channel. &ldquo;Finished X. Deployed to staging, happy path works, edge case Y is covered. Ready for QA.&rdquo; Fifteen seconds. Huge difference in how it lands.</p>
+        <p>One line in the ticket, one in #team channel. &ldquo;Finished X. Deployed to staging, happy path works, edge case Y is covered. Ready for the next round of testing.&rdquo; Fifteen seconds. Huge difference in how it lands.</p>
       </div>
     </div>
   </section>
@@ -316,7 +316,7 @@
       </div>
       <div class="better">
         <h5>Better &mdash; Thirty minutes of clarification upfront</h5>
-        <p>Read, ask, confirm. Write down your understanding. Share it with the PM for a &ldquo;yes that&rsquo;s right.&rdquo; Then code.</p>
+        <p>Read, ask, confirm. Write down your understanding. Share it with whoever asked for the work for a &ldquo;yes that&rsquo;s right.&rdquo; Then code.</p>
       </div>
     </div>
   </section>
@@ -346,18 +346,18 @@
     <div class="tip success-tip">
       <span class="tip-icon">&#127919;</span>
       <div>
-        <p><strong>Why this matters:</strong> the QA who finds a typo in the first five minutes has lost faith in you for this feature. The PM who sees the wrong error text in the demo has lost faith in you for the next one. These are cheap bugs that cost you credibility. A 15-minute dogfood pass catches them.</p>
+        <p><strong>Why this matters:</strong> the teammate who finds a typo in the first five minutes has lost faith in you for this feature. The stakeholder who sees the wrong error text in the demo has lost faith in you for the next one. These are cheap bugs that cost you credibility. A 15-minute dogfood pass catches them.</p>
       </div>
     </div>
 
     <div class="pattern-grid">
       <div class="pitfall">
-        <h5>Common pitfall &mdash; &ldquo;QA will catch it&rdquo;</h5>
-        <p>You ship without running it yourself. QA finds an issue you&rsquo;d have caught in 30 seconds. Cycles wasted; confidence dented.</p>
+        <h5>Common pitfall &mdash; &ldquo;someone else will catch it&rdquo;</h5>
+        <p>You ship without running it yourself. A teammate or stakeholder finds an issue you&rsquo;d have caught in 30 seconds. Cycles wasted; confidence dented.</p>
       </div>
       <div class="better">
         <h5>Better &mdash; You&rsquo;re the first user</h5>
-        <p>QA&rsquo;s job is to find the hard edge cases. Your job is to catch the easy ones before they ever see them. Every time QA files something trivial against your feature, you lost a small amount of trust.</p>
+        <p>Testing is everyone&rsquo;s work on this team. Your job is to catch the easy ones before anyone else sees them &mdash; then trust the team to hunt the harder edges together. Every time something trivial comes back on your feature, you lose a small amount of trust.</p>
       </div>
     </div>
   </section>

@@ -86,7 +86,7 @@
     <p class="section-intro">The Five Whys is a stupidly simple technique that consistently outperforms clever ones. You ask &ldquo;why?&rdquo; five times &mdash; not literally five, sometimes three, sometimes seven &mdash; and each answer becomes the next question. It surfaces the real cause, the real requirement, the real motivation. Most of the time, the first answer isn&rsquo;t it.</p>
 
     <h3>Why the first answer is rarely the real answer</h3>
-    <p>People answer at the level they were asked. &ldquo;Why are we adding this field?&rdquo; gets &ldquo;because the PM wants it.&rdquo; Technically true. Useless. The <em>real</em> answer &mdash; the user problem, the legal constraint, the promise to a customer &mdash; is two or three whys deeper. And the engineering decision depends on it.</p>
+    <p>People answer at the level they were asked. &ldquo;Why are we adding this field?&rdquo; gets &ldquo;because the business asked for it.&rdquo; Technically true. Useless. The <em>real</em> answer &mdash; the user problem, the legal constraint, the promise to a customer &mdash; is two or three whys deeper. And the engineering decision depends on it.</p>
 
     <div class="framework">
       <h4>The Five Whys in Practice</h4>
@@ -115,7 +115,7 @@
       <tr><td>Bug report</td><td>&ldquo;This button is broken&rdquo;</td><td>A whole class of buttons silently fails under the same condition</td></tr>
       <tr><td>Production incident</td><td>&ldquo;Service X went down&rdquo;</td><td>Service X has no circuit breaker because service Y it depends on is flaky</td></tr>
       <tr><td>Slow build</td><td>&ldquo;CI is slow&rdquo;</td><td>One stage does a full npm install every run; caching was never configured</td></tr>
-      <tr><td>A story rejected in review</td><td>&ldquo;QA failed the story&rdquo;</td><td>The acceptance criteria were ambiguous and QA and dev interpreted them differently</td></tr>
+      <tr><td>A story rejected in review</td><td>&ldquo;The story failed testing&rdquo;</td><td>The acceptance criteria were ambiguous and the tester and the author interpreted them differently</td></tr>
     </table>
 
     <div class="pattern-grid">
@@ -283,7 +283,7 @@
   <section class="fade-in" id="business-context">
     <span class="section-num">04 &middot; Why You&rsquo;re Building It</span>
     <h2>Getting the Business Context</h2>
-    <p class="section-intro">The most avoidable failure at this stage is building a technically correct thing that solves the wrong problem. You wrote the right code. Tested it. Reviewed it. Shipped it. And the PM quietly kills the feature a month later because it doesn&rsquo;t do what users actually needed. Nobody&rsquo;s fault &mdash; you just never asked why.</p>
+    <p class="section-intro">The most avoidable failure at this stage is building a technically correct thing that solves the wrong problem. You wrote the right code. Tested it. Reviewed it. Shipped it. And a month later the feature is quietly dropped because it doesn&rsquo;t do what users actually needed. Nobody&rsquo;s fault &mdash; you just never asked why.</p>
 
     <h3>What &ldquo;business context&rdquo; actually means</h3>
     <p>It&rsquo;s not an MBA. It&rsquo;s three questions:</p>
@@ -304,7 +304,7 @@
     </div>
 
     <h3>Getting the context</h3>
-    <p>Often the PM will brief you. Equally often they won&rsquo;t, because they assumed you already knew. Ask. The conversation takes ten minutes, and the answers will shift decisions you&rsquo;d otherwise make arbitrarily.</p>
+    <p>Often whoever owns the why will brief you. Equally often they won&rsquo;t, because they assumed you already knew. Ask. The conversation takes ten minutes, and the answers will shift decisions you&rsquo;d otherwise make arbitrarily.</p>
 
     <div class="pattern-grid">
       <div class="pitfall">
@@ -317,7 +317,7 @@
       </div>
       <div class="pitfall">
         <h5>Common pitfall &mdash; Assuming &ldquo;why&rdquo; is above your pay grade</h5>
-        <p>&ldquo;That&rsquo;s for the PM to decide.&rdquo; It is &mdash; but the PM isn&rsquo;t writing the code. You are. Your job is to turn &ldquo;why&rdquo; into design, which means you need it.</p>
+        <p>&ldquo;That&rsquo;s for someone else to decide.&rdquo; Maybe &mdash; but they aren&rsquo;t writing the code. You are. Your job is to turn &ldquo;why&rdquo; into design, which means you need it.</p>
       </div>
       <div class="better">
         <h5>Better &mdash; Treat business context as required input</h5>
@@ -328,7 +328,7 @@
     <h3>Dos &amp; Don&rsquo;ts</h3>
     <table class="comparison">
       <tr><th>Do</th><th>Don&rsquo;t</th></tr>
-      <tr><td>Ask the PM &ldquo;who&rsquo;s the user, what are they trying to do, what if we don&rsquo;t ship?&rdquo; before starting</td><td>Start from the Jira description and infer the rest</td></tr>
+      <tr><td>Ask whoever owns the ask: &ldquo;who&rsquo;s the user, what are they trying to do, what if we don&rsquo;t ship?&rdquo; before starting</td><td>Start from the Jira description and infer the rest</td></tr>
       <tr><td>Talk to a customer-facing colleague occasionally (support, sales, CS)</td><td>Get all your product understanding from engineering</td></tr>
       <tr><td>Watch a real user use your product once a quarter, if possible</td><td>Design exclusively from the inside</td></tr>
       <tr><td>Know roughly how the company makes money</td><td>Treat the business as somebody else&rsquo;s concern</td></tr>
@@ -336,7 +336,7 @@
 
     <h3>Further reading</h3>
     <ul>
-      <li><em>Inspired</em> &mdash; Marty Cagan. Short read. Teaches you to think like a PM &mdash; which makes you a better engineer.</li>
+      <li><em>Inspired</em> &mdash; Marty Cagan. Short read. Teaches you to think about product discovery and delivery &mdash; which makes you a better engineer.</li>
       <li><em>Badass: Making Users Awesome</em> &mdash; Kathy Sierra. What user-centric thinking actually feels like.</li>
     </ul>
   </section>
@@ -366,7 +366,7 @@
       <tr><td>&ldquo;Our tests are flaky&rdquo;</td><td>&ldquo;I&rsquo;ve been tracking the most frequent flakes &mdash; three tests account for 80%. I can pick one and kill it this sprint.&rdquo;</td></tr>
       <tr><td>&ldquo;The logs are useless&rdquo;</td><td>&ldquo;I noticed our error logs don&rsquo;t include user or request IDs, which makes prod debugging painful. I&rsquo;d like to add structured logging to the two hottest endpoints &mdash; can I scope a ticket?&rdquo;</td></tr>
       <tr><td>&ldquo;No one reviews my MRs&rdquo;</td><td>&ldquo;My MRs are sitting 2+ days. Would it help if I flagged them in the #review channel with a one-line summary? Happy to test that for a week.&rdquo;</td></tr>
-      <tr><td>&ldquo;The PM changes requirements constantly&rdquo;</td><td>&ldquo;I&rsquo;ve noticed requirements shift during sprints. Could we add a 15-min mid-sprint check with the PM to confirm scope? I can set it up.&rdquo;</td></tr>
+      <tr><td>&ldquo;Requirements change constantly mid-sprint&rdquo;</td><td>&ldquo;I&rsquo;ve noticed requirements shift during sprints. Could we add a 15-min mid-sprint check with the stakeholder to confirm scope? I can set it up.&rdquo;</td></tr>
     </table>
 
     <h3>Where to make proposals</h3>
@@ -472,7 +472,7 @@
       <li>Before adopting a pattern you see in the codebase, ask a teammate &ldquo;what&rsquo;s the reason for this?&rdquo;</li>
       <li>Turn one complaint you were going to make into a proposal with the PDC framework.</li>
       <li>Rewrite one DM question using the Async Question Template.</li>
-      <li>Ask your PM the three business questions about a story you&rsquo;re working on.</li>
+      <li>Ask the three business questions about a story you&rsquo;re working on &mdash; of whoever owns the why.</li>
     </ul>
   </section>
 
